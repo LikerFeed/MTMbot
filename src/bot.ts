@@ -5,25 +5,27 @@ dotenv.config();
 const bot = new Telegraf(process.env.BOT_TOKEN!);
 const userLanguages = new Map<number, 'en' | 'uk'>();
 
+const languages = {
+  '🇬🇧 English': { code: 'en', message: 'Language was chosen 🇬🇧 English' },
+  '🇺🇦 Українська': { code: 'uk', message: 'Мову обрано 🇺🇦 Українська' }
+} as const;
+
 bot.start((ctx) => {
   ctx.reply(
-    '🇬🇧 Please choose language\n🇺🇦 Будь ласка, оберіть мову',
-    Markup.keyboard([
-      ['🇬🇧 English', '🇺🇦 Українська']
-    ])
-    .oneTime()
-    .resize()
+    '🇬🇧 Hello! Please choose language\n🇺🇦 Привіт! Будь ласка, оберіть мову',
+    Markup.keyboard([Object.keys(languages)]).oneTime().resize()
   );
 });
 
-bot.hears('🇬🇧 English', (ctx) => {
-  userLanguages.set(ctx.from!.id, 'en');
-  ctx.reply('Language chosen 🇬🇧 English', Markup.removeKeyboard());
-});
+bot.hears(Object.keys(languages), (ctx) => {
+  const userId = ctx.from?.id;
+  const choice = ctx.message.text as keyof typeof languages;
 
-bot.hears('🇺🇦 Українська', (ctx) => {
-  userLanguages.set(ctx.from!.id, 'uk');
-  ctx.reply('Мову обрано 🇺🇦 Українська', Markup.removeKeyboard());
+  if (!userId) return;
+
+  const selectedLang = languages[choice];
+  userLanguages.set(userId, selectedLang.code);
+  ctx.reply(selectedLang.message, Markup.removeKeyboard());
 });
 
 bot.launch();
