@@ -1,31 +1,46 @@
 import { Telegraf, Markup } from 'telegraf';
 import dotenv from 'dotenv';
+import {
+  t,
+  LANG_OPTIONS,
+  LABEL_TO_LANG,
+  getUserLang,
+  setUserLang,
+} from './lang';
 
 dotenv.config();
-const bot = new Telegraf(process.env.BOT_TOKEN!);
-const userLanguages = new Map<number, 'en' | 'uk'>();
 
-const languages = {
-  '🇬🇧 English': { code: 'en', message: 'Language was chosen 🇬🇧 English' },
-  '🇺🇦 Українська': { code: 'uk', message: 'Мову обрано 🇺🇦 Українська' }
-} as const;
+const bot = new Telegraf(process.env.BOT_TOKEN!);
+
+const showLanguageSelection = (ctx: any) => {
+  const message = LANG_OPTIONS.map(lang => lang.messages.startMessage).join('\n');
+  const buttons = LANG_OPTIONS.map(lang => lang.label);
+  ctx.reply(message, Markup.keyboard([buttons]).oneTime().resize());
+};
+
+const showAuthOptions = (ctx: any, userId: number) => {
+  ctx.reply(
+    t(userId, 'chooseAuth'),
+    Markup.keyboard([[t(userId, 'signIn'), t(userId, 'signUp')]])
+      .oneTime()
+      .resize()
+  );
+};
 
 bot.start((ctx) => {
-  ctx.reply(
-    '🇬🇧 Hello! Please choose language\n🇺🇦 Привіт! Будь ласка, оберіть мову',
-    Markup.keyboard([Object.keys(languages)]).oneTime().resize()
-  );
+  showLanguageSelection(ctx);
 });
 
-bot.hears(Object.keys(languages), (ctx) => {
+bot.hears(Object.keys(LABEL_TO_LANG), async (ctx) => {
   const userId = ctx.from?.id;
-  const choice = ctx.message.text as keyof typeof languages;
+  const label = ctx.message.text;
+  const lang = LABEL_TO_LANG[label];
+  if (!userId || !lang) return;
 
-  if (!userId) return;
+  setUserLang(userId, lang);
 
-  const selectedLang = languages[choice];
-  userLanguages.set(userId, selectedLang.code);
-  ctx.reply(selectedLang.message, Markup.removeKeyboard());
+  await ctx.reply(t(userId, 'confirmLanguage'), Markup.removeKeyboard());
+  await showAuthOptions(ctx, userId);
 });
 
 bot.launch();
