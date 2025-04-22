@@ -1,5 +1,6 @@
 const uk = {
-  startMessage: '🇺🇦 Привіт! Будь ласка, оберіть мову',
+  firstTimeStartMessage: '🇺🇦 Привіт! Будь ласка, оберіть мову',
+  languageChoicePrompt: '🇺🇦 Будь ласка, оберіть мову',
   languageButton: '🇺🇦 Українська',
   confirmLanguage: 'Мову обрано 🇺🇦 Українська',
   chooseAuth: 'Будь ласка, оберіть метод аутентифікації',
