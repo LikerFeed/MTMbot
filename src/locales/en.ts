@@ -6,6 +6,9 @@ const en = {
   chooseAuth: 'Please choose an authentication method',
   signIn: '🔐 Sign in',
   signUp: '📝 Sign up',
+  mainMenuMessage: '🏠 Welcome to the main menu!\nPlease choose an option',
+  logout: '🚪 Log out',
+  successLogout: '🚪 You have successfully logged out',
 };
 
 export default en;

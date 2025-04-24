@@ -6,6 +6,9 @@ const uk = {
   chooseAuth: 'Будь ласка, оберіть метод аутентифікації',
   signIn: '🔐 Вхід',
   signUp: '📝 Реєстрація',
+  mainMenuMessage: '🏠 Ласкаво просимо до головного меню!\nБудь ласка, оберіть опцію',
+  logout: '🚪 Вихід',
+  successLogout: '🚪 Ви успішно вийшли',
 };
 
 export default uk;
