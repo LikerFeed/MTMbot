@@ -78,8 +78,8 @@ const showTasksMenu = async (ctx: any) => {
   await ctx.reply(
     t(userId, 'tasksMenu'),
     Markup.keyboard([
-      [t(userId, 'backToMainMenu')],
-      [GLOBAL_LANG_BUTTON],
+      [t(userId, 'createTask')],
+      [t(userId, 'backToMainMenu'), GLOBAL_LANG_BUTTON],
     ]).oneTime().resize()
   );
 };
@@ -93,8 +93,8 @@ const showCategoriesMenu = async (ctx: any) => {
   await ctx.reply(
     t(userId, 'categoriesMenu'),
     Markup.keyboard([
-      [t(userId, 'backToMainMenu')],
-      [GLOBAL_LANG_BUTTON],
+      [t(userId, 'createCategory')],
+      [t(userId, 'backToMainMenu'), GLOBAL_LANG_BUTTON],
     ]).oneTime().resize()
   );
 };
@@ -120,10 +120,46 @@ const showFAQMenu = async (ctx: any) => {
 
   setReturnContext(userId, async ctx => await showFAQMenu(ctx));
 
+  const questions = Array.from({ length: 10 }, (_, i) => t(userId, `question${i + 1}` as keyof typeof LANG_OPTIONS[0]['messages']));
+  const message = `${t(userId, 'chooseQuestion')}\n\n` + questions.map((q, i) => `${i + 1}. ${q}`).join('\n');
+
   await ctx.reply(
-    t(userId, 'faqMenu'),
+    message,
     Markup.keyboard([
+      [t(userId, 'showQuestions')],
+      ['1', '2', '3', '4', '5'],
+      ['6', '7', '8', '9', '10'],
       [t(userId, 'backToMainMenu')],
+      [GLOBAL_LANG_BUTTON],
+    ]).oneTime().resize()
+  );
+};
+
+const showCreateTaskMenu = async (ctx: any) => {
+  const userId = ctx.from?.id;
+  if (!userId) return;
+
+  setReturnContext(userId, async ctx => await showCreateTaskMenu(ctx));
+
+  await ctx.reply(
+    '📝 Create Task (stub)',
+    Markup.keyboard([
+      [t(userId, 'backToTasks')],
+      [GLOBAL_LANG_BUTTON],
+    ]).oneTime().resize()
+  );
+};
+
+const showCreateCategoryMenu = async (ctx: any) => {
+  const userId = ctx.from?.id;
+  if (!userId) return;
+
+  setReturnContext(userId, async ctx => await showCreateCategoryMenu(ctx));
+
+  await ctx.reply(
+    '📝 Create Category (stub)',
+    Markup.keyboard([
+      [t(userId, 'backToCategories')],
       [GLOBAL_LANG_BUTTON],
     ]).oneTime().resize()
   );
@@ -178,6 +214,10 @@ const allCategoriesButtons = LANG_OPTIONS.map(lang => lang.messages.categories);
 const allProfileButtons = LANG_OPTIONS.map(lang => lang.messages.profile);
 const allFAQButtons = LANG_OPTIONS.map(lang => lang.messages.faq);
 const allBackButtons = LANG_OPTIONS.map(lang => lang.messages.backToMainMenu);
+const allCreateTaskButtons = LANG_OPTIONS.map(lang => lang.messages.createTask);
+const allCreateCategoryButtons = LANG_OPTIONS.map(lang => lang.messages.createCategory);
+const allBackToTasksButtons = LANG_OPTIONS.map(lang => lang.messages.backToTasks);
+const allBackToCategoriesButtons = LANG_OPTIONS.map(lang => lang.messages.backToCategories);
 
 bot.hears(allAuthButtons, async ctx => {
   await showMainMenu(ctx);
@@ -210,6 +250,42 @@ bot.hears(allFAQButtons, async ctx => {
 
 bot.hears(allBackButtons, async ctx => {
   await showMainMenu(ctx);
+});
+
+bot.hears(allCreateTaskButtons, async ctx => {
+  await showCreateTaskMenu(ctx);
+});
+
+bot.hears(allCreateCategoryButtons, async ctx => {
+  await showCreateCategoryMenu(ctx);
+});
+
+bot.hears(allBackToTasksButtons, async ctx => {
+  await showTasksMenu(ctx);
+});
+
+bot.hears(allBackToCategoriesButtons, async ctx => {
+  await showCategoriesMenu(ctx);
+});
+
+const allShowQuestionsButtons = LANG_OPTIONS.map(lang => lang.messages.showQuestions);
+
+bot.hears(allShowQuestionsButtons, async ctx => {
+  await showFAQMenu(ctx);
+});
+
+const allFaqNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+
+bot.hears(allFaqNumbers, async ctx => {
+  const userId = ctx.from?.id;
+  if (!userId) return;
+
+  const number = Number(ctx.message.text);
+  const question = t(userId, `question${number}` as keyof typeof LANG_OPTIONS[0]['messages']);
+  const answer = t(userId, `answer${number}` as keyof typeof LANG_OPTIONS[0]['messages']);
+  const extraPrompt = t(userId, 'chooseAnotherQuestion');
+
+  await ctx.reply(`${number}. ${question}\n\n${answer}\n\n${extraPrompt}`);
 });
 
 bot.launch();
