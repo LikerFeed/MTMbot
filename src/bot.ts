@@ -84,6 +84,19 @@ const showTasksMenu = async (ctx: Context) =>
     );
   });
 
+const showCreateTaskMenu = async (ctx: Context) =>
+  withUser(ctx, async userId => {
+    setReturnContext(userId, async ctx => showCreateTaskMenu(ctx));
+    await ctx.reply(
+      t(userId, 'createTask'),
+      keyboard([
+        [t(userId, 'backToTasks')],
+        [t(userId, 'backToMainMenu')],
+        [LANG_BTN],
+      ])
+    );
+  });
+
 const showCategoriesMenu = async (ctx: Context) =>
   withUser(ctx, async userId => {
     setReturnContext(userId, async ctx => showCategoriesMenu(ctx));
@@ -93,9 +106,20 @@ const showCategoriesMenu = async (ctx: Context) =>
     );
   });
 
+const showCreateCategoryMenu = async (ctx: Context) =>
+  withUser(ctx, async userId => {
+    setReturnContext(userId, async ctx => showCreateCategoryMenu(ctx));
+    await ctx.reply(
+      t(userId, 'createCategory'),
+      keyboard([
+        [t(userId, 'backToCategories')],
+        [t(userId, 'backToMainMenu')],
+        [LANG_BTN],
+      ])
+    );
+  });
+
 const showProfileMenu = showSubMenu('profileMenu', 'backToMainMenu');
-const showCreateTaskMenu = showSubMenu('createTask', 'backToTasks');
-const showCreateCategoryMenu = showSubMenu('createCategory', 'backToCategories');
 
 const showFAQMenu = async (ctx: Context) =>
   withUser(ctx, async userId => {
