@@ -142,7 +142,7 @@ const showCreateTaskMenu = async (ctx: any) => {
   setReturnContext(userId, async ctx => await showCreateTaskMenu(ctx));
 
   await ctx.reply(
-    '📝 Create Task (stub)',
+    t(userId, 'createTask'),
     Markup.keyboard([
       [t(userId, 'backToTasks')],
       [GLOBAL_LANG_BUTTON],
@@ -157,7 +157,7 @@ const showCreateCategoryMenu = async (ctx: any) => {
   setReturnContext(userId, async ctx => await showCreateCategoryMenu(ctx));
 
   await ctx.reply(
-    '📝 Create Category (stub)',
+    t(userId, 'createCategory'),
     Markup.keyboard([
       [t(userId, 'backToCategories')],
       [GLOBAL_LANG_BUTTON],
