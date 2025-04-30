@@ -106,7 +106,7 @@ const showProfileMenu = async (ctx: any) => {
   setReturnContext(userId, async ctx => await showProfileMenu(ctx));
 
   await ctx.reply(
-    '👤 Profile menu (stub)',
+    t(userId, 'profileMenu'),
     Markup.keyboard([
       [t(userId, 'backToMainMenu')],
       [GLOBAL_LANG_BUTTON],
