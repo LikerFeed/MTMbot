@@ -164,6 +164,96 @@ bot.hears(LANG_BTN, async ctx =>
   })
 );
 
+bot.command('start', async ctx => {
+  const userId = getUserId(ctx);
+  if (userId) clearReturnContext(userId);
+  await showLanguageSelection(ctx, undefined, true);
+});  
+
+bot.command('menu', async ctx =>
+  withUser(ctx, async userId => {
+    const returnTo = getReturnContext(userId);
+    if (returnTo) {
+      await showMainMenu(ctx);
+    } else {
+      await ctx.reply(t(userId, 'menuUnavailable'), keyboard([[LANG_BTN]]));
+    }
+  })
+);
+
+bot.command('tasks', async ctx =>
+  withUser(ctx, async userId => {
+    const returnTo = getReturnContext(userId);
+    if (returnTo) {
+      await showTasksMenu(ctx);
+    } else {
+      await ctx.reply(t(userId, 'menuUnavailable'), keyboard([[LANG_BTN]]));
+    }
+  })
+);
+
+bot.command('createTask', async ctx =>
+  withUser(ctx, async userId => {
+    const returnTo = getReturnContext(userId);
+    if (returnTo) {
+      await showCreateTaskMenu(ctx);
+    } else {
+      await ctx.reply(t(userId, 'menuUnavailable'), keyboard([[LANG_BTN]]));
+    }
+  })
+);
+
+bot.command('categories', async ctx =>
+  withUser(ctx, async userId => {
+    const returnTo = getReturnContext(userId);
+    if (returnTo) {
+      await showCategoriesMenu(ctx);
+    } else {
+      await ctx.reply(t(userId, 'menuUnavailable'), keyboard([[LANG_BTN]]));
+    }
+  })
+);
+
+bot.command('createCategory', async ctx =>
+  withUser(ctx, async userId => {
+    const returnTo = getReturnContext(userId);
+    if (returnTo) {
+      await showCreateCategoryMenu(ctx);
+    } else {
+      await ctx.reply(t(userId, 'menuUnavailable'), keyboard([[LANG_BTN]]));
+    }
+  })
+);
+
+bot.command('profile', async ctx =>
+  withUser(ctx, async userId => {
+    const returnTo = getReturnContext(userId);
+    if (returnTo) {
+      await showProfileMenu(ctx);
+    } else {
+      await ctx.reply(t(userId, 'menuUnavailable'), keyboard([[LANG_BTN]]));
+    }
+  })
+);
+
+bot.command('faq', async ctx =>
+  withUser(ctx, async userId => {
+    const returnTo = getReturnContext(userId);
+    if (returnTo) {
+      await showFAQMenu(ctx);
+    } else {
+      await ctx.reply(t(userId, 'menuUnavailable'), keyboard([[LANG_BTN]]));
+    }
+  })
+);
+
+bot.command('lang', async ctx =>
+  withUser(ctx, async userId => {
+    const returnTo = getReturnContext(userId);
+    await showLanguageSelection(ctx, returnTo ? ctx => returnTo(ctx) : showAuthOptions);
+  })
+);
+
 const hears = (phrases: string[], handler: (ctx: Context) => Promise<void>) =>
   bot.hears(phrases, handler);
 

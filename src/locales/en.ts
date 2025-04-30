@@ -54,6 +54,7 @@ const en = {
   chooseQuestion: '❓ Choose a question to get an answer',
   chooseAnotherQuestion: '👉 Choose another question or go back to menu',
   showQuestions: '📋 Show questions again',
+  menuUnavailable: '🚫 You have not accessed to this menu. Please auth first'
 };
 
 export default en;

@@ -55,6 +55,7 @@ const uk = {
   chooseQuestion: '❓ Оберіть питання, щоб отримати відповідь',
   chooseAnotherQuestion: '👉 Оберіть інше питання або поверніться в меню',
   showQuestions: '📋 Показати питання ще раз',
+  menuUnavailable: '🚫 У вас немає доступу до цього меню. Будь ласка, авторизуйтеся спочатку',
 };
 
 export default uk;
