@@ -9,16 +9,20 @@ import {
   getReturnContext,
   clearReturnContext,
 } from './lang';
+import { showTasksMenu } from './handlers/task/menu';
+import { showCreateTaskMenu } from './handlers/task/create';
+import { showCategoriesMenu } from './handlers/category/menu';
+import { showCreateCategoryMenu } from './handlers/category/create';
 
 dotenv.config();
 
 const bot = new Telegraf(process.env.BOT_TOKEN!);
 
-const LANG_BTN = '🌐 Language / Мова';
+export const LANG_BTN = '🌐 Language / Мова';
 const FAQ_NUMBERS = Array.from({ length: 10 }, (_, i) => `${i + 1}`);
 const FAQ_BUTTON_ROWS = Array.from({ length: 2 }, (_, i) => FAQ_NUMBERS.slice(i * 5, i * 5 + 5));
 
-const keyboard = (buttons: string[][], opts: { oneTime?: boolean } = {}) =>
+export const keyboard = (buttons: string[][], opts: { oneTime?: boolean } = {}) =>
   Markup.keyboard(buttons).resize().oneTime(opts.oneTime ?? true);
 
 const getUserId = (ctx: Context) => ctx.from?.id ?? -1;
@@ -66,24 +70,6 @@ const menus = {
     [t(userId, 'profile'), t(userId, 'faq')],
     [t(userId, 'logout'), LANG_BTN],
   ]),
-  showTasksMenu: createMenu('tasksMenu', (ctx, userId) => [
-    [t(userId, 'createTask')],
-    [t(userId, 'backToMainMenu'), LANG_BTN],
-  ]),
-  showCategoriesMenu: createMenu('categoriesMenu', (ctx, userId) => [
-    [t(userId, 'createCategory')],
-    [t(userId, 'backToMainMenu'), LANG_BTN],
-  ]),
-  showCreateTaskMenu: createMenu('createTask', (ctx, userId) => [
-    [t(userId, 'backToTasks')],
-    [t(userId, 'backToMainMenu')],
-    [LANG_BTN],
-  ]),
-  showCreateCategoryMenu: createMenu('createCategory', (ctx, userId) => [
-    [t(userId, 'backToCategories')],
-    [t(userId, 'backToMainMenu')],
-    [LANG_BTN],
-  ]),
   showProfileMenu: createMenu('profileMenu', (ctx, userId) => [[t(userId, 'backToMainMenu')], [LANG_BTN]]),
 };
 
@@ -129,15 +115,15 @@ hears(messagesMap['logout'], async ctx =>
 );
 
 const menuRoutes: [keyof typeof messagesMap, (ctx: Context) => Promise<void>][] = [
-  ['tasks', menus.showTasksMenu],
-  ['categories', menus.showCategoriesMenu],
+  ['tasks', showTasksMenu],
+  ['categories', showCategoriesMenu],
   ['profile', menus.showProfileMenu],
   ['faq', showFAQMenu],
   ['backToMainMenu', menus.showMainMenu],
-  ['createTask', menus.showCreateTaskMenu],
-  ['createCategory', menus.showCreateCategoryMenu],
-  ['backToTasks', menus.showTasksMenu],
-  ['backToCategories', menus.showCategoriesMenu],
+  ['createTask', showCreateTaskMenu],
+  ['createCategory', showCreateCategoryMenu],
+  ['backToTasks', showTasksMenu],
+  ['backToCategories', showCategoriesMenu],
   ['showQuestions', showFAQMenu],
 ];
 
