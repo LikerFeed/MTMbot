@@ -5,24 +5,15 @@ import { getUserId, isValidUser, withUser } from './utils';
 import {
   t,
   LANG_BTN,
-  LANG_OPTIONS,
   LABEL_TO_LANG,
   setUserLang,
   getReturnContext,
   clearReturnContext,
   showLanguageSelection,
 } from './lang';
-import { menus } from './handlers/menus';
+import { menus, messagesMap, menuRoutes } from './handlers/menus';
 
-// menu handlers
-import { showTasksMenu } from './handlers/task/menu';
-import { showCreateTaskMenu } from './handlers/task/create';
-
-import { showCategoriesMenu } from './handlers/category/menu';
-import { showCreateCategoryMenu } from './handlers/category/create';
-
-import { showProfileMenu } from './handlers/profile/menu';
-import { showFAQMenu, FAQ_NUMBERS } from './handlers/faq/question';
+import { FAQ_NUMBERS } from './handlers/faq/question';
 import { handleFAQAnswer } from './handlers/faq/answer';
 
 dotenv.config();
@@ -55,11 +46,6 @@ bot.hears(LANG_BTN, async ctx =>
 
 const hears = (triggers: string[], handler: (ctx: Context) => Promise<void>) => bot.hears(triggers, handler);
 
-const messagesMap = LANG_OPTIONS.reduce((acc, lang) => {
-  Object.entries(lang.messages).forEach(([k, v]) => (acc[k] ||= []).push(v));
-  return acc;
-}, {} as Record<string, string[]>);
-
 hears([...messagesMap['signIn'], ...messagesMap['signUp']], menus.showMainMenu);
 
 hears(messagesMap['logout'], async ctx =>
@@ -69,19 +55,6 @@ hears(messagesMap['logout'], async ctx =>
     await menus.showAuthOptions(ctx);
   })
 );
-
-const menuRoutes: [keyof typeof messagesMap, (ctx: Context) => Promise<void>][] = [
-  ['tasks', showTasksMenu],
-  ['categories', showCategoriesMenu],
-  ['profile', showProfileMenu],
-  ['faq', showFAQMenu],
-  ['backToMainMenu', menus.showMainMenu],
-  ['createTask', showCreateTaskMenu],
-  ['createCategory', showCreateCategoryMenu],
-  ['backToTasks', showTasksMenu],
-  ['backToCategories', showCategoriesMenu],
-  ['showQuestions', showFAQMenu],
-];
 
 menuRoutes.forEach(([key, handler]) => hears(messagesMap[key], handler));
 
