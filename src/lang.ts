@@ -1,8 +1,12 @@
 import { Context } from 'telegraf';
+
+import { keyboard } from './utils'
+
 import en from './locales/en';
 import uk from './locales/uk';
 
 export type LanguageCode = 'en' | 'uk';
+export const LANG_BTN = '🌐 Language / Мова';
 
 const userLanguages = new Map<number, LanguageCode>();
 const returnContexts = new Map<number, (ctx: Context) => Promise<void>>();
@@ -47,4 +51,23 @@ export const getReturnContext = (userId: number) =>
 
 export const clearReturnContext = (userId: number): void => {
   returnContexts.delete(userId);
+};
+
+export const showLanguageSelection = async (
+  ctx: Context,
+  returnTo?: (ctx: Context) => Promise<void>,
+  isFirst = false
+) => {
+  const userId = ctx.from?.id;
+  if (!userId) return;
+
+  if (returnTo) setReturnContext(userId, returnTo);
+
+  const msg = LANG_OPTIONS
+    .map(lang => isFirst ? lang.messages.firstTimeStartMessage : lang.messages.languageChoicePrompt)
+    .join('\n');
+
+  const buttons = LANG_OPTIONS.map(lang => [lang.label]);
+
+  await ctx.reply(msg, keyboard(buttons));
 };

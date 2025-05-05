@@ -1,8 +1,7 @@
-
 import { Context } from 'telegraf';
-import { t } from '../../lang';
-import { setReturnContext } from '../../lang';
-import { keyboard, LANG_BTN } from '../../bot';
+
+import { keyboard } from '../../utils';
+import { t , LANG_BTN, setReturnContext } from '../../lang';
 
 export const showTasksMenu = async (ctx: Context) => {
   const userId = ctx.from?.id;

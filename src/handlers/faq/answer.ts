@@ -1,4 +1,5 @@
 import { Context } from 'telegraf';
+
 import { t, LANG_OPTIONS } from '../../lang';
 
 export const handleFAQAnswer = async (ctx: Context) => {

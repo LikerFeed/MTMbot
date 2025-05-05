@@ -1,21 +1,18 @@
-//core
 import { Telegraf, Markup, Context } from 'telegraf';
 import dotenv from 'dotenv';
 
-// i18n
+import { getUserId, isValidUser, withUser } from './utils';
 import {
   t,
+  LANG_BTN,
   LANG_OPTIONS,
   LABEL_TO_LANG,
   setUserLang,
   getReturnContext,
   clearReturnContext,
+  showLanguageSelection,
 } from './lang';
-
-// utils
-import { showLanguageSelection } from './utils/langSelection';
-import { createMenu } from './utils/menuFactory';
-import { withUser, isValidUser, getUserId } from './utils/session';
+import { menus } from './handlers/menus';
 
 // menu handlers
 import { showTasksMenu } from './handlers/task/menu';
@@ -31,20 +28,6 @@ import { handleFAQAnswer } from './handlers/faq/answer';
 dotenv.config();
 
 const bot = new Telegraf(process.env.BOT_TOKEN!);
-
-export const LANG_BTN = '🌐 Language / Мова';
-
-export const keyboard = (buttons: string[][], opts: { oneTime?: boolean } = {}) =>
-  Markup.keyboard(buttons).resize().oneTime(opts.oneTime ?? true);
-
-const menus = {
-  showAuthOptions: createMenu('chooseAuth', (ctx, userId) => [[t(userId, 'signIn'), t(userId, 'signUp')], [LANG_BTN]]),
-  showMainMenu: createMenu('mainMenuMessage', (ctx, userId) => [
-    [t(userId, 'tasks'), t(userId, 'categories')],
-    [t(userId, 'profile'), t(userId, 'faq')],
-    [t(userId, 'logout'), LANG_BTN],
-  ]),
-};
 
 bot.start(async ctx => {
   const userId = getUserId(ctx);
