@@ -13,6 +13,8 @@ import { showTasksMenu } from './handlers/task/menu';
 import { showCreateTaskMenu } from './handlers/task/create';
 import { showCategoriesMenu } from './handlers/category/menu';
 import { showCreateCategoryMenu } from './handlers/category/create';
+import { showFAQMenu } from './handlers/faq/question';
+import { handleFAQAnswer } from './handlers/faq/answer';
 
 dotenv.config();
 
@@ -48,19 +50,6 @@ const showLanguageSelection = async (ctx: Context, returnTo?: (ctx: Context) => 
     const msg = LANG_OPTIONS.map(lang => isFirst ? lang.messages.firstTimeStartMessage : lang.messages.languageChoicePrompt).join('\n');
     const buttons = LANG_OPTIONS.map(lang => [lang.label]);
     await ctx.reply(msg, keyboard(buttons));
-  });
-
-const showFAQMenu = async (ctx: Context) =>
-  withUser(ctx, async userId => {
-    setReturnContext(userId, showFAQMenu);
-    const questions = FAQ_NUMBERS.map(n => `${n}. ${t(userId, `question${n}` as keyof typeof LANG_OPTIONS[0]['messages'])}`);
-    const msg = `${t(userId, 'chooseQuestion')}\n\n${questions.join('\n')}`;
-    await ctx.reply(msg, keyboard([
-      [t(userId, 'showQuestions')],
-      ...FAQ_BUTTON_ROWS,
-      [t(userId, 'backToMainMenu')],
-      [LANG_BTN],
-    ]));
   });
 
 const menus = {
@@ -129,15 +118,6 @@ const menuRoutes: [keyof typeof messagesMap, (ctx: Context) => Promise<void>][] 
 
 menuRoutes.forEach(([key, handler]) => hears(messagesMap[key], handler));
 
-hears(FAQ_NUMBERS, async ctx =>
-  withUser(ctx, async userId => {
-    if (!ctx.message || !('text' in ctx.message)) return;
-    const number = ctx.message.text;
-    const question = t(userId, `question${number}` as keyof typeof LANG_OPTIONS[0]['messages']);
-    const answer = t(userId, `answer${number}` as keyof typeof LANG_OPTIONS[0]['messages']);
-    const followup = t(userId, 'chooseAnotherQuestion');
-    await ctx.reply(`${number}. ${question}\n\n${answer}\n\n${followup}`);
-  })
-);
+hears(FAQ_NUMBERS, handleFAQAnswer);
 
 bot.launch();
