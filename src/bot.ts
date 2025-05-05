@@ -1,57 +1,41 @@
+//core
 import { Telegraf, Markup, Context } from 'telegraf';
 import dotenv from 'dotenv';
+
+// i18n
 import {
   t,
   LANG_OPTIONS,
   LABEL_TO_LANG,
   setUserLang,
-  setReturnContext,
   getReturnContext,
   clearReturnContext,
 } from './lang';
+
+// utils
+import { showLanguageSelection } from './utils/langSelection';
+import { createMenu } from './utils/menuFactory';
+import { withUser, isValidUser, getUserId } from './utils/session';
+
+// menu handlers
 import { showTasksMenu } from './handlers/task/menu';
 import { showCreateTaskMenu } from './handlers/task/create';
+
 import { showCategoriesMenu } from './handlers/category/menu';
 import { showCreateCategoryMenu } from './handlers/category/create';
-import { showFAQMenu } from './handlers/faq/question';
-import { handleFAQAnswer } from './handlers/faq/answer';
+
 import { showProfileMenu } from './handlers/profile/menu';
+import { showFAQMenu, FAQ_NUMBERS } from './handlers/faq/question';
+import { handleFAQAnswer } from './handlers/faq/answer';
 
 dotenv.config();
 
 const bot = new Telegraf(process.env.BOT_TOKEN!);
 
 export const LANG_BTN = '🌐 Language / Мова';
-const FAQ_NUMBERS = Array.from({ length: 10 }, (_, i) => `${i + 1}`);
-const FAQ_BUTTON_ROWS = Array.from({ length: 2 }, (_, i) => FAQ_NUMBERS.slice(i * 5, i * 5 + 5));
 
 export const keyboard = (buttons: string[][], opts: { oneTime?: boolean } = {}) =>
   Markup.keyboard(buttons).resize().oneTime(opts.oneTime ?? true);
-
-const getUserId = (ctx: Context) => ctx.from?.id ?? -1;
-const isValidUser = (id: number) => id > 0;
-
-const withUser = async (ctx: Context, fn: (userId: number) => Promise<void>) => {
-  const userId = getUserId(ctx);
-  if (isValidUser(userId)) await fn(userId);
-};
-
-const createMenu = (
-  messageKey: keyof typeof LANG_OPTIONS[0]['messages'],
-  buttonRows: (ctx: Context, userId: number) => string[][]
-): ((ctx: Context) => Promise<void>) =>
-  async ctx => withUser(ctx, async userId => {
-    setReturnContext(userId, createMenu(messageKey, buttonRows));
-    await ctx.reply(t(userId, messageKey), keyboard(buttonRows(ctx, userId)));
-  });
-
-const showLanguageSelection = async (ctx: Context, returnTo?: (ctx: Context) => Promise<void>, isFirst = false) =>
-  withUser(ctx, async userId => {
-    if (returnTo) setReturnContext(userId, returnTo);
-    const msg = LANG_OPTIONS.map(lang => isFirst ? lang.messages.firstTimeStartMessage : lang.messages.languageChoicePrompt).join('\n');
-    const buttons = LANG_OPTIONS.map(lang => [lang.label]);
-    await ctx.reply(msg, keyboard(buttons));
-  });
 
 const menus = {
   showAuthOptions: createMenu('chooseAuth', (ctx, userId) => [[t(userId, 'signIn'), t(userId, 'signUp')], [LANG_BTN]]),

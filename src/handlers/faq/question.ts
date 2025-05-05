@@ -2,7 +2,7 @@ import { Context } from 'telegraf';
 import { t, LANG_OPTIONS } from '../../lang';
 import { LANG_BTN, keyboard } from '../../bot';
 
-const FAQ_NUMBERS = Array.from({ length: 10 }, (_, i) => `${i + 1}`);
+export const FAQ_NUMBERS = Array.from({ length: 10 }, (_, i) => `${i + 1}`);
 const FAQ_BUTTON_ROWS = Array.from({ length: 2 }, (_, i) => FAQ_NUMBERS.slice(i * 5, i * 5 + 5));
 
 export const showFAQMenu = async (ctx: Context) => {
