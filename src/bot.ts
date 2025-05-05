@@ -15,6 +15,7 @@ import { showCategoriesMenu } from './handlers/category/menu';
 import { showCreateCategoryMenu } from './handlers/category/create';
 import { showFAQMenu } from './handlers/faq/question';
 import { handleFAQAnswer } from './handlers/faq/answer';
+import { showProfileMenu } from './handlers/profile/menu';
 
 dotenv.config();
 
@@ -59,7 +60,6 @@ const menus = {
     [t(userId, 'profile'), t(userId, 'faq')],
     [t(userId, 'logout'), LANG_BTN],
   ]),
-  showProfileMenu: createMenu('profileMenu', (ctx, userId) => [[t(userId, 'backToMainMenu')], [LANG_BTN]]),
 };
 
 bot.start(async ctx => {
@@ -106,7 +106,7 @@ hears(messagesMap['logout'], async ctx =>
 const menuRoutes: [keyof typeof messagesMap, (ctx: Context) => Promise<void>][] = [
   ['tasks', showTasksMenu],
   ['categories', showCategoriesMenu],
-  ['profile', menus.showProfileMenu],
+  ['profile', showProfileMenu],
   ['faq', showFAQMenu],
   ['backToMainMenu', menus.showMainMenu],
   ['createTask', showCreateTaskMenu],
