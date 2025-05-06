@@ -1,7 +1,7 @@
-import { Context } from 'telegraf';
+import { Context } from "telegraf";
 
-import { keyboard } from '../../utils';
-import { t , LANG_BTN, setReturnContext } from '../../lang';
+import { keyboard } from "../../utils";
+import { t, LANG_BTN, setReturnContext } from "../../lang";
 
 export const showCreateTaskMenu = async (ctx: Context) => {
   const userId = ctx.from?.id;
@@ -10,11 +10,11 @@ export const showCreateTaskMenu = async (ctx: Context) => {
   setReturnContext(userId, showCreateTaskMenu);
 
   await ctx.reply(
-    t(userId, 'createTask'),
+    t(userId, "createTask"),
     keyboard([
-      [t(userId, 'backToTasks')],
-      [t(userId, 'backToMainMenu')],
+      [t(userId, "backToTasks")],
+      [t(userId, "backToMainMenu")],
       [LANG_BTN],
     ])
   );
-}
+};

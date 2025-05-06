@@ -1,7 +1,7 @@
-import { Context } from 'telegraf';
+import { Context } from "telegraf";
 
-import { keyboard } from '../../utils';
-import { t , LANG_BTN, setReturnContext } from '../../lang';
+import { keyboard } from "../../utils";
+import { t, LANG_BTN, setReturnContext } from "../../lang";
 
 export const showCategoriesMenu = async (ctx: Context) => {
   const userId = ctx.from?.id;
@@ -10,10 +10,10 @@ export const showCategoriesMenu = async (ctx: Context) => {
   setReturnContext(userId, showCategoriesMenu);
 
   await ctx.reply(
-    t(userId, 'categoriesMenu'),
+    t(userId, "categoriesMenu"),
     keyboard([
-      [t(userId, 'createCategory')],
-      [t(userId, 'backToMainMenu')],
+      [t(userId, "createCategory")],
+      [t(userId, "backToMainMenu")],
       [LANG_BTN],
     ])
   );

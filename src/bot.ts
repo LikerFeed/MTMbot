@@ -1,7 +1,7 @@
-import { Telegraf, Markup, Context } from 'telegraf';
-import dotenv from 'dotenv';
+import { Telegraf, Markup, Context } from "telegraf";
+import dotenv from "dotenv";
 
-import { getUserId, isValidUser, withUser } from './utils';
+import { getUserId, isValidUser, withUser } from "./utils";
 import {
   t,
   LANG_BTN,
@@ -10,48 +10,52 @@ import {
   getReturnContext,
   clearReturnContext,
   showLanguageSelection,
-} from './lang';
-import { menus, messagesMap, menuRoutes } from './handlers/menus';
+} from "./lang";
+import { menus, messagesMap, menuRoutes } from "./handlers/menus";
 
-import { FAQ_NUMBERS } from './handlers/faq/question';
-import { handleFAQAnswer } from './handlers/faq/answer';
+import { FAQ_NUMBERS } from "./handlers/faq/question";
+import { handleFAQAnswer } from "./handlers/faq/answer";
 
 dotenv.config();
 
 const bot = new Telegraf(process.env.BOT_TOKEN!);
 
-bot.start(async ctx => {
+bot.start(async (ctx) => {
   const userId = getUserId(ctx);
   if (isValidUser(userId)) clearReturnContext(userId);
   await showLanguageSelection(ctx, undefined, true);
 });
 
-bot.hears(Object.keys(LABEL_TO_LANG), async ctx =>
-  withUser(ctx, async userId => {
+bot.hears(Object.keys(LABEL_TO_LANG), async (ctx) =>
+  withUser(ctx, async (userId) => {
     const lang = LABEL_TO_LANG[ctx.message.text];
     if (!lang) return;
     setUserLang(userId, lang);
-    await ctx.reply(t(userId, 'confirmLanguage'), Markup.removeKeyboard());
+    await ctx.reply(t(userId, "confirmLanguage"), Markup.removeKeyboard());
     const returnTo = getReturnContext(userId);
     returnTo ? await returnTo(ctx) : await menus.showAuthOptions(ctx);
   })
 );
 
-bot.hears(LANG_BTN, async ctx =>
-  withUser(ctx, async userId => {
+bot.hears(LANG_BTN, async (ctx) =>
+  withUser(ctx, async (userId) => {
     const returnTo = getReturnContext(userId);
-    await showLanguageSelection(ctx, returnTo ? ctx => returnTo(ctx) : menus.showAuthOptions);
+    await showLanguageSelection(
+      ctx,
+      returnTo ? (ctx) => returnTo(ctx) : menus.showAuthOptions
+    );
   })
 );
 
-const hears = (triggers: string[], handler: (ctx: Context) => Promise<void>) => bot.hears(triggers, handler);
+const hears = (triggers: string[], handler: (ctx: Context) => Promise<void>) =>
+  bot.hears(triggers, handler);
 
-hears([...messagesMap['signIn'], ...messagesMap['signUp']], menus.showMainMenu);
+hears([...messagesMap["signIn"], ...messagesMap["signUp"]], menus.showMainMenu);
 
-hears(messagesMap['logout'], async ctx =>
-  withUser(ctx, async userId => {
+hears(messagesMap["logout"], async (ctx) =>
+  withUser(ctx, async (userId) => {
     clearReturnContext(userId);
-    await ctx.reply(t(userId, 'successLogout'), Markup.removeKeyboard());
+    await ctx.reply(t(userId, "successLogout"), Markup.removeKeyboard());
     await menus.showAuthOptions(ctx);
   })
 );
