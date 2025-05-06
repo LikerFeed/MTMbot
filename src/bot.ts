@@ -2,6 +2,7 @@ import { Telegraf, Markup, Context } from "telegraf";
 import dotenv from "dotenv";
 
 import { getUserId, isValidUser, withUser } from "./utils";
+import { menus, messagesMap, menuRoutes } from "./handlers/menus";
 import {
   t,
   LANG_BTN,
@@ -11,7 +12,8 @@ import {
   clearReturnContext,
   showLanguageSelection,
 } from "./lang";
-import { menus, messagesMap, menuRoutes } from "./handlers/menus";
+
+import { handleSignIn, startSignIn } from "./handlers/auth/signIn/signIn";
 
 import { FAQ_NUMBERS } from "./handlers/faq/question";
 import { handleFAQAnswer } from "./handlers/faq/answer";
@@ -50,7 +52,8 @@ bot.hears(LANG_BTN, async (ctx) =>
 const hears = (triggers: string[], handler: (ctx: Context) => Promise<void>) =>
   bot.hears(triggers, handler);
 
-hears([...messagesMap["signIn"], ...messagesMap["signUp"]], menus.showMainMenu);
+hears(messagesMap["signIn"], startSignIn);
+hears(messagesMap["signUp"], menus.showMainMenu);
 
 hears(messagesMap["logout"], async (ctx) =>
   withUser(ctx, async (userId) => {
@@ -65,3 +68,5 @@ menuRoutes.forEach(([key, handler]) => hears(messagesMap[key], handler));
 hears(FAQ_NUMBERS, handleFAQAnswer);
 
 bot.launch();
+
+bot.on('text', handleSignIn);

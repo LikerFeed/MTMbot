@@ -5,7 +5,7 @@ const en = {
   confirmLanguage: "Language was chosen 🇬🇧 English",
   chooseAuth: "Please choose an authentication method",
   signIn: "🔐 Sign in",
-  signUp: "📝 Sign up",
+  signUp: "🔏 Sign up",
   mainMenuMessage: "🏠 Welcome to the main menu!\nPlease choose an option",
   logout: "🚪 Log out",
   successLogout: "🚪 You have successfully logged out",
@@ -54,7 +54,11 @@ const en = {
   chooseQuestion: "❓ Choose a question to get an answer",
   chooseAnotherQuestion: "👉 Choose another question or go back to menu",
   showQuestions: "📋 Show questions again",
-  menuUnavailable: "🚫 You have not accessed to this menu. Please auth first",
+  enterEmail: "📧 Please enter your email:",
+  invalidEmail: '❌ Invalid email format\nPlease try again:',
+  enterPassword: "🔒 Please enter your password:",
+  invalidPassword: "❌ Invalid password format\nPlease try again:",
+  successSignIn: "🔓 You have successfully signed in!",
 };
 
 export default en;
