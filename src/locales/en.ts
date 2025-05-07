@@ -59,6 +59,11 @@ const en = {
   enterPassword: "🔒 Please enter your password:",
   invalidPassword: "❌ Invalid password format\nPlease try again:",
   successSignIn: "🔓 You have successfully signed in!",
+  enterUsername: '👤 Enter your username:',
+  invalidUsername: '❌ Invalid username format\nPlease try again:',
+  repeatPassword: '🔁 Repeat your password:',
+  passwordMismatch: '❌ Passwords do not match\nPlease try again:',
+  successSignUp: "🔓 You have successfully signed up!",
 };
 
 export default en;

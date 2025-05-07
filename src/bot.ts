@@ -13,7 +13,8 @@ import {
   showLanguageSelection,
 } from "./lang";
 
-import { handleSignIn, startSignIn } from "./handlers/auth/signIn/signIn";
+import { startSignIn, handleSignIn } from "./handlers/auth/signIn/signIn";
+import { startSignUp, handleSignUp } from "./handlers/auth/signUp/signUp";
 
 import { FAQ_NUMBERS } from "./handlers/faq/question";
 import { handleFAQAnswer } from "./handlers/faq/answer";
@@ -53,7 +54,7 @@ const hears = (triggers: string[], handler: (ctx: Context) => Promise<void>) =>
   bot.hears(triggers, handler);
 
 hears(messagesMap["signIn"], startSignIn);
-hears(messagesMap["signUp"], menus.showMainMenu);
+hears(messagesMap["signUp"], startSignUp);
 
 hears(messagesMap["logout"], async (ctx) =>
   withUser(ctx, async (userId) => {
@@ -69,4 +70,7 @@ hears(FAQ_NUMBERS, handleFAQAnswer);
 
 bot.launch();
 
-bot.on('text', handleSignIn);
+bot.on("text", async (ctx) => {
+  await handleSignIn(ctx);
+  await handleSignUp(ctx);
+});

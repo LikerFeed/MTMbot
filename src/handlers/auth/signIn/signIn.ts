@@ -1,7 +1,7 @@
 import { Context } from "telegraf";
 import { t, setReturnContext } from "../../../lang";
 import { menus } from "../../menus";
-import { isValidEmail, isValidPassword } from "./validators";
+import { isValidEmail, isValidPassword } from "../validators";
 
 type Session = { step: "email" | "password"; email?: string };
 const authSessions = new Map<number, Session>();
@@ -40,7 +40,7 @@ export const handleSignIn = async (ctx: Context) => {
     }
 
     authSessions.delete(userId);
-    setReturnContext(userId, async ctx => menus.showMainMenu(ctx));
+    setReturnContext(userId, async (ctx) => menus.showMainMenu(ctx));
     await ctx.reply(t(userId, "successSignIn"));
     await menus.showMainMenu(ctx);
   }
