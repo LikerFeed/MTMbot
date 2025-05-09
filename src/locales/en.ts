@@ -11,6 +11,8 @@ const en = {
   successLogout: "🚪 You have successfully logged out",
   tasks: "📋 Tasks",
   tasksMenu: "📋 Your tasks",
+  noTasks: "📋 You have no tasks yet",
+  clickToCreateTask: "➕📋 Click the button to create a task",
   categories: "🗂️ Categories",
   categoriesMenu: "🗂️ Your categories",
   profile: "👤 Profile",
@@ -64,6 +66,10 @@ const en = {
   repeatPassword: '🔁 Repeat your password:',
   passwordMismatch: '❌ Passwords do not match\nPlease try again:',
   successSignUp: "🔓 You have successfully signed up!",
+  prev: "⬅️ Prev",
+  next: "Next ➡️",
+  taskTitle: "Task title",
+  taskDescription: "Task description",
 };
 
 export default en;

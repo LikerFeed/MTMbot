@@ -48,14 +48,14 @@ export const menuRoutes: [
   keyof typeof messagesMap,
   (ctx: Context) => Promise<void>
 ][] = [
-  ["tasks", showTasksMenu],
+  ["tasks", (ctx) => showTasksMenu(ctx, 0)],
   ["categories", showCategoriesMenu],
   ["profile", showProfileMenu],
   ["faq", showFAQMenu],
   ["backToMainMenu", menus.showMainMenu],
   ["createTask", showCreateTaskMenu],
   ["createCategory", showCreateCategoryMenu],
-  ["backToTasks", showTasksMenu],
+  ["backToTasks", (ctx) => showTasksMenu(ctx, 0)],
   ["backToCategories", showCategoriesMenu],
   ["showQuestions", showFAQMenu],
 ];

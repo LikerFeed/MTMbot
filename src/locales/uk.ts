@@ -11,6 +11,8 @@ const uk = {
   logout: "🚪 Вихід",
   successLogout: "🚪 Ви успішно вийшли",
   tasks: "📋 Задачі",
+  noTasks: "📋 У вас ще немає задач",
+  clickToCreateTask: "➕📋 Натисніть кнопку, щоб створити задачу",
   tasksMenu: "📋 Ваші задачі",
   categories: "🗂️ Категорії",
   categoriesMenu: "🗂️ Ваші категорії",
@@ -66,6 +68,10 @@ const uk = {
   repeatPassword: "🔁 Повторіть ваш пароль:",
   passwordMismatch: "❌ Паролі не збігаються\nБудь ласка, спробуйте ще раз:",
   successSignUp: "🔓 Ви успішно зареєструвалися!",
+  prev: "⬅️ Назад",
+  next: "Далі ➡️",
+  taskTitle: "Назва задачі",
+  taskDescription: "Опис задачі",
 };
 
 export default uk;

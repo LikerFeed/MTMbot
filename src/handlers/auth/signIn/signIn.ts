@@ -1,7 +1,8 @@
 import { Context } from "telegraf";
-import { t, setReturnContext } from "../../../lang";
+
 import { menus } from "../../menus";
 import { isValidEmail, isValidPassword } from "../validators";
+import { t, setReturnContext } from "../../../lang";
 
 type Session = { step: "email" | "password"; email?: string };
 const authSessions = new Map<number, Session>();

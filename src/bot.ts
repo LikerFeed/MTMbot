@@ -16,6 +16,9 @@ import {
 import { startSignIn, handleSignIn } from "./handlers/auth/signIn/signIn";
 import { startSignUp, handleSignUp } from "./handlers/auth/signUp/signUp";
 
+import { showTasksMenu } from "./handlers/task/menu";
+import { showTask } from "./handlers/task/task";
+
 import { FAQ_NUMBERS } from "./handlers/faq/question";
 import { handleFAQAnswer } from "./handlers/faq/answer";
 
@@ -55,6 +58,35 @@ const hears = (triggers: string[], handler: (ctx: Context) => Promise<void>) =>
 
 hears(messagesMap["signIn"], startSignIn);
 hears(messagesMap["signUp"], startSignUp);
+
+hears(messagesMap["next"], (ctx) => showTasksMenu(ctx, getPageOffset(ctx, +1)));
+hears(messagesMap["prev"], (ctx) => showTasksMenu(ctx, getPageOffset(ctx, -1)));
+
+const userPages = new Map<number, number>();
+
+function getPageOffset(ctx: Context, offset: number): number {
+  const userId = ctx.from?.id ?? -1;
+  const current = userPages.get(userId) ?? 0;
+  const next = current + offset;
+  userPages.set(userId, next);
+  return next;
+}
+
+const TASKS_COUNT = 14;
+const TASK_NUMBER_STRINGS = Array.from(
+  { length: TASKS_COUNT },
+  (_, i) => `${i + 1}`
+);
+
+bot.hears(TASK_NUMBER_STRINGS, async (ctx) => {
+  const userId = ctx.from?.id;
+  if (!userId || !ctx.message || typeof ctx.message.text !== "string") return;
+
+  const taskIndex = Number(ctx.message.text) - 1;
+  if (isNaN(taskIndex)) return;
+
+  await showTask(ctx, taskIndex);
+});
 
 hears(messagesMap["logout"], async (ctx) =>
   withUser(ctx, async (userId) => {
