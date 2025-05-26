@@ -62,6 +62,8 @@ export const handleSignUp = async (ctx: BotContext) => {
   }
 
   if (session.step === "password") {
+    await ctx.deleteMessage();
+    
     if (!isValidPassword(message)) {
       await ctx.reply(t(userId, "invalidPassword"));
       return;
@@ -77,6 +79,8 @@ export const handleSignUp = async (ctx: BotContext) => {
   }
 
   if (session.step === "confirm") {
+    await ctx.deleteMessage();
+
     if (message !== session.password) {
       await ctx.reply(t(userId, "passwordMismatch"));
       return;

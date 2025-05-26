@@ -36,6 +36,8 @@ export const handleSignIn = async (ctx: BotContext) => {
   }
 
   if (session.step === "password") {
+    await ctx.deleteMessage();
+    
     if (!isValidPassword(message)) {
       await ctx.reply(t(userId, "invalidPassword"));
       return;
