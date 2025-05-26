@@ -1,3 +1,6 @@
+import { sign } from "crypto";
+import { register } from "module";
+
 const uk = {
   firstTimeStartMessage: "🇺🇦 Привіт! Будь ласка, оберіть мову",
   languageChoicePrompt: "🇺🇦 Будь ласка, оберіть мову",
@@ -68,6 +71,11 @@ const uk = {
   repeatPassword: "🔁 Повторіть ваш пароль:",
   passwordMismatch: "❌ Паролі не збігаються\nБудь ласка, спробуйте ще раз:",
   successSignUp: "🔓 Ви успішно зареєструвалися!",
+  signInFailed: "❌ Не вдалося увійти",
+  signUpFailed: "❌ Не вдалося зареєструватися",
+  loginError: "Помилка входу",
+  registerError: "Помилка реєстрації",
+  fetchError: "Помилка отримання даних",
   prev: "⬅️ Назад",
   next: "Далі ➡️",
   taskTitle: "Назва задачі",

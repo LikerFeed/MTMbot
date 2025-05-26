@@ -1,4 +1,5 @@
-import { Telegraf, Markup, Context } from "telegraf";
+import { Telegraf, Markup, session } from "telegraf";
+import { BotContext } from "./types/BotContext";
 import dotenv from "dotenv";
 
 import { getUserId, isValidUser, withUser } from "./utils";
@@ -23,8 +24,8 @@ import { FAQ_NUMBERS } from "./handlers/faq/question";
 import { handleFAQAnswer } from "./handlers/faq/answer";
 
 dotenv.config();
-
-const bot = new Telegraf(process.env.BOT_TOKEN!);
+const bot = new Telegraf<BotContext>(process.env.BOT_TOKEN!);
+bot.use(session({ defaultSession: () => ({}) }));
 
 bot.start(async (ctx) => {
   const userId = getUserId(ctx);
@@ -53,7 +54,7 @@ bot.hears(LANG_BTN, async (ctx) =>
   })
 );
 
-const hears = (triggers: string[], handler: (ctx: Context) => Promise<void>) =>
+const hears = (triggers: string[], handler: (ctx: BotContext) => Promise<void>) =>
   bot.hears(triggers, handler);
 
 hears(messagesMap["signIn"], startSignIn);
@@ -64,7 +65,7 @@ hears(messagesMap["prev"], (ctx) => showTasksMenu(ctx, getPageOffset(ctx, -1)));
 
 const userPages = new Map<number, number>();
 
-function getPageOffset(ctx: Context, offset: number): number {
+function getPageOffset(ctx: BotContext, offset: number): number {
   const userId = ctx.from?.id ?? -1;
   const current = userPages.get(userId) ?? 0;
   const next = current + offset;

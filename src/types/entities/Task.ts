@@ -1,5 +1,4 @@
-import { Category } from './entities/Category';
-import { SubTask } from './SubTask';
+import { Category } from '../entities/Category';
 
 export type Task = {
   _id: string;
@@ -8,7 +7,6 @@ export type Task = {
   isCompleted: boolean;
   categories: Category[];
   links: string[];
-  subtasks: SubTask[];
   deadline: string | null;
   dateOfCompletion: string | null;
   type: 'task';
