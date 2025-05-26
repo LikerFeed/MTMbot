@@ -43,7 +43,10 @@ export const handleSignIn = async (ctx: BotContext) => {
     const email = session.email!;
     const password = message;
 
-    const result = await authAPI.login({ email, password });
+    const result = await authAPI.login(userId, {
+      email,
+      password,
+    });
 
     if (result.status === "error") {
       await ctx.reply(`${t(userId, "signInFailed")}: ${result.error}`);
