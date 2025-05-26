@@ -1,4 +1,5 @@
-import { Context } from "telegraf";
+import { BotContext } from "../../../types/BotContext";
+import authAPI from "../../../api/authAPI";
 
 import { menus } from "../../menus";
 import { isValidEmail, isValidUsername, isValidPassword } from "../validators";
@@ -13,7 +14,7 @@ type Session = {
 
 const signUpSessions = new Map<number, Session>();
 
-export const startSignUp = async (ctx: Context) => {
+export const startSignUp = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId) return;
 
@@ -21,7 +22,7 @@ export const startSignUp = async (ctx: Context) => {
   await ctx.reply(t(userId, "enterEmail"));
 };
 
-export const handleSignUp = async (ctx: Context) => {
+export const handleSignUp = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   const message =
     ctx.message && "text" in ctx.message ? ctx.message.text.trim() : "";
@@ -80,6 +81,25 @@ export const handleSignUp = async (ctx: Context) => {
       await ctx.reply(t(userId, "passwordMismatch"));
       return;
     }
+
+    const { email, username, password } = session;
+    const result = await authAPI.register(userId, {
+      email: email!,
+      username: username!,
+      firstPass: password!,
+      secondPass: message,
+    });
+
+    if (result.status === "error") {
+      await ctx.reply(`${t(userId, "signUpFailed")}: ${result.error}`);
+      return;
+    }
+
+    ctx.session.token = result.data.token;
+    ctx.session.user = {
+      username: result.data.username,
+      email: result.data.email,
+    };
 
     signUpSessions.delete(userId);
     setReturnContext(userId, async (ctx) => menus.showMainMenu(ctx));

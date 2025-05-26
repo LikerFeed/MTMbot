@@ -1,7 +1,7 @@
 import instanse from '../axios';
-import { Category } from '../types/entities/Category';
-import { Task } from '../types/entities/Task';
 import { Status } from '../types/shared';
+import { Task } from '../types/entities/Task';
+import { Category } from '../types/entities/Category';
 
 type TaskResponse = {
   status: number;

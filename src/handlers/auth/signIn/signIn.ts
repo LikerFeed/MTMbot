@@ -1,8 +1,9 @@
+import { BotContext } from "../../../types/BotContext";
 import authAPI from "../../../api/authAPI";
+
 import { menus } from "../../menus";
 import { isValidEmail, isValidPassword } from "../validators";
 import { t, setReturnContext } from "../../../lang";
-import { BotContext } from "../../../types/BotContext";
 
 type Session = { step: "email" | "password"; email?: string };
 const authSessions = new Map<number, Session>();
