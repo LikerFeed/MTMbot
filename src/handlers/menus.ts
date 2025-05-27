@@ -8,7 +8,9 @@ import { showCreateTaskMenu } from "./task/create";
 
 import { showCategoriesMenu } from "./category/menu";
 import { showCreateCategoryMenu } from "./category/create";
+
 import { showProfileMenu } from "./profile/menu";
+import { showDeleteProfileMenu } from "./profile/delete";
 
 import { showFAQMenu } from "./faq/question";
 
@@ -51,6 +53,9 @@ export const menuRoutes: [
   ["tasks", (ctx) => showTasksMenu(ctx, 0)],
   ["categories", showCategoriesMenu],
   ["profile", showProfileMenu],
+  ["deleteProfile", showDeleteProfileMenu],
+  ["yesDelete", menus.showAuthOptions],
+  ["noCancel", showProfileMenu],
   ["faq", showFAQMenu],
   ["backToMainMenu", menus.showMainMenu],
   ["createTask", showCreateTaskMenu],

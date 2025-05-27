@@ -11,6 +11,9 @@ export const showProfileMenu = async (ctx: Context) => {
 
   await ctx.reply(
     t(userId, "profileMenu"),
-    keyboard([[t(userId, "backToMainMenu")], [LANG_BTN]])
+    keyboard([
+      [t(userId, "changePass"), t(userId, "deleteProfile")],
+      [t(userId, "backToMainMenu"), LANG_BTN]
+    ])
   );
 };

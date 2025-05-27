@@ -73,21 +73,21 @@ function getPageOffset(ctx: BotContext, offset: number): number {
   return next;
 }
 
-const TASKS_COUNT = 14;
-const TASK_NUMBER_STRINGS = Array.from(
-  { length: TASKS_COUNT },
-  (_, i) => `${i + 1}`
-);
+// const TASKS_COUNT = 14;
+// const TASK_NUMBER_STRINGS = Array.from(
+//   { length: TASKS_COUNT },
+//   (_, i) => `${i + 1}`
+// );
 
-bot.hears(TASK_NUMBER_STRINGS, async (ctx) => {
-  const userId = ctx.from?.id;
-  if (!userId || !ctx.message || typeof ctx.message.text !== "string") return;
+// bot.hears(TASK_NUMBER_STRINGS, async (ctx) => {
+//   const userId = ctx.from?.id;
+//   if (!userId || !ctx.message || typeof ctx.message.text !== "string") return;
 
-  const taskIndex = Number(ctx.message.text) - 1;
-  if (isNaN(taskIndex)) return;
+//   const taskIndex = Number(ctx.message.text) - 1;
+//   if (isNaN(taskIndex)) return;
 
-  await showTask(ctx, taskIndex);
-});
+//   await showTask(ctx, taskIndex);
+// });
 
 hears(messagesMap["logout"], async (ctx) =>
   withUser(ctx, async (userId) => {
