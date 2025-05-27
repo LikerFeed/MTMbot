@@ -83,6 +83,7 @@ const uk = {
   loginError: "Помилка входу",
   registerError: "Помилка реєстрації",
   fetchError: "Помилка отримання даних",
+  alreadyAuthorized: "🔓 Ви вже авторизовані!",
   prev: "⬅️ Назад",
   next: "Далі ➡️",
   taskTitle: "Назва задачі",

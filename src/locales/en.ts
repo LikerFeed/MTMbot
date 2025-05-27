@@ -79,6 +79,7 @@ const en = {
   loginError: "Login error",
   registerError: "Registration error",
   fetchError: "Failed to fetch data",
+  alreadyAuthorized: "🔓 You are already authorized!",
   prev: "⬅️ Prev",
   next: "Next ➡️",
   taskTitle: "Task title",
