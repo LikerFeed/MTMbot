@@ -1,4 +1,4 @@
-import { Context } from "telegraf";
+import { BotContext } from "../types/BotContext";
 
 import { keyboard } from "../utils";
 import { LANG_BTN, LANG_OPTIONS, setReturnContext, t } from "../lang";
@@ -17,8 +17,8 @@ import { showFAQMenu } from "./faq/question";
 const createMenu =
   (
     messageKey: keyof (typeof LANG_OPTIONS)[0]["messages"],
-    buttonRows: (ctx: Context, userId: number) => string[][]
-  ): ((ctx: Context) => Promise<void>) =>
+    buttonRows: (ctx: BotContext, userId: number) => string[][]
+  ): ((ctx: BotContext) => Promise<void>) =>
   async (ctx) => {
     const userId = ctx.from?.id;
     if (!userId) return;
@@ -48,7 +48,7 @@ export const messagesMap = LANG_OPTIONS.reduce((acc, lang) => {
 
 export const menuRoutes: [
   keyof typeof messagesMap,
-  (ctx: Context) => Promise<void>
+  (ctx: BotContext) => Promise<void>
 ][] = [
   ["tasks", (ctx) => showTasksMenu(ctx, 0)],
   ["categories", showCategoriesMenu],

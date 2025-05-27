@@ -1,4 +1,4 @@
-import { Context } from "telegraf";
+import { BotContext } from "../../types/BotContext";
 
 import { keyboard } from "../../utils";
 import { t, LANG_BTN, LANG_OPTIONS } from "../../lang";
@@ -8,9 +8,11 @@ const FAQ_BUTTON_ROWS = Array.from({ length: 2 }, (_, i) =>
   FAQ_NUMBERS.slice(i * 5, i * 5 + 5)
 );
 
-export const showFAQMenu = async (ctx: Context) => {
+export const showFAQMenu = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId) return;
+
+  ctx.session.step = "faq";
 
   const questions = FAQ_NUMBERS.map(
     (n) =>

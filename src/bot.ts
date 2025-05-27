@@ -54,6 +54,24 @@ bot.hears(LANG_BTN, async (ctx) =>
   })
 );
 
+bot.hears(/^\d+$/, async (ctx) => {
+  const userId = ctx.from?.id;
+  const message = ctx.message?.text;
+  if (!userId || !message) return;
+
+  const index = Number(message) - 1;
+
+  if (ctx.session.step === "faq") {
+    await handleFAQAnswer(ctx);
+    return;
+  }
+
+  if (ctx.session.step === "task") {
+    await showTask(ctx, index);
+    return;
+  }
+});
+
 const hears = (triggers: string[], handler: (ctx: BotContext) => Promise<void>) =>
   bot.hears(triggers, handler);
 
@@ -72,22 +90,6 @@ function getPageOffset(ctx: BotContext, offset: number): number {
   userPages.set(userId, next);
   return next;
 }
-
-// const TASKS_COUNT = 14;
-// const TASK_NUMBER_STRINGS = Array.from(
-//   { length: TASKS_COUNT },
-//   (_, i) => `${i + 1}`
-// );
-
-// bot.hears(TASK_NUMBER_STRINGS, async (ctx) => {
-//   const userId = ctx.from?.id;
-//   if (!userId || !ctx.message || typeof ctx.message.text !== "string") return;
-
-//   const taskIndex = Number(ctx.message.text) - 1;
-//   if (isNaN(taskIndex)) return;
-
-//   await showTask(ctx, taskIndex);
-// });
 
 hears(messagesMap["logout"], async (ctx) =>
   withUser(ctx, async (userId) => {

@@ -1,4 +1,4 @@
-import { Context } from "telegraf";
+import { BotContext } from "./types/BotContext";
 
 import { keyboard } from "./utils";
 
@@ -9,7 +9,7 @@ export type LanguageCode = "en" | "uk";
 export const LANG_BTN = "🌐 Language / Мова";
 
 const userLanguages = new Map<number, LanguageCode>();
-const returnContexts = new Map<number, (ctx: Context) => Promise<void>>();
+const returnContexts = new Map<number, (ctx: BotContext) => Promise<void>>();
 
 const TRANSLATIONS = { en, uk } as const;
 
@@ -43,7 +43,7 @@ export const t = (userId: number, key: keyof typeof en): string => {
 
 export const setReturnContext = (
   userId: number,
-  callback: (ctx: Context) => Promise<void>
+  callback: (ctx: BotContext) => Promise<void>
 ): void => {
   returnContexts.set(userId, callback);
 };
@@ -55,8 +55,8 @@ export const clearReturnContext = (userId: number): void => {
 };
 
 export const showLanguageSelection = async (
-  ctx: Context,
-  returnTo?: (ctx: Context) => Promise<void>,
+  ctx: BotContext,
+  returnTo?: (ctx: BotContext) => Promise<void>,
   isFirst = false
 ) => {
   const userId = ctx.from?.id;

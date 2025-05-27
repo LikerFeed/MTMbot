@@ -1,4 +1,4 @@
-import { Context } from "telegraf";
+import { BotContext } from "../../types/BotContext";
 
 import { keyboard } from "../../utils";
 import { t, LANG_BTN, setReturnContext } from "../../lang";
@@ -6,9 +6,11 @@ import { t, LANG_BTN, setReturnContext } from "../../lang";
 export const TASKS = Array.from({ length: 14 }, (_, i) => `task${i + 1}`);
 const TASKS_PER_PAGE = 10;
 
-export const showTasksMenu = async (ctx: Context, page = 0) => {
+export const showTasksMenu = async (ctx: BotContext, page = 0) => {
   const userId = ctx.from?.id;
   if (!userId) return;
+
+  ctx.session.step = "task";
 
   const totalPages = Math.ceil(TASKS.length / TASKS_PER_PAGE);
   const safePage = ((page % totalPages) + totalPages) % totalPages;
