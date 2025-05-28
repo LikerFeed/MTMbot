@@ -1,6 +1,3 @@
-import { sign } from "crypto";
-import { register } from "module";
-
 const uk = {
   firstTimeStartMessage: "🇺🇦 Привіт! Будь ласка, оберіть мову",
   languageChoicePrompt: "🇺🇦 Будь ласка, оберіть мову",
@@ -86,6 +83,7 @@ const uk = {
   alreadyAuthorized: "🔓 Ви вже авторизовані!",
   prev: "⬅️ Назад",
   next: "Далі ➡️",
+  taskFetchFailed: "❌ Не вдалося отримати задачі",
   taskTitle: "Назва задачі",
   taskDescription: "Опис задачі",
 };

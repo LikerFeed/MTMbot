@@ -1,5 +1,5 @@
-import { Telegraf, Markup, session } from "telegraf";
-import { BotContext } from "./types/BotContext";
+import { Telegraf, Markup, session, Middleware } from "telegraf";
+import { SessionData, BotContext } from "./types/BotContext";
 import dotenv from "dotenv";
 
 import { getUserId, isValidUser, withUser } from "./utils";
@@ -25,7 +25,18 @@ import { handleFAQAnswer } from "./handlers/faq/answer";
 
 dotenv.config();
 const bot = new Telegraf<BotContext>(process.env.BOT_TOKEN!);
-bot.use(session({ defaultSession: () => ({}) }));
+bot.use(
+  session({
+    defaultSession: (): SessionData => ({
+      tasks: [],
+      totalTaskPages: 0,
+      taskPage: 0,
+      step: null,
+      token: undefined,
+      user: undefined,
+    }),
+  }) as unknown as Middleware<BotContext>
+);
 
 bot.start(async (ctx) => {
   const userId = getUserId(ctx);

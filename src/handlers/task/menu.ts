@@ -1,26 +1,54 @@
 import { BotContext } from "../../types/BotContext";
-
+import taskTelegramAPI from "../../api/taskTelegramApi";
+import { Status } from "../../types/shared";
 import { keyboard } from "../../utils";
 import { t, LANG_BTN, setReturnContext } from "../../lang";
 
-export const TASKS = Array.from({ length: 14 }, (_, i) => `task${i + 1}`);
 const TASKS_PER_PAGE = 10;
 
 export const showTasksMenu = async (ctx: BotContext, page = 0) => {
   const userId = ctx.from?.id;
-  if (!userId) return;
+  if (!userId || !ctx.session.token) return;
 
   ctx.session.step = "task";
 
-  const totalPages = Math.ceil(TASKS.length / TASKS_PER_PAGE);
-  const safePage = ((page % totalPages) + totalPages) % totalPages;
+  const pageCheckResult = await taskTelegramAPI.getTasks(ctx, {
+    page: 1,
+    limit: TASKS_PER_PAGE,
+  });
 
-  const start = safePage * TASKS_PER_PAGE;
-  const currentTasks = TASKS.slice(start, start + TASKS_PER_PAGE);
+  if (pageCheckResult.status === Status.ERROR || !pageCheckResult.data) {
+    await ctx.reply(t(userId, "taskFetchFailed"));
+    return;
+  }
 
-  setReturnContext(userId, async (ctx) => showTasksMenu(ctx, safePage));
+  const totalPages = pageCheckResult.data.totalPages;
 
-  if (currentTasks.length === 0) {
+  let normalizedPage = page;
+  if (page >= totalPages) normalizedPage = 0;
+  if (page < 0) normalizedPage = totalPages - 1;
+
+  const result = await taskTelegramAPI.getTasks(ctx, {
+    page: normalizedPage + 1,
+    limit: TASKS_PER_PAGE,
+  });
+
+  if (result.status === Status.ERROR || !result.data) {
+    await ctx.reply(t(userId, "taskFetchFailed"));
+    return;
+  }
+
+  const { tasks, currentPage } = result.data;
+
+  ctx.session.taskPage = currentPage - 1;
+  ctx.session.totalTaskPages = totalPages;
+  ctx.session.tasks = tasks;
+
+  setReturnContext(userId, async (ctx) =>
+    showTasksMenu(ctx, ctx.session.taskPage || 0)
+  );
+
+  if (!Array.isArray(tasks) || tasks.length === 0) {
     await ctx.reply(
       t(userId, "noTasks"),
       keyboard([
@@ -32,11 +60,16 @@ export const showTasksMenu = async (ctx: BotContext, page = 0) => {
     return;
   }
 
-  const taskLines = currentTasks
-    .map((task, idx) => `${start + idx + 1}. ${task}`)
+  const taskLines = tasks
+    .map(
+      (task, idx) =>
+        `${normalizedPage * TASKS_PER_PAGE + idx + 1}. ${task.title}`
+    )
     .join("\n");
 
-  const numberButtons = currentTasks.map((_, idx) => `${start + idx + 1}`);
+  const numberButtons = tasks.map(
+    (_, idx) => `${normalizedPage * TASKS_PER_PAGE + idx + 1}`
+  );
   const numberRows: string[][] = [];
   while (numberButtons.length) numberRows.push(numberButtons.splice(0, 5));
 

@@ -82,6 +82,7 @@ const en = {
   alreadyAuthorized: "🔓 You are already authorized!",
   prev: "⬅️ Prev",
   next: "Next ➡️",
+  taskFetchFailed: "❌ Failed to fetch tasks",
   taskTitle: "Task title",
   taskDescription: "Task description",
 };
