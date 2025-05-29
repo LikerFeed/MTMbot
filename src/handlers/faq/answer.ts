@@ -1,8 +1,8 @@
-import { Context } from "telegraf";
+import { BotContext } from "../../types/BotContext";
 
 import { t, LANG_OPTIONS } from "../../lang";
 
-export const handleFAQAnswer = async (ctx: Context) => {
+export const handleFAQAnswer = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId || !ctx.message || !("text" in ctx.message)) return;
 

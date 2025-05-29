@@ -86,6 +86,16 @@ const uk = {
   taskFetchFailed: "❌ Не вдалося отримати задачі",
   taskTitle: "Назва задачі",
   taskDescription: "Опис задачі",
+  taskNotFound: "❌ Задача не знайдена",
+  completed: "✅ Виконано",
+  notCompleted: "❌ Не виконано",
+  noDeadline: "❌ Немає дедлайну",
+  noCategories: "❌ Немає категорій",
+  noLinks: "❌ Немає посилань",
+  taskStatus: "Статус задачі",
+  taskDeadline: "Дедлайн задачі",
+  taskCategories: "Категорії задачі",
+  taskLinks: "Посилання задачі",
 };
 
 export default uk;

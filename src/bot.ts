@@ -65,24 +65,6 @@ bot.hears(LANG_BTN, async (ctx) =>
   })
 );
 
-bot.hears(/^\d+$/, async (ctx) => {
-  const userId = ctx.from?.id;
-  const message = ctx.message?.text;
-  if (!userId || !message) return;
-
-  const index = Number(message) - 1;
-
-  if (ctx.session.step === "faq") {
-    await handleFAQAnswer(ctx);
-    return;
-  }
-
-  if (ctx.session.step === "task") {
-    await showTask(ctx, index);
-    return;
-  }
-});
-
 const hears = (triggers: string[], handler: (ctx: BotContext) => Promise<void>) =>
   bot.hears(triggers, handler);
 
@@ -112,11 +94,29 @@ hears(messagesMap["logout"], async (ctx) =>
 
 menuRoutes.forEach(([key, handler]) => hears(messagesMap[key], handler));
 
-hears(FAQ_NUMBERS, handleFAQAnswer);
-
 bot.launch();
 
 bot.on("text", async (ctx) => {
   await handleSignIn(ctx);
   await handleSignUp(ctx);
+
+  const userId = ctx.from?.id;
+  const text = ctx.message?.text;
+
+  if (!userId || !text) return;
+
+  const isNumber = /^\d+$/.test(text);
+  if (!isNumber) return;
+
+  const index = Number(text) - 1;
+
+  if (ctx.session.step === "faq") {
+    await handleFAQAnswer(ctx);
+    return;
+  }
+
+  if (ctx.session.step === "task") {
+    await showTask(ctx, index);
+    return;
+  }
 });

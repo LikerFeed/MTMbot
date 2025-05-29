@@ -24,11 +24,6 @@ export const handleSignIn = async (ctx: BotContext) => {
   const session = authSessions.get(userId);
   if (!session) return;
 
-  if (ctx.session?.token) {
-    await ctx.reply(t(userId, "alreadyAuthorized"));
-    return;
-  }
-
   if (session.step === "email") {
     if (!isValidEmail(message)) {
       await ctx.reply(t(userId, "invalidEmail"));

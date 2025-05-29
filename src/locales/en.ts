@@ -1,3 +1,5 @@
+import { t } from "../lang";
+
 const en = {
   firstTimeStartMessage: "🇬🇧 Hello! Please choose a language",
   languageChoicePrompt: "🇬🇧 Please choose a language",
@@ -83,8 +85,18 @@ const en = {
   prev: "⬅️ Prev",
   next: "Next ➡️",
   taskFetchFailed: "❌ Failed to fetch tasks",
-  taskTitle: "Task title",
-  taskDescription: "Task description",
+  taskNotFound: "❌ Task not found",
+  completed: "✅ Completed",
+  notCompleted: "❌ Not completed",
+  noDeadline: "❌ No deadline",
+  noCategories: "❌ No categories",
+  noLinks: "❌ No links",
+  taskTitle: "📝 Task title",
+  taskDescription: "💬 Task description",
+  taskStatus: "📌 Task status",
+  taskDeadline: "📅 Task deadline",
+  taskCategories: "🏷️ Task categories",
+  taskLinks: "🔗 Task links",
 };
 
 export default en;

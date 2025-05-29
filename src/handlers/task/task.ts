@@ -1,26 +1,44 @@
-import { Context } from "telegraf";
-
+import { BotContext } from "../../types/BotContext";
 import { keyboard } from "../../utils";
 import { t, LANG_BTN, setReturnContext } from "../../lang";
+import { Task } from "../../types/entities/Task";
 
-export const TASKS = Array.from({ length: 14 }, (_, i) => ({
-  title: `task${i + 1}`,
-  description: `desriprtion${i + 1}`,
-}));
-
-export const showTask = async (ctx: Context, taskIndex: number) => {
+export const showTask = async (ctx: BotContext, taskIndex: number) => {
   const userId = ctx.from?.id;
   if (!userId) return;
 
-  const task = TASKS[taskIndex];
+  const task: Task | undefined = ctx.session.tasks?.[taskIndex];
+  if (!task) {
+    await ctx.reply(t(userId, "taskNotFound"));
+    return;
+  }
 
   setReturnContext(userId, async (ctx) => showTask(ctx, taskIndex));
 
-  await ctx.reply(
-    `${t(userId, "taskTitle")}: ${task.title}\n\n${t(
-      userId,
-      "taskDescription"
-    )}: ${task.description}`,
+  const status = task.isCompleted
+    ? t(userId, "completed")
+    : t(userId, "notCompleted");
+  const deadline = task.deadline
+    ? new Date(task.deadline).toLocaleDateString()
+    : t(userId, "noDeadline");
+  const categories =
+    task.categories?.map((cat) => cat.title).join(", ") ||
+    t(userId, "noCategories");
+  const links = task.links?.length
+    ? task.links.join("\n")
+    : t(userId, "noLinks");
+
+  const message = `
+<b>${t(userId, "taskTitle")}:</b> ${task.title}
+<b>${t(userId, "taskDescription")}:</b> ${task.description}
+<b>${t(userId, "taskStatus")}:</b> ${status}
+<b>${t(userId, "taskDeadline")}:</b> ${deadline}
+<b>${t(userId, "taskCategories")}:</b> ${categories}
+<b>${t(userId, "taskLinks")}:</b> ${links}
+  `.trim();
+
+  await ctx.replyWithHTML(
+    message,
     keyboard([
       [t(userId, "backToTasks")],
       [t(userId, "backToMainMenu")],
