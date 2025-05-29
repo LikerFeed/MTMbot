@@ -17,7 +17,7 @@ import {
 import { startSignIn, handleSignIn } from "./handlers/auth/signIn/signIn";
 import { startSignUp, handleSignUp } from "./handlers/auth/signUp/signUp";
 
-import { showTasksMenu } from "./handlers/task/menu";
+import { showTasksMenu, TASKS_PER_PAGE } from "./handlers/task/menu";
 import { showTask } from "./handlers/task/task";
 
 import { handleFAQAnswer } from "./handlers/faq/answer";
@@ -116,7 +116,8 @@ bot.on("text", async (ctx) => {
   }
 
   if (ctx.session.step === "task") {
-    await showTask(ctx, index);
+    const relativeIndex = index % TASKS_PER_PAGE;
+    await showTask(ctx, relativeIndex);
     return;
   }
 });

@@ -4,7 +4,7 @@ import { Status } from "../../types/shared";
 import { keyboard } from "../../utils";
 import { t, LANG_BTN, setReturnContext } from "../../lang";
 
-const TASKS_PER_PAGE = 10;
+export const TASKS_PER_PAGE = 10;
 
 export const showTasksMenu = async (ctx: BotContext, page = 0) => {
   const userId = ctx.from?.id;
