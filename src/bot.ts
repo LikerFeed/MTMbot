@@ -20,7 +20,6 @@ import { startSignUp, handleSignUp } from "./handlers/auth/signUp/signUp";
 import { showTasksMenu } from "./handlers/task/menu";
 import { showTask } from "./handlers/task/task";
 
-import { FAQ_NUMBERS } from "./handlers/faq/question";
 import { handleFAQAnswer } from "./handlers/faq/answer";
 
 dotenv.config();
