@@ -13,6 +13,8 @@ export const showTask = async (ctx: BotContext, taskIndex: number) => {
     return;
   }
 
+  ctx.session.activeTaskIndex = taskIndex;
+  
   setReturnContext(userId, async (ctx) => showTask(ctx, taskIndex));
 
   const status = task.isCompleted

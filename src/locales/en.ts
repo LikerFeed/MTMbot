@@ -1,5 +1,3 @@
-import { t } from "../lang";
-
 const en = {
   firstTimeStartMessage: "🇬🇧 Hello! Please choose a language",
   languageChoicePrompt: "🇬🇧 Please choose a language",
@@ -20,13 +18,14 @@ const en = {
   profile: "👤 Profile",
   profileMenu: "👤 Your profile",
   changePass: "🔑 Change password",
-  deleteProfile: "🗑️ Delete profile",
+  deleteProfile: "🗑️👤 Delete profile",
   areYouSureDeleteProfile:
-  "🗑️ Are you sure you want to delete your profile?\nThis action cannot be undone!",
-  yesDelete: "✅ Delete",
-  noCancel: "❌ Cancel",
+  "🗑️👤 Are you sure you want to delete your profile?\nThis action cannot be undone!",
+  yesDeleteProfile: "✅ Delete profile",
+  noDeleteProfile: "❌ No delete profile",
   deleteProfileSuccess: "🗑️✅ Your profile has been successfully deleted!",
   deleteProfileCancel: "🗑️❌ Your profile deletion has been cancelled!",
+  deleteProfileFail: "🗑️⚠️ Failed to delete profile",
   faq: "❓ FAQ",
   faqMenu: "❓ Frequently Asked Questions",
   backToMainMenu: "🏠🔙 Back to main menu",
@@ -97,7 +96,13 @@ const en = {
   taskDeadline: "📅 Task deadline",
   taskCategories: "🏷️ Task categories",
   taskLinks: "🔗 Task links",
-  deleteTask: "🗑️ Delete Task",
+  deleteTask: "🗑️📋 Delete Task",
+  areYouSureDeleteTask: "🗑️📋 Are you sure you want to delete this task?\nThis action cannot be undone!",
+  yesDeleteTask: "✅ Delete task",
+  noDeleteTask: "❌ No delete task",
+  deleteTaskSuccess: "🗑️✅ Your task has been successfully deleted!",
+  deleteTaskCancel: "🗑️❌ Your task deletion has been cancelled!",
+  deleteTaskFail: "🗑️⚠️ Failed to delete task",
 };
 
 export default en;

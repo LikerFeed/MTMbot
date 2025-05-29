@@ -33,6 +33,7 @@ bot.use(
       step: null,
       token: undefined,
       user: undefined,
+      activeTaskIndex: 0,
     }),
   }) as unknown as Middleware<BotContext>
 );

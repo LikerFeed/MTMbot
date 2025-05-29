@@ -11,6 +11,7 @@ export interface SessionData {
     username: string;
     email: string;
   };
+  activeTaskIndex: number;
 }
 
 export interface BotContext extends TelegrafContext {

@@ -3,9 +3,11 @@ import { BotContext } from "../types/BotContext";
 import { keyboard } from "../utils";
 import { LANG_BTN, LANG_OPTIONS, setReturnContext, t } from "../lang";
 
-import { showTasksMenu } from "./task/menu";
-import { showCreateTaskMenu } from "./task/create";
 import taskTelegramAPI from "../api/taskTelegramApi";
+import { showTasksMenu } from "./task/menu";
+import { showTask } from "./task/task";
+import { showCreateTaskMenu } from "./task/create";
+import { showDeleteTaskMenu } from "./task/delete";
 
 import { showCategoriesMenu } from "./category/menu";
 import { showCreateCategoryMenu } from "./category/create";
@@ -55,8 +57,8 @@ export const menuRoutes: [
   ["categories", showCategoriesMenu],
   ["profile", showProfileMenu],
   ["deleteProfile", showDeleteProfileMenu],
-  ["yesDelete", menus.showAuthOptions],
-  ["noCancel", showProfileMenu],
+  ["yesDeleteProfile", menus.showAuthOptions],
+  ["noDeleteProfile", showProfileMenu],
   ["faq", showFAQMenu],
   ["backToMainMenu", menus.showMainMenu],
   ["createTask", showCreateTaskMenu],
@@ -64,11 +66,34 @@ export const menuRoutes: [
   ["backToTasks", (ctx) => showTasksMenu(ctx, 0)],
   ["backToCategories", showCategoriesMenu],
   ["showQuestions", showFAQMenu],
-  ["deleteTask", async (ctx) => {
+  ["deleteTask", showDeleteTaskMenu],
+  ["yesDeleteTask", async (ctx) => {
     const userId = ctx.from?.id;
     if (!userId) return;
   
-    const task = ctx.session.tasks?.[0];
+    const taskIndex = ctx.session.activeTaskIndex ?? 0;
+    const task = ctx.session.tasks?.[taskIndex];
+  
+    if (!task) {
+      await ctx.reply(t(userId, "taskNotFound"));
+      return;
+    }
+  
     const result = await taskTelegramAPI.deleteTask(ctx, task._id);
+    if (result.status === "error") {
+      await ctx.reply(t(userId, "deleteTaskFail"));
+    } else {
+      await ctx.reply(t(userId, "deleteTaskSuccess"));
+    }
+  
+    await showTasksMenu(ctx, ctx.session.taskPage || 0);
+  }],
+  ["noDeleteTask", async (ctx) => {
+    const userId = ctx.from?.id;
+    if (!userId) return;
+  
+    const index = ctx.session.activeTaskIndex ?? 0;
+    await ctx.reply(t(userId, "deleteTaskCancel"));
+    await showTask(ctx, index);
   }],
 ];

@@ -12,7 +12,7 @@ export const showDeleteProfileMenu = async (ctx: Context) => {
   await ctx.reply(
     t(userId, "areYouSureDeleteProfile"),
     keyboard([
-        [t(userId, "yesDelete"), t(userId, "noCancel")],
+        [t(userId, "yesDeleteProfile"), t(userId, "noDeleteProfile")],
         [t(userId, "backToMainMenu"), LANG_BTN]
     ])
   );
