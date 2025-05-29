@@ -7,6 +7,7 @@ import taskTelegramAPI from "../api/taskTelegramApi";
 import { showTasksMenu } from "./task/menu";
 import { showTask } from "./task/task";
 import { showCreateTaskMenu } from "./task/create";
+import { showEditTaskMenu } from "./task/edit";
 import { showDeleteTaskMenu } from "./task/delete";
 
 import { showCategoriesMenu } from "./category/menu";
@@ -66,6 +67,7 @@ export const menuRoutes: [
   ["backToTasks", (ctx) => showTasksMenu(ctx, 0)],
   ["backToCategories", showCategoriesMenu],
   ["showQuestions", showFAQMenu],
+  ["editTask", showEditTaskMenu],
   ["deleteTask", showDeleteTaskMenu],
   ["yesDeleteTask", async (ctx) => {
     const userId = ctx.from?.id;
@@ -94,6 +96,13 @@ export const menuRoutes: [
   
     const index = ctx.session.activeTaskIndex ?? 0;
     await ctx.reply(t(userId, "deleteTaskCancel"));
+    await showTask(ctx, index);
+  }],
+  ["backToTask", async (ctx) => {
+    const userId = ctx.from?.id;
+    if (!userId) return;
+
+    const index = ctx.session.activeTaskIndex ?? 0;
     await showTask(ctx, index);
   }],
 ];

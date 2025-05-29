@@ -14,7 +14,7 @@ export const showTask = async (ctx: BotContext, taskIndex: number) => {
   }
 
   ctx.session.activeTaskIndex = taskIndex;
-  
+
   setReturnContext(userId, async (ctx) => showTask(ctx, taskIndex));
 
   const status = task.isCompleted
@@ -42,9 +42,8 @@ export const showTask = async (ctx: BotContext, taskIndex: number) => {
   await ctx.replyWithHTML(
     message,
     keyboard([
-      [t(userId, "deleteTask")],
-      [t(userId, "backToTasks")],
-      [t(userId, "backToMainMenu")],
+      [t(userId, "editTask"), t(userId, "deleteTask")],
+      [t(userId, "backToTasks"), t(userId, "backToMainMenu")],
       [LANG_BTN],
     ])
   );
