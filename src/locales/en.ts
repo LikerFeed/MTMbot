@@ -97,6 +97,7 @@ const en = {
   taskDeadline: "📅 Task deadline",
   taskCategories: "🏷️ Task categories",
   taskLinks: "🔗 Task links",
+  deleteTask: "🗑️ Delete Task",
 };
 
 export default en;

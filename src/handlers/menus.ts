@@ -5,6 +5,7 @@ import { LANG_BTN, LANG_OPTIONS, setReturnContext, t } from "../lang";
 
 import { showTasksMenu } from "./task/menu";
 import { showCreateTaskMenu } from "./task/create";
+import taskTelegramAPI from "../api/taskTelegramApi";
 
 import { showCategoriesMenu } from "./category/menu";
 import { showCreateCategoryMenu } from "./category/create";
@@ -63,4 +64,11 @@ export const menuRoutes: [
   ["backToTasks", (ctx) => showTasksMenu(ctx, 0)],
   ["backToCategories", showCategoriesMenu],
   ["showQuestions", showFAQMenu],
+  ["deleteTask", async (ctx) => {
+    const userId = ctx.from?.id;
+    if (!userId) return;
+  
+    const task = ctx.session.tasks?.[0];
+    const result = await taskTelegramAPI.deleteTask(ctx, task._id);
+  }],
 ];

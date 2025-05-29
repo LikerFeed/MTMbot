@@ -40,6 +40,7 @@ export const showTask = async (ctx: BotContext, taskIndex: number) => {
   await ctx.replyWithHTML(
     message,
     keyboard([
+      [t(userId, "deleteTask")],
       [t(userId, "backToTasks")],
       [t(userId, "backToMainMenu")],
       [LANG_BTN],

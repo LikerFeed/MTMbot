@@ -96,6 +96,7 @@ const uk = {
   taskDeadline: "Дедлайн задачі",
   taskCategories: "Категорії задачі",
   taskLinks: "Посилання задачі",
+  deleteTask: "🗑️ Видалити задачу",
 };
 
 export default uk;
