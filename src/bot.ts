@@ -19,6 +19,8 @@ import { startSignUp, handleSignUp } from "./handlers/auth/signUp/signUp";
 
 import { showTasksMenu, TASKS_PER_PAGE } from "./handlers/task/menu";
 import { showTask } from "./handlers/task/task";
+import { startCreateTask, handleCreateTaskTitle, handleCreateTaskDescription } from "./handlers/task/create";
+
 import { handleEditTaskTitle, handleEditTaskTitleText } from "./handlers/task/edit/title";
 import { handleEditTaskDescription, handleEditTaskDescriptionText } from "./handlers/task/edit/description";
 import { handleToggleTaskStatus } from "./handlers/task/edit/status";
@@ -79,6 +81,8 @@ hears(messagesMap["signUp"], startSignUp);
 hears(messagesMap["next"], (ctx) => showTasksMenu(ctx, getPageOffset(ctx, +1)));
 hears(messagesMap["prev"], (ctx) => showTasksMenu(ctx, getPageOffset(ctx, -1)));
 
+hears(messagesMap["createTask"], (ctx) => startCreateTask(ctx));
+
 hears(messagesMap["editTaskTitle"], (ctx) => handleEditTaskTitle(ctx));
 hears(messagesMap["editTaskDescription"], (ctx) => handleEditTaskDescription(ctx));
 hears(messagesMap["editTaskStatus"], (ctx) => handleToggleTaskStatus(ctx));
@@ -115,6 +119,16 @@ bot.on("text", async (ctx) => {
   const text = ctx.message?.text;
 
   if (!userId || !text) return;
+
+  if (ctx.session.step === "create_task_title") {
+    await handleCreateTaskTitle(ctx);
+    return;
+  }
+  
+  if (ctx.session.step === "create_task_description") {
+    await handleCreateTaskDescription(ctx);
+    return;
+  }
 
   if (ctx.session.step === "edit_task_title") {
     await handleEditTaskTitleText(ctx);

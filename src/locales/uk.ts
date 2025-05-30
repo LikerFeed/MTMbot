@@ -21,8 +21,8 @@ const uk = {
   changePass: "🔑 Змінити пароль",
   deleteProfile: "🗑️ Видалити профіль",
   areYouSureDeleteProfile: "🗑️ Ви впевнені, що хочете видалити свій профіль?\nЦю дію не можна скасувати!",
-  yesDeleteProfile: "✅ Видалити",
-  noDeleteProfile: "❌ Скасувати",
+  yesDeleteProfile: "✅ Видалити профіль",
+  noDeleteProfile: "❌ Не видаляти профіль",
   deleteProfileSuccess: "✅ Ваш профіль успішно видалено!",
   deleteProfileCancel: "❌ Видалення профілю скасовано!",
   deleteProfileFail: "⚠️ Не вдалося видалити профіль",
@@ -99,8 +99,8 @@ const uk = {
   taskLinks: "Посилання задачі",
   deleteTask: "🗑️ Видалити задачу",
   areYouSureDeleteTask: "🗑️ Ви впевнені, що хочете видалити цю задачу?\nЦю дію не можна скасувати!",
-  yesDeleteTask: "✅ Видалити",
-  noDeleteTask: "❌ Скасувати",
+  yesDeleteTask: "✅ Видалити задачу",
+  noDeleteTask: "❌ Не видаляти задачу",
   deleteTaskSuccess: "✅ Ваша задача успішно видалена!",
   deleteTaskCancel: "❌ Видалення задачі скасовано!",
   deleteTaskFail: "⚠️ Не вдалося видалити задачу",
@@ -134,6 +134,10 @@ const uk = {
   taskLinksUpdateFail: "❌ Не вдалося оновити посилання задачі!",
   taskLinksUpdateSuccess: "✅ Посилання задачі оновлено!",
   taskLinksCleared: "✅ Посилання задачі очищено!",
+  enterTaskTitle: "📝 Введіть назву задачі:",
+  enterTaskDescription: "💬 Введіть опис задачі:",
+  taskCreatedSuccess: "✅ Задача успішно створена!",
+  taskCreatedFail: "❌ Не вдалося створити задачу!",
 };
 
 export default uk;

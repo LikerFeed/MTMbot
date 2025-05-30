@@ -6,7 +6,6 @@ import { LANG_BTN, LANG_OPTIONS, setReturnContext, t } from "../lang";
 import taskTelegramAPI from "../api/taskTelegramApi";
 import { showTasksMenu } from "./task/menu";
 import { showTask } from "./task/task";
-import { showCreateTaskMenu } from "./task/create";
 import { showEditTaskMenu } from "./task/edit";
 import { showDeleteTaskMenu } from "./task/delete";
 
@@ -62,7 +61,6 @@ export const menuRoutes: [
   ["noDeleteProfile", showProfileMenu],
   ["faq", showFAQMenu],
   ["backToMainMenu", menus.showMainMenu],
-  ["createTask", showCreateTaskMenu],
   ["createCategory", showCreateCategoryMenu],
   ["backToTasks", (ctx) => showTasksMenu(ctx, 0)],
   ["backToCategories", showCategoriesMenu],

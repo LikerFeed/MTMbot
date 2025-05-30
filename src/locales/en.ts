@@ -133,6 +133,10 @@ const en = {
   taskLinksUpdateFail: "❌ Failed to update task links!",
   taskLinksUpdateSuccess: "✅ Task links updated!",
   taskLinksCleared: "✅ Task links cleared!",
+  enterTaskTitle: "📝 Enter task title:",
+  enterTaskDescription: "💬 Enter task description:",
+  taskCreatedSuccess: "✅ Task created successfully!",
+  taskCreatedFail: "❌ Failed to create task!",
 };
 
 export default en;
