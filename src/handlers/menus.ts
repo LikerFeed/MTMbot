@@ -12,6 +12,7 @@ import { showDeleteTaskMenu } from "./task/delete";
 import { showCategoriesMenu } from "./category/menu";
 import { showCreateCategoryMenu } from "./category/create";
 
+import userTelegramAPI from "../api/profileTelegramApi";
 import { showProfileMenu } from "./profile/menu";
 import { showEditProfileMenu } from "./profile/edit";
 import { showDeleteProfileMenu } from "./profile/delete";
@@ -59,7 +60,30 @@ export const menuRoutes: [
   ["profile", showProfileMenu],
   ["editProfile", showEditProfileMenu],
   ["deleteProfile", showDeleteProfileMenu],
-  ["yesDeleteProfile", menus.showAuthOptions],
+  ["yesDeleteProfile", async (ctx) => {
+    const userId = ctx.from?.id;
+    if (!userId) return;
+  
+    const result = await userTelegramAPI.deleteAccount(ctx);
+    if (result.status === "error") {
+      await ctx.reply(t(userId, "deleteProfileFail"));
+      return;
+    }
+  
+    await ctx.reply(t(userId, "deleteProfileSuccess"));
+
+    ctx.session = {
+      tasks: [],
+      totalTaskPages: 0,
+      taskPage: 0,
+      step: null,
+      token: undefined,
+      user: undefined,
+      activeTaskIndex: 0,
+    };
+  
+    await menus.showAuthOptions(ctx);
+  }],
   ["noDeleteProfile", showProfileMenu],
   ["faq", showFAQMenu],
   ["backToMainMenu", menus.showMainMenu],
