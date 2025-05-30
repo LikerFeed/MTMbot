@@ -27,7 +27,7 @@ import { handleToggleTaskStatus } from "./handlers/task/edit/status";
 import { handleEditTaskDeadline, handleEditTaskDeadlineText } from "./handlers/task/edit/deadline";
 import { handleEditTaskLinks, handleEditTaskLinksText } from "./handlers/task/edit/links";
 
-import { showCategoriesMenu } from "./handlers/category/menu";
+import { CATEGORIES_PER_PAGE, showCategoriesMenu } from "./handlers/category/menu";
 
 import {
   handleEditUsername,
@@ -40,12 +40,17 @@ import {
 } from "./handlers/profile/edit/password";
 
 import { handleFAQAnswer } from "./handlers/faq/answer";
+import { showCategory } from "./handlers/category/category";
 
 dotenv.config();
 const bot = new Telegraf<BotContext>(process.env.BOT_TOKEN!);
 bot.use(
   session({
     defaultSession: (): SessionData => ({
+      activeCategoryIndex: 0,
+      categories: [],
+      categoryPage: 0,
+      totalCategoryPages: 0,
       tasks: [],
       totalTaskPages: 0,
       taskPage: 0,
@@ -196,6 +201,12 @@ bot.on("text", async (ctx) => {
 
   if (ctx.session.step === "edit_password_old" || ctx.session.step === "edit_password_new") {
     await handleEditPasswordText(ctx);
+    return;
+  }
+
+  if (ctx.session.step === "category") {
+    const relativeIndex = index % CATEGORIES_PER_PAGE;
+    await showCategory(ctx, relativeIndex);
     return;
   }
 });

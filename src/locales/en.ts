@@ -16,6 +16,8 @@ const en = {
   categories: "🗂️ Categories",
   categoriesMenu: "🗂️ Your categories",
   categoryFetchFail: "❌ Failed to fetch categories",
+  categoryNotFound: "❌ Category not found",
+  categoryTitle: "📝 Category title",
   profile: "👤 Profile",
   profileMenu: "👤 Your profile",
   editProfile: "✏️ Edit profile",

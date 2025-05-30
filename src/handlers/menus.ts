@@ -73,6 +73,10 @@ export const menuRoutes: [
     await ctx.reply(t(userId, "deleteProfileSuccess"));
 
     ctx.session = {
+      categories: [],
+      totalCategoryPages: 0,
+      categoryPage: 0,
+      activeCategoryIndex: 0,
       tasks: [],
       totalTaskPages: 0,
       taskPage: 0,

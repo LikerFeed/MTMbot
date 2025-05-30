@@ -3,6 +3,7 @@ import { Task } from "./entities/Task";
 import { Category } from "./entities/Category";
 
 export interface SessionData {
+  activeCategoryIndex: number;
   tasks: Task[];
   totalTaskPages: number;
   taskPage: number;

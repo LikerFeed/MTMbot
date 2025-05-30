@@ -53,8 +53,7 @@ export const showCategoriesMenu = async (ctx: BotContext, page = 0) => {
       t(userId, "noCategories"),
       keyboard([
         [t(userId, "createCategory")],
-        [t(userId, "backToMainMenu")],
-        [LANG_BTN],
+        [t(userId, "backToMainMenu"), LANG_BTN],
       ])
     );
     return;
@@ -74,7 +73,7 @@ export const showCategoriesMenu = async (ctx: BotContext, page = 0) => {
     menuRows.push([t(userId, "prev"), t(userId, "next")]);
   }
 
-  menuRows.push([t(userId, "backToMainMenu")], [LANG_BTN]);
+  menuRows.push([t(userId, "backToMainMenu"), LANG_BTN]);
 
   await ctx.reply(
     `${t(userId, "categoriesMenu")}\n\n${lines}`,

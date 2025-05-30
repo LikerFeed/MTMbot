@@ -17,6 +17,8 @@ const uk = {
   categories: "🗂️ Категорії",
   categoriesMenu: "🗂️ Ваші категорії",
   categoryFetchFail: "❌ Не вдалося отримати категорії",
+  categoryNotFound: "❌ Категорія не знайдена",
+  categoryTitle: "📝 Назва категорії",
   profile: "👤 Профіль",
   profileMenu: "👤 Ваш профіль",
   editProfile: "✏️ Редагувати профіль",
