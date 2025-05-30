@@ -111,6 +111,14 @@ const en = {
   editTaskLinks: "🔗 Task links",
   editTaskStatus: "📌 Task status",
   backToTask: "📋🔙 To task",
+  currentTaskTitle: "📝 Current task title",
+  enterNewTaskTitle: "🔤 Enter new task title:",
+  taskTitleUpdateFail: "❌ Failed to update task title!",
+  taskTitleUpdateSuccess: "✅ Task title updated!",
+  currentTaskDescription: "💬 Current task description",
+  enterNewTaskDescription: "🔤 Enter new task description:",
+  taskDescriptionUpdateFail: "❌ Failed to update task description!",
+  taskDescriptionUpdateSuccess: "✅ Task description updated!",
 };
 
 export default en;

@@ -19,6 +19,8 @@ import { startSignUp, handleSignUp } from "./handlers/auth/signUp/signUp";
 
 import { showTasksMenu, TASKS_PER_PAGE } from "./handlers/task/menu";
 import { showTask } from "./handlers/task/task";
+import { handleEditTaskTitle, handleEditTaskTitleText } from "./handlers/task/edit/title";
+import { handleEditTaskDescription, handleEditTaskDescriptionText } from "./handlers/task/edit/description";
 
 import { handleFAQAnswer } from "./handlers/faq/answer";
 
@@ -74,6 +76,9 @@ hears(messagesMap["signUp"], startSignUp);
 hears(messagesMap["next"], (ctx) => showTasksMenu(ctx, getPageOffset(ctx, +1)));
 hears(messagesMap["prev"], (ctx) => showTasksMenu(ctx, getPageOffset(ctx, -1)));
 
+hears(messagesMap["editTaskTitle"], (ctx) => handleEditTaskTitle(ctx));
+hears(messagesMap["editTaskDescription"], (ctx) => handleEditTaskDescription(ctx));
+
 const userPages = new Map<number, number>();
 
 function getPageOffset(ctx: BotContext, offset: number): number {
@@ -104,6 +109,16 @@ bot.on("text", async (ctx) => {
   const text = ctx.message?.text;
 
   if (!userId || !text) return;
+
+  if (ctx.session.step === "edit_task_title") {
+    await handleEditTaskTitleText(ctx);
+    return;
+  }
+
+  if (ctx.session.step === "edit_task_description") {
+    await handleEditTaskDescriptionText(ctx);
+    return;
+  }
 
   const isNumber = /^\d+$/.test(text);
   if (!isNumber) return;

@@ -112,6 +112,14 @@ const uk = {
   editTaskLinks: "🔗 Посилання задачі",
   editTaskStatus: "📌 Статус задачі",
   backToTask: "🔙 До задачі",
+  currentTaskTitle: "📝 Поточна назва задачі",
+  enterNewTaskTitle: "🔤 Введіть нову назву задачі:",
+  taskTitleUpdateFail: "❌ Не вдалося оновити назву задачі!",
+  taskTitleUpdateSuccess: "✅ Назва задачі оновлена!",
+  currentTaskDescription: "💬 Поточний опис задачі",
+  enterNewTaskDescription: "🔤 Введіть новий опис задачі:",
+  taskDescriptionUpdateFail: "❌ Не вдалося оновити опис задачі!",
+  taskDescriptionUpdateSuccess: "✅ Опис задачі оновлено!",
 };
 
 export default uk;
