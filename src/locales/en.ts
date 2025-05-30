@@ -122,6 +122,12 @@ const en = {
   taskStatusUpdateFail: "⚠️ Failed to update task status!",
   taskMarkedCompleted: "✅ Task marked as completed!",
   taskMarkedUncompleted: "❌ Task marked as uncompleted!",
+  currentTaskDeadline: "📅 Current task deadline",
+  enterNewTaskDeadlineFormat: "🔤 Enter new task deadline in format MM/DD/YYYY (or type 'none' to clear):",
+  invalidTaskDeadlineFormat: "❌ Invalid task deadline format\nPlease try again in format MM/DD/YYYY or type 'none' to clear",
+  taskDeadlineUpdateFail: "❌ Failed to update task deadline!",
+  taskDeadlineUpdateSuccess: "✅ Task deadline updated!",
+  taskDeadlineCleared: "✅ Task deadline cleared!",
 };
 
 export default en;

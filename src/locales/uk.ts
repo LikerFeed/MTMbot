@@ -123,6 +123,12 @@ const uk = {
   taskStatusUpdateFail: "⚠️ Не вдалося оновити статус задачі!",
   taskMarkedCompleted: "✅ Задача позначена як виконана!",
   taskMarkedUncompleted: "❌ Задача позначена як не виконана!",
+  currentTaskDeadline: "📅 Поточний дедлайн задачі",
+  enterNewTaskDeadlineFormat: "🔤 Введіть новий дедлайн задачі у форматі MM/DD/YYYY (або напишіть «нема» для очищення):",
+  invalidTaskDeadlineFormat: "❌ Неправильний формат дедлайну задачі\nБудь ласка, спробуйте ще раз у форматі MM/DD/YYYY або напишіть «нема» для очищення",
+  taskDeadlineUpdateFail: "❌ Не вдалося оновити дедлайн задачі!",
+  taskDeadlineUpdateSuccess: "✅ Дедлайн задачі оновлено!",
+  taskDeadlineCleared: "✅ Дедлайн задачі очищено!",
 };
 
 export default uk;

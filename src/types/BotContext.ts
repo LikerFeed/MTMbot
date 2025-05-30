@@ -5,7 +5,7 @@ export interface SessionData {
   tasks: Task[]
   totalTaskPages: number;
   taskPage: number;
-  step?: "faq" | "task" | "signIn" | "signUp" | "edit_task_title" | "edit_task_description" | null;
+  step?: "faq" | "task" | "signIn" | "signUp" | "edit_task_title" | "edit_task_description" | "edit_task_deadline" | null;
   token?: string;
   user?: {
     username: string;
