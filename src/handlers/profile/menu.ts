@@ -28,7 +28,7 @@ export const showProfileMenu = async (ctx: BotContext) => {
   await ctx.reply(
     t(userId, "profileMenu"),
     keyboard([
-      [t(userId, "changePass"), t(userId, "deleteProfile")],
+      [t(userId, "editProfile"), t(userId, "deleteProfile")],
       [t(userId, "backToMainMenu"), LANG_BTN],
     ])
   );

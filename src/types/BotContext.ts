@@ -16,6 +16,7 @@ export interface SessionData {
     | "edit_task_description"
     | "edit_task_deadline"
     | "edit_task_links"
+    | "edit_username"
     | null;
   token?: string;
   user?: {

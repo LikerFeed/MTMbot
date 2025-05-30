@@ -13,6 +13,7 @@ import { showCategoriesMenu } from "./category/menu";
 import { showCreateCategoryMenu } from "./category/create";
 
 import { showProfileMenu } from "./profile/menu";
+import { showEditProfileMenu } from "./profile/edit";
 import { showDeleteProfileMenu } from "./profile/delete";
 
 import { showFAQMenu } from "./faq/question";
@@ -56,6 +57,7 @@ export const menuRoutes: [
   ["tasks", (ctx) => showTasksMenu(ctx, 0)],
   ["categories", showCategoriesMenu],
   ["profile", showProfileMenu],
+  ["editProfile", showEditProfileMenu],
   ["deleteProfile", showDeleteProfileMenu],
   ["yesDeleteProfile", menus.showAuthOptions],
   ["noDeleteProfile", showProfileMenu],

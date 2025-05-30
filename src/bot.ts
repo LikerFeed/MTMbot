@@ -27,6 +27,11 @@ import { handleToggleTaskStatus } from "./handlers/task/edit/status";
 import { handleEditTaskDeadline, handleEditTaskDeadlineText } from "./handlers/task/edit/deadline";
 import { handleEditTaskLinks, handleEditTaskLinksText } from "./handlers/task/edit/links";
 
+import {
+  handleEditUsername,
+  handleEditUsernameText,
+} from "./handlers/profile/edit/username";
+
 import { handleFAQAnswer } from "./handlers/faq/answer";
 
 dotenv.config();
@@ -88,6 +93,8 @@ hears(messagesMap["editTaskDescription"], (ctx) => handleEditTaskDescription(ctx
 hears(messagesMap["editTaskStatus"], (ctx) => handleToggleTaskStatus(ctx));
 hears(messagesMap["editTaskDeadline"], (ctx) => handleEditTaskDeadline(ctx));
 hears(messagesMap["editTaskLinks"], (ctx) => handleEditTaskLinks(ctx));
+
+hears(messagesMap["editUsername"], (ctx) => handleEditUsername(ctx));
 
 const userPages = new Map<number, number>();
 
@@ -163,6 +170,11 @@ bot.on("text", async (ctx) => {
   if (ctx.session.step === "task") {
     const relativeIndex = index % TASKS_PER_PAGE;
     await showTask(ctx, relativeIndex);
+    return;
+  }
+
+  if (ctx.session.step === "edit_username") {
+    await handleEditUsernameText(ctx);
     return;
   }
 });
