@@ -128,6 +128,11 @@ const en = {
   taskDeadlineUpdateFail: "❌ Failed to update task deadline!",
   taskDeadlineUpdateSuccess: "✅ Task deadline updated!",
   taskDeadlineCleared: "✅ Task deadline cleared!",
+  currentTaskLinks: "🔗 Current task links",
+  enterNewTaskLinks: "🔗 Enter new task links (separated by spaces):",
+  taskLinksUpdateFail: "❌ Failed to update task links!",
+  taskLinksUpdateSuccess: "✅ Task links updated!",
+  taskLinksCleared: "✅ Task links cleared!",
 };
 
 export default en;

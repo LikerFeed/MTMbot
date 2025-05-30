@@ -23,6 +23,7 @@ import { handleEditTaskTitle, handleEditTaskTitleText } from "./handlers/task/ed
 import { handleEditTaskDescription, handleEditTaskDescriptionText } from "./handlers/task/edit/description";
 import { handleToggleTaskStatus } from "./handlers/task/edit/status";
 import { handleEditTaskDeadline, handleEditTaskDeadlineText } from "./handlers/task/edit/deadline";
+import { handleEditTaskLinks, handleEditTaskLinksText } from "./handlers/task/edit/links";
 
 import { handleFAQAnswer } from "./handlers/faq/answer";
 
@@ -82,6 +83,7 @@ hears(messagesMap["editTaskTitle"], (ctx) => handleEditTaskTitle(ctx));
 hears(messagesMap["editTaskDescription"], (ctx) => handleEditTaskDescription(ctx));
 hears(messagesMap["editTaskStatus"], (ctx) => handleToggleTaskStatus(ctx));
 hears(messagesMap["editTaskDeadline"], (ctx) => handleEditTaskDeadline(ctx));
+hears(messagesMap["editTaskLinks"], (ctx) => handleEditTaskLinks(ctx));
 
 const userPages = new Map<number, number>();
 
@@ -126,6 +128,11 @@ bot.on("text", async (ctx) => {
 
   if (ctx.session.step === "edit_task_deadline") {
     await handleEditTaskDeadlineText(ctx);
+    return;
+  }
+
+  if (ctx.session.step === "edit_task_links") {
+    await handleEditTaskLinksText(ctx);
     return;
   }
 

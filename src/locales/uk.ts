@@ -129,6 +129,11 @@ const uk = {
   taskDeadlineUpdateFail: "❌ Не вдалося оновити дедлайн задачі!",
   taskDeadlineUpdateSuccess: "✅ Дедлайн задачі оновлено!",
   taskDeadlineCleared: "✅ Дедлайн задачі очищено!",
+  currentTaskLinks: "🔗 Поточні посилання задачі",
+  enterNewTaskLinks: "🔗 Введіть нові посилання задачі (розділені пробілами):",
+  taskLinksUpdateFail: "❌ Не вдалося оновити посилання задачі!",
+  taskLinksUpdateSuccess: "✅ Посилання задачі оновлено!",
+  taskLinksCleared: "✅ Посилання задачі очищено!",
 };
 
 export default uk;
