@@ -137,6 +137,11 @@ const en = {
   enterTaskDescription: "💬 Enter task description:",
   taskCreatedSuccess: "✅ Task created successfully!",
   taskCreatedFail: "❌ Failed to create task!",
+  profileLoadFailed: "❌ Failed to load profile",
+  profileInfo: "👤 Profile Information",
+  username: "👤 Username",
+  email: "📧 Email",
+  createdAt: "📅 Created At",
 };
 
 export default en;

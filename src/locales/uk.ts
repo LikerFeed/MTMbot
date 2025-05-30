@@ -138,6 +138,11 @@ const uk = {
   enterTaskDescription: "💬 Введіть опис задачі:",
   taskCreatedSuccess: "✅ Задача успішно створена!",
   taskCreatedFail: "❌ Не вдалося створити задачу!",
+  profileLoadFailed: "❌ Не вдалося завантажити профіль",
+  profileInfo: "👤 Інформація про профіль",
+  username: "👤 Ім'я користувача",
+  email: "📧 Електронна пошта",
+  createdAt: "📅 Дата створення",
 };
 
 export default uk;
