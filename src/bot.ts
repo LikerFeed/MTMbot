@@ -27,6 +27,8 @@ import { handleToggleTaskStatus } from "./handlers/task/edit/status";
 import { handleEditTaskDeadline, handleEditTaskDeadlineText } from "./handlers/task/edit/deadline";
 import { handleEditTaskLinks, handleEditTaskLinksText } from "./handlers/task/edit/links";
 
+import { showCategoriesMenu } from "./handlers/category/menu";
+
 import {
   handleEditUsername,
   handleEditUsernameText,
@@ -88,9 +90,6 @@ const hears = (triggers: string[], handler: (ctx: BotContext) => Promise<void>) 
 hears(messagesMap["signIn"], startSignIn);
 hears(messagesMap["signUp"], startSignUp);
 
-hears(messagesMap["next"], (ctx) => showTasksMenu(ctx, getPageOffset(ctx, +1)));
-hears(messagesMap["prev"], (ctx) => showTasksMenu(ctx, getPageOffset(ctx, -1)));
-
 hears(messagesMap["createTask"], (ctx) => startCreateTask(ctx));
 
 hears(messagesMap["editTaskTitle"], (ctx) => handleEditTaskTitle(ctx));
@@ -111,6 +110,17 @@ function getPageOffset(ctx: BotContext, offset: number): number {
   userPages.set(userId, next);
   return next;
 }
+
+hears(messagesMap["next"], async (ctx) => {
+  if (ctx.session.step === "task") return showTasksMenu(ctx, getPageOffset(ctx, +1));
+  if (ctx.session.step === "category") return showCategoriesMenu(ctx, getPageOffset(ctx, +1));
+});
+
+hears(messagesMap["prev"], async (ctx) => {
+  if (ctx.session.step === "task") return showTasksMenu(ctx, getPageOffset(ctx, -1));
+  if (ctx.session.step === "category") return showCategoriesMenu(ctx, getPageOffset(ctx, -1));
+});
+
 
 hears(messagesMap["logout"], async (ctx) =>
   withUser(ctx, async (userId) => {

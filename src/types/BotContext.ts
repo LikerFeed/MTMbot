@@ -1,5 +1,6 @@
 import { Context as TelegrafContext } from "telegraf";
 import { Task } from "./entities/Task";
+import { Category } from "./entities/Category";
 
 export interface SessionData {
   tasks: Task[];
@@ -8,6 +9,7 @@ export interface SessionData {
   step?:
     | "faq"
     | "task"
+    | "category"
     | "signIn"
     | "signUp"
     | "create_task_title"
@@ -33,6 +35,9 @@ export interface SessionData {
     oldPassword?: string;
   };
   activeTaskIndex: number;
+  categories?: Category[];
+  categoryPage?: number;
+  totalCategoryPages?: number;
 }
 
 export interface BotContext extends TelegrafContext {

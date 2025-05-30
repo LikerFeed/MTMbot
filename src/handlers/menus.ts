@@ -56,7 +56,7 @@ export const menuRoutes: [
   (ctx: BotContext) => Promise<void>
 ][] = [
   ["tasks", (ctx) => showTasksMenu(ctx, 0)],
-  ["categories", showCategoriesMenu],
+  ["categories", (ctx) => showCategoriesMenu(ctx, 0)],
   ["profile", showProfileMenu],
   ["editProfile", showEditProfileMenu],
   ["deleteProfile", showDeleteProfileMenu],
@@ -89,7 +89,7 @@ export const menuRoutes: [
   ["backToMainMenu", menus.showMainMenu],
   ["createCategory", showCreateCategoryMenu],
   ["backToTasks", (ctx) => showTasksMenu(ctx, 0)],
-  ["backToCategories", showCategoriesMenu],
+  ["backToCategories", (ctx) => showCategoriesMenu(ctx, 0)],
   ["showQuestions", showFAQMenu],
   ["editTask", showEditTaskMenu],
   ["deleteTask", showDeleteTaskMenu],

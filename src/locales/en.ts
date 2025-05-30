@@ -15,6 +15,7 @@ const en = {
   clickToCreateTask: "➕ Click the button to create a task",
   categories: "🗂️ Categories",
   categoriesMenu: "🗂️ Your categories",
+  categoryFetchFail: "❌ Failed to fetch categories",
   profile: "👤 Profile",
   profileMenu: "👤 Your profile",
   editProfile: "✏️ Edit profile",

@@ -16,6 +16,7 @@ const uk = {
   tasksMenu: "📋 Ваші задачі",
   categories: "🗂️ Категорії",
   categoriesMenu: "🗂️ Ваші категорії",
+  categoryFetchFail: "❌ Не вдалося отримати категорії",
   profile: "👤 Профіль",
   profileMenu: "👤 Ваш профіль",
   editProfile: "✏️ Редагувати профіль",
