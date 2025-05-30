@@ -32,6 +32,11 @@ import {
   handleEditUsernameText,
 } from "./handlers/profile/edit/username";
 
+import {
+  handleEditPassword,
+  handleEditPasswordText,
+} from "./handlers/profile/edit/password";
+
 import { handleFAQAnswer } from "./handlers/faq/answer";
 
 dotenv.config();
@@ -95,6 +100,7 @@ hears(messagesMap["editTaskDeadline"], (ctx) => handleEditTaskDeadline(ctx));
 hears(messagesMap["editTaskLinks"], (ctx) => handleEditTaskLinks(ctx));
 
 hears(messagesMap["editUsername"], (ctx) => handleEditUsername(ctx));
+hears(messagesMap["editPassword"], (ctx) => handleEditPassword(ctx));
 
 const userPages = new Map<number, number>();
 
@@ -175,6 +181,11 @@ bot.on("text", async (ctx) => {
 
   if (ctx.session.step === "edit_username") {
     await handleEditUsernameText(ctx);
+    return;
+  }
+
+  if (ctx.session.step === "edit_password_old" || ctx.session.step === "edit_password_new") {
+    await handleEditPasswordText(ctx);
     return;
   }
 });

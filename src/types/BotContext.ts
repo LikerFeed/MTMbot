@@ -17,6 +17,8 @@ export interface SessionData {
     | "edit_task_deadline"
     | "edit_task_links"
     | "edit_username"
+    | "edit_password_old"
+    | "edit_password_new"
     | null;
   token?: string;
   user?: {
@@ -26,6 +28,9 @@ export interface SessionData {
   tempTask?: {
     title?: string;
     description?: string;
+  };
+  tempPassword?: {
+    oldPassword?: string;
   };
   activeTaskIndex: number;
 }
