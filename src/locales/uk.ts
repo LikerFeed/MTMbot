@@ -120,6 +120,9 @@ const uk = {
   enterNewTaskDescription: "🔤 Введіть новий опис задачі:",
   taskDescriptionUpdateFail: "❌ Не вдалося оновити опис задачі!",
   taskDescriptionUpdateSuccess: "✅ Опис задачі оновлено!",
+  taskStatusUpdateFail: "⚠️ Не вдалося оновити статус задачі!",
+  taskMarkedCompleted: "✅ Задача позначена як виконана!",
+  taskMarkedUncompleted: "❌ Задача позначена як не виконана!",
 };
 
 export default uk;

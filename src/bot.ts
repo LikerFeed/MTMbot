@@ -21,6 +21,7 @@ import { showTasksMenu, TASKS_PER_PAGE } from "./handlers/task/menu";
 import { showTask } from "./handlers/task/task";
 import { handleEditTaskTitle, handleEditTaskTitleText } from "./handlers/task/edit/title";
 import { handleEditTaskDescription, handleEditTaskDescriptionText } from "./handlers/task/edit/description";
+import { handleToggleTaskStatus } from "./handlers/task/edit/status";
 
 import { handleFAQAnswer } from "./handlers/faq/answer";
 
@@ -78,6 +79,7 @@ hears(messagesMap["prev"], (ctx) => showTasksMenu(ctx, getPageOffset(ctx, -1)));
 
 hears(messagesMap["editTaskTitle"], (ctx) => handleEditTaskTitle(ctx));
 hears(messagesMap["editTaskDescription"], (ctx) => handleEditTaskDescription(ctx));
+hears(messagesMap["editTaskStatus"], (ctx) => handleToggleTaskStatus(ctx));
 
 const userPages = new Map<number, number>();
 

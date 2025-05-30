@@ -16,8 +16,8 @@ export const showEditTaskMenu = async (ctx: BotContext) => {
     t(userId, "editTask"),
     keyboard([
       [t(userId, "editTaskTitle"), t(userId, "editTaskDescription")],
-      [t(userId, "editTaskDeadline"), t(userId, "editTaskCategories")],
-      [t(userId, "editTaskLinks"), t(userId, "editTaskStatus")],
+      [t(userId, "editTaskDeadline"), t(userId, "editTaskStatus")],
+      [t(userId, "editTaskCategories"), t(userId, "editTaskLinks")],
       [t(userId, "backToTask"), LANG_BTN],
     ])
   );

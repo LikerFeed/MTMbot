@@ -33,8 +33,8 @@ export const showTask = async (ctx: BotContext, taskIndex: number) => {
   const message = `
 <b>${t(userId, "taskTitle")}:</b> ${task.title}
 <b>${t(userId, "taskDescription")}:</b> ${task.description}
-<b>${t(userId, "taskStatus")}:</b> ${status}
 <b>${t(userId, "taskDeadline")}:</b> ${deadline}
+<b>${t(userId, "taskStatus")}:</b> ${status}
 <b>${t(userId, "taskCategories")}:</b> ${categories}
 <b>${t(userId, "taskLinks")}:</b> ${links}
   `.trim();

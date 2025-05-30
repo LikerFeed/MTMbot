@@ -28,7 +28,7 @@ const en = {
   deleteProfileFail: "⚠️ Failed to delete profile",
   faq: "❓ FAQ",
   faqMenu: "❓ Frequently Asked Questions",
-  backToMainMenu: "🔙 to main menu",
+  backToMainMenu: "🏠 To main menu",
   createTask: "➕ Create task",
   createCategory: "➕ Create category",
   backToTasks: "📋 To tasks",
@@ -119,6 +119,9 @@ const en = {
   enterNewTaskDescription: "🔤 Enter new task description:",
   taskDescriptionUpdateFail: "❌ Failed to update task description!",
   taskDescriptionUpdateSuccess: "✅ Task description updated!",
+  taskStatusUpdateFail: "⚠️ Failed to update task status!",
+  taskMarkedCompleted: "✅ Task marked as completed!",
+  taskMarkedUncompleted: "❌ Task marked as uncompleted!",
 };
 
 export default en;
