@@ -24,7 +24,8 @@ export const showCategory = async (ctx: BotContext, categoryIndex: number) => {
   await ctx.replyWithHTML(
     message,
     keyboard([
-      [t(userId, "backToCategories")],
+      [t(userId, "editCategory"), t(userId, "deleteCategory")],
+      [t(userId, "showLinkedTask"), t(userId, "backToCategories")],
       [t(userId, "backToMainMenu"), LANG_BTN],
     ])
   );
