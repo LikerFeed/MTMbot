@@ -179,6 +179,9 @@ const uk = {
   categoryLoadError: "❌ Не вдалося завантажити категорії",
   chooseCategoryToggle: "🗂️ Оберіть категорію для перемикання",
   categoryUpdateFail: "❌ Не вдалося оновити категорію",
+  noTasksInCategory: "❌ У цій категорії немає задач",
+  backToCategory: "🔙 До категорії",
+  linkedTasksMenu: "🏷️ Меню прив'язаних задач",
 };
 
 export default uk;

@@ -17,6 +17,8 @@ import { showEditProfileMenu } from "./profile/edit";
 import { showDeleteProfileMenu } from "./profile/delete";
 
 import { showFAQMenu } from "./faq/question";
+import { showLinkedTasksMenu } from "./category/tasks";
+import { showCategory } from "./category/category";
 
 const createMenu =
   (
@@ -94,6 +96,8 @@ export const menuRoutes: [
   ["backToCategories", (ctx) => showCategoriesMenu(ctx, 0)],
   ["showQuestions", showFAQMenu],
   ["editTask", showEditTaskMenu],
+  ["showLinkedTask", (ctx) => showLinkedTasksMenu(ctx, 0)],
+  ["backToCategory", (ctx) => showCategory(ctx, ctx.session.activeCategoryIndex ?? 0)],
   ["deleteTask", showDeleteTaskMenu],
   ["yesDeleteTask", async (ctx) => {
     const userId = ctx.from?.id;

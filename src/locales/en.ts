@@ -176,6 +176,9 @@ const en = {
   categoryLoadError: "❌ Failed to load categories",
   chooseCategoryToggle: "🗂️ Choose a category to toggle",
   categoryUpdateFail: "❌ Failed to update category",
+  noTasksInCategory: "❌ No tasks in this category",
+  backToCategory: "🔙 To category",
+  linkedTasksMenu: "🏷️ Linked tasks menu",
 };
 
 export default en;
