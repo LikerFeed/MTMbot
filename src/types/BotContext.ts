@@ -16,6 +16,7 @@ export interface SessionData {
     | "delete_category_confirm"
     | "signIn"
     | "signUp"
+    | "sort_tasks"
     | "create_task_title"
     | "create_task_description"
     | "edit_task_title"

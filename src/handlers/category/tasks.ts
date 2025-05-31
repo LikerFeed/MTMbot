@@ -73,7 +73,7 @@ export const showLinkedTasksMenu = async (ctx: BotContext, page = 0) => {
   const rows: string[][] = [[t(userId, "createTask")], ...numberRows];
 
   if (totalPages > 1) {
-    rows.push([t(userId, "prev"), t(userId, "next")]);
+    rows.push([t(userId, "prev"), t(userId, "sortTasks"), t(userId, "next")]);
   }
 
   rows.push([t(userId, "backToCategory")], [t(userId, "backToMainMenu")], [LANG_BTN]);

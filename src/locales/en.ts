@@ -179,6 +179,10 @@ const en = {
   noTasksInCategory: "❌ No tasks in this category",
   backToCategory: "🔙 To category",
   linkedTasksMenu: "🏷️ Linked tasks menu",
+  sortTasks: "📊 Sort tasks",
+  chooseSortOption: "📊 Choose a sort option",
+  sortByStatus: "📌 Sort by status",
+  sortByDeadline: "📅 Sort by deadline",
 };
 
 export default en;
