@@ -11,6 +11,7 @@ export interface SessionData {
     | "faq"
     | "task"
     | "category"
+    | "create_category_title"
     | "edit_category_title"
     | "signIn"
     | "signUp"

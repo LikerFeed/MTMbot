@@ -1,3 +1,5 @@
+import en from "./en";
+
 const uk = {
   firstTimeStartMessage: "🇺🇦 Привіт! Будь ласка, оберіть мову",
   languageChoicePrompt: "🇺🇦 Будь ласка, оберіть мову",
@@ -26,6 +28,9 @@ const uk = {
   enterNewCategoryTitle: "🔤 Введіть нову назву категорії:",
   categoryTitleUpdateFail: "❌ Не вдалося оновити назву категорії!",
   categoryTitleUpdateSuccess: "✅ Назва категорії оновлена!",
+  enterCategoryTitle: "📝 Введіть назву категорії:",
+  categoryCreatedSuccess: "✅ Категорію успішно створено!",
+  categoryCreatedFail: "❌ Не вдалося створити категорію!",
   profile: "👤 Профіль",
   profileMenu: "👤 Ваш профіль",
   editProfile: "✏️ Редагувати профіль",

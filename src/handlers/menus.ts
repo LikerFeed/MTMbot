@@ -10,7 +10,6 @@ import { showEditTaskMenu } from "./task/edit";
 import { showDeleteTaskMenu } from "./task/delete";
 
 import { showCategoriesMenu } from "./category/menu";
-import { showCreateCategoryMenu } from "./category/create";
 
 import userTelegramAPI from "../api/profileTelegramApi";
 import { showProfileMenu } from "./profile/menu";
@@ -91,7 +90,6 @@ export const menuRoutes: [
   ["noDeleteProfile", showProfileMenu],
   ["faq", showFAQMenu],
   ["backToMainMenu", menus.showMainMenu],
-  ["createCategory", showCreateCategoryMenu],
   ["backToTasks", (ctx) => showTasksMenu(ctx, 0)],
   ["backToCategories", (ctx) => showCategoriesMenu(ctx, 0)],
   ["showQuestions", showFAQMenu],

@@ -42,6 +42,7 @@ import {
 import { handleFAQAnswer } from "./handlers/faq/answer";
 import { showCategory } from "./handlers/category/category";
 import { handleEditCategoryTitle, handleEditCategoryTitleText } from "./handlers/category/edit";
+import { handleCreateCategoryTitle, startCreateCategory } from "./handlers/category/create";
 
 dotenv.config();
 const bot = new Telegraf<BotContext>(process.env.BOT_TOKEN!);
@@ -107,6 +108,7 @@ hears(messagesMap["editTaskLinks"], (ctx) => handleEditTaskLinks(ctx));
 hears(messagesMap["editUsername"], (ctx) => handleEditUsername(ctx));
 hears(messagesMap["editPassword"], (ctx) => handleEditPassword(ctx));
 
+hears(messagesMap["createCategory"], (ctx) => startCreateCategory(ctx));
 hears(messagesMap["editCategory"], (ctx) => handleEditCategoryTitle(ctx));
 
 const userPages = new Map<number, number>();
@@ -186,6 +188,11 @@ bot.on("text", async (ctx) => {
     return;
   }
 
+  if (ctx.session.step === "create_category_title") {
+    await handleCreateCategoryTitle(ctx);
+    return;
+  }
+
   const isNumber = /^\d+$/.test(text);
   if (!isNumber) return;
 
@@ -217,4 +224,5 @@ bot.on("text", async (ctx) => {
     await showCategory(ctx, relativeIndex);
     return;
   }
+
 });
