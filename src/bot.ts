@@ -43,6 +43,7 @@ import { handleFAQAnswer } from "./handlers/faq/answer";
 import { showCategory } from "./handlers/category/category";
 import { handleEditCategoryTitle, handleEditCategoryTitleText } from "./handlers/category/edit";
 import { handleCreateCategoryTitle, startCreateCategory } from "./handlers/category/create";
+import { showDeleteCategoryMenu, handleDeleteCategoryConfirm } from "./handlers/category/delete";
 
 dotenv.config();
 const bot = new Telegraf<BotContext>(process.env.BOT_TOKEN!);
@@ -110,6 +111,7 @@ hears(messagesMap["editPassword"], (ctx) => handleEditPassword(ctx));
 
 hears(messagesMap["createCategory"], (ctx) => startCreateCategory(ctx));
 hears(messagesMap["editCategory"], (ctx) => handleEditCategoryTitle(ctx));
+hears(messagesMap["deleteCategory"], (ctx) => showDeleteCategoryMenu(ctx));
 
 const userPages = new Map<number, number>();
 
@@ -190,6 +192,11 @@ bot.on("text", async (ctx) => {
 
   if (ctx.session.step === "create_category_title") {
     await handleCreateCategoryTitle(ctx);
+    return;
+  }
+
+  if (ctx.session.step === "delete_category_confirm") {
+    await handleDeleteCategoryConfirm(ctx);
     return;
   }
 

@@ -13,6 +13,7 @@ export interface SessionData {
     | "category"
     | "create_category_title"
     | "edit_category_title"
+    | "delete_category_confirm"
     | "signIn"
     | "signUp"
     | "create_task_title"
