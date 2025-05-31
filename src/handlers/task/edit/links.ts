@@ -49,7 +49,6 @@ export const handleEditTaskLinksText = async (ctx: BotContext) => {
       return;
     }
   
-    // 🗑️ Удаление ссылок
     if (noValues.includes(lowered)) {
       const result = await taskTelegramAPI.editTask(ctx, {
         _id: task._id,

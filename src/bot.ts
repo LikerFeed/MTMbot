@@ -26,6 +26,7 @@ import { handleEditTaskDescription, handleEditTaskDescriptionText } from "./hand
 import { handleToggleTaskStatus } from "./handlers/task/edit/status";
 import { handleEditTaskDeadline, handleEditTaskDeadlineText } from "./handlers/task/edit/deadline";
 import { handleEditTaskLinks, handleEditTaskLinksText } from "./handlers/task/edit/links";
+import { startEditTaskCategories, handleEditTaskCategoriesText } from "./handlers/task/edit/categories";
 
 import { CATEGORIES_PER_PAGE, showCategoriesMenu } from "./handlers/category/menu";
 
@@ -105,6 +106,7 @@ hears(messagesMap["editTaskDescription"], (ctx) => handleEditTaskDescription(ctx
 hears(messagesMap["editTaskStatus"], (ctx) => handleToggleTaskStatus(ctx));
 hears(messagesMap["editTaskDeadline"], (ctx) => handleEditTaskDeadline(ctx));
 hears(messagesMap["editTaskLinks"], (ctx) => handleEditTaskLinks(ctx));
+hears(messagesMap["editTaskCategories"], (ctx) => startEditTaskCategories(ctx));
 
 hears(messagesMap["editUsername"], (ctx) => handleEditUsername(ctx));
 hears(messagesMap["editPassword"], (ctx) => handleEditPassword(ctx));
@@ -190,6 +192,11 @@ bot.on("text", async (ctx) => {
 
   if (ctx.session.step === "edit_task_links") {
     await handleEditTaskLinksText(ctx);
+    return;
+  }
+
+  if (ctx.session.step === "edit_task_categories") {
+    await handleEditTaskCategoriesText(ctx);
     return;
   }
 

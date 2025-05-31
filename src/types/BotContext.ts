@@ -22,6 +22,7 @@ export interface SessionData {
     | "edit_task_description"
     | "edit_task_deadline"
     | "edit_task_links"
+    | "edit_task_categories"
     | "edit_username"
     | "edit_password_old"
     | "edit_password_new"

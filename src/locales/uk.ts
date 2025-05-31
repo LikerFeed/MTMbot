@@ -176,6 +176,9 @@ const uk = {
   username: "👤 Ім'я користувача",
   email: "📧 Електронна пошта",
   createdAt: "📅 Дата створення",
+  categoryLoadError: "❌ Не вдалося завантажити категорії",
+  chooseCategoryToggle: "🗂️ Оберіть категорію для перемикання",
+  categoryUpdateFail: "❌ Не вдалося оновити категорію",
 };
 
 export default uk;

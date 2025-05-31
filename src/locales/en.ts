@@ -173,6 +173,9 @@ const en = {
   username: "👤 Username",
   email: "📧 Email",
   createdAt: "📅 Created At",
+  categoryLoadError: "❌ Failed to load categories",
+  chooseCategoryToggle: "🗂️ Choose a category to toggle",
+  categoryUpdateFail: "❌ Failed to update category",
 };
 
 export default en;
