@@ -113,24 +113,32 @@ hears(messagesMap["createCategory"], (ctx) => startCreateCategory(ctx));
 hears(messagesMap["editCategory"], (ctx) => handleEditCategoryTitle(ctx));
 hears(messagesMap["deleteCategory"], (ctx) => showDeleteCategoryMenu(ctx));
 
-const userPages = new Map<number, number>();
-
-function getPageOffset(ctx: BotContext, offset: number): number {
-  const userId = ctx.from?.id ?? -1;
-  const current = userPages.get(userId) ?? 0;
-  const next = current + offset;
-  userPages.set(userId, next);
-  return next;
-}
-
 hears(messagesMap["next"], async (ctx) => {
-  if (ctx.session.step === "task") return showTasksMenu(ctx, getPageOffset(ctx, +1));
-  if (ctx.session.step === "category") return showCategoriesMenu(ctx, getPageOffset(ctx, +1));
+  if (ctx.session.step === "task") {
+    const total = ctx.session.totalTaskPages || 1;
+    ctx.session.taskPage = (ctx.session.taskPage + 1) % total;
+    return showTasksMenu(ctx, ctx.session.taskPage);
+  }
+
+  if (ctx.session.step === "category") {
+    const total = ctx.session.totalCategoryPages || 1;
+    ctx.session.categoryPage = ((ctx.session.categoryPage ?? 0) + 1) % total;
+    return showCategoriesMenu(ctx, ctx.session.categoryPage);
+  }
 });
 
 hears(messagesMap["prev"], async (ctx) => {
-  if (ctx.session.step === "task") return showTasksMenu(ctx, getPageOffset(ctx, -1));
-  if (ctx.session.step === "category") return showCategoriesMenu(ctx, getPageOffset(ctx, -1));
+  if (ctx.session.step === "task") {
+    const total = ctx.session.totalTaskPages || 1;
+    ctx.session.taskPage = (ctx.session.taskPage - 1 + total) % total;
+    return showTasksMenu(ctx, ctx.session.taskPage);
+  }
+
+  if (ctx.session.step === "category") {
+    const total = ctx.session.totalCategoryPages || 1;
+    ctx.session.categoryPage = ((ctx.session.categoryPage ?? 0) - 1 + total) % total;
+    return showCategoriesMenu(ctx, ctx.session.categoryPage);
+  }
 });
 
 
