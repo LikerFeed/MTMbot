@@ -2,7 +2,6 @@ import { Telegraf, Markup } from "telegraf";
 import { BotContext } from "../types/BotContext";
 
 import { getUserId, isValidUser, withUser } from "../utils";
-import { menus, messagesMap, menuRoutes } from "../handlers/menus";
 import {
   t,
   LANG_BTN,
@@ -13,18 +12,19 @@ import {
   showLanguageSelection,
 } from "../lang";
 
+import { menus, messagesMap } from "../handlers/menus";
 import { startSignIn } from "../handlers/auth/signIn/signIn";
 import { startSignUp } from "../handlers/auth/signUp/signUp";
-import { showTasksMenu } from "../handlers/task/menu";
-import { showCategoriesMenu } from "../handlers/category/menu";
 
-export function setupHeards(bot: Telegraf<BotContext>) {
+export function setupHears(bot: Telegraf<BotContext>) {
+  // /start
   bot.start(async (ctx) => {
     const userId = getUserId(ctx);
     if (isValidUser(userId)) clearReturnContext(userId);
     await showLanguageSelection(ctx, undefined, true);
   });
 
+  // Lang
   bot.hears(Object.keys(LABEL_TO_LANG), async (ctx) =>
     withUser(ctx, async (userId) => {
       const lang = LABEL_TO_LANG[ctx.message.text];
@@ -55,37 +55,7 @@ export function setupHeards(bot: Telegraf<BotContext>) {
   hears(messagesMap["signIn"], startSignIn);
   hears(messagesMap["signUp"], startSignUp);
 
-  // Pagination
-  hears(messagesMap["next"], async (ctx) => {
-    if (ctx.session.step === "task") {
-      const total = ctx.session.totalTaskPages || 1;
-      ctx.session.taskPage = (ctx.session.taskPage + 1) % total;
-      return showTasksMenu(ctx, ctx.session.taskPage);
-    }
-
-    if (ctx.session.step === "category") {
-      const total = ctx.session.totalCategoryPages || 1;
-      ctx.session.categoryPage = ((ctx.session.categoryPage ?? 0) + 1) % total;
-      return showCategoriesMenu(ctx, ctx.session.categoryPage);
-    }
-  });
-
-  hears(messagesMap["prev"], async (ctx) => {
-    if (ctx.session.step === "task") {
-      const total = ctx.session.totalTaskPages || 1;
-      ctx.session.taskPage = (ctx.session.taskPage - 1 + total) % total;
-      return showTasksMenu(ctx, ctx.session.taskPage);
-    }
-
-    if (ctx.session.step === "category") {
-      const total = ctx.session.totalCategoryPages || 1;
-      ctx.session.categoryPage =
-        ((ctx.session.categoryPage ?? 0) - 1 + total) % total;
-      return showCategoriesMenu(ctx, ctx.session.categoryPage);
-    }
-  });
-
-  // logout
+  // Logout
   hears(messagesMap["logout"], async (ctx) =>
     withUser(ctx, async (userId) => {
       clearReturnContext(userId);
@@ -93,7 +63,4 @@ export function setupHeards(bot: Telegraf<BotContext>) {
       await menus.showAuthOptions(ctx);
     })
   );
-
-  // static menu routes
-  menuRoutes.forEach(([key, handler]) => hears(messagesMap[key], handler));
 }

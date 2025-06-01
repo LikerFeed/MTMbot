@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 
 import { BotContext, SessionData } from "../types/BotContext";
 
-import { setupHeards } from "./setupHears";
+import { setupHears } from "./setupHears";
+import { setupMenuRoutes } from "./setupMenuRoutes";
 import { setupTextSteps } from "./setupTextSteps";
 
 dotenv.config();
@@ -32,7 +33,8 @@ bot.use(
   }) as any
 );
 
-setupHeards(bot);
-bot.on("text", setupTextSteps);
+setupHears(bot);
+setupMenuRoutes(bot);
 
 bot.launch();
+bot.on("text", setupTextSteps);
