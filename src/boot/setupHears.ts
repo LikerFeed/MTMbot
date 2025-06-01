@@ -12,7 +12,10 @@ import {
   showLanguageSelection,
 } from "../lang";
 
-import { menus, messagesMap } from "../handlers/menus";
+import { messagesMap } from "./setupMenuRoutes";
+
+
+import { menus } from "../handlers/menus";
 import { startSignIn } from "../handlers/auth/signIn/signIn";
 import { startSignUp } from "../handlers/auth/signUp/signUp";
 
