@@ -60,16 +60,34 @@ export const showTasksMenu = async (ctx: BotContext, page = 0) => {
     return;
   }
 
-  const taskLines = tasks
+  let tasksToShow = [...tasks];
+
+  if (ctx.session.sortOption === "deadline") {
+    tasksToShow.sort((a, b) => {
+      if (!a.deadline && !b.deadline) return 0;
+      if (!a.deadline) return 1;
+      if (!b.deadline) return -1;
+      return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+    });
+  }
+
+  if (ctx.session.sortOption === "status") {
+    tasksToShow.sort((a, b) => {
+      return Number(a.isCompleted) - Number(b.isCompleted);
+    });
+  }
+
+  const taskLines = tasksToShow
     .map(
       (task, idx) =>
         `${normalizedPage * TASKS_PER_PAGE + idx + 1}. ${task.title}`
     )
     .join("\n");
 
-  const numberButtons = tasks.map(
+  const numberButtons = tasksToShow.map(
     (_, idx) => `${normalizedPage * TASKS_PER_PAGE + idx + 1}`
   );
+
   const numberRows: string[][] = [];
   while (numberButtons.length) numberRows.push(numberButtons.splice(0, 5));
 

@@ -40,6 +40,7 @@ export interface SessionData {
   tempPassword?: {
     oldPassword?: string;
   };
+  sortOption?: "deadline" | "status" | null;
   activeTaskIndex: number;
   categories?: Category[];
   categoryPage?: number;

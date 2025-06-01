@@ -165,6 +165,21 @@ bot.on("text", async (ctx) => {
 
   if (!userId || !text) return;
 
+  if (ctx.session.step === "sort_tasks") {
+    if (text === t(userId, "sortByDeadline")) {
+      ctx.session.sortOption = "deadline";
+    } else if (text === t(userId, "sortByStatus")) {
+      ctx.session.sortOption = "status";
+    } else {
+      ctx.session.step = "task";
+      return showTasksMenu(ctx, ctx.session.taskPage || 0);
+    }
+  
+    ctx.session.step = "task";
+    return showTasksMenu(ctx, ctx.session.taskPage || 0);
+  }
+  
+
   if (ctx.session.step === "create_task_title") {
     await handleCreateTaskTitle(ctx);
     return;
@@ -246,5 +261,4 @@ bot.on("text", async (ctx) => {
     await showCategory(ctx, relativeIndex);
     return;
   }
-
 });
