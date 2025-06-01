@@ -3,20 +3,21 @@ import { Task } from "./entities/Task";
 import { Category } from "./entities/Category";
 
 export interface SessionData {
-  activeCategoryIndex: number;
-  tasks: Task[];
-  totalTaskPages: number;
-  taskPage: number;
+  // User/Auth
+  token?: string;
+  user?: {
+    username: string;
+    email: string;
+  };
   step?:
-    | "faq"
-    | "task"
-    | "category"
-    | "create_category_title"
-    | "edit_category_title"
-    | "delete_category_confirm"
     | "signIn"
     | "signUp"
-    | "sort_tasks"
+    | "edit_username"
+    | "edit_password_old"
+    | "edit_password_new"
+    
+    // Task
+    | "task"
     | "create_task_title"
     | "create_task_description"
     | "edit_task_title"
@@ -24,27 +25,39 @@ export interface SessionData {
     | "edit_task_deadline"
     | "edit_task_links"
     | "edit_task_categories"
-    | "edit_username"
-    | "edit_password_old"
-    | "edit_password_new"
+    | "sort_tasks"
+
+    // Category
+    | "category"
+    | "create_category_title"
+    | "edit_category_title"
+    | "delete_category_confirm"
+
+    // FAQ
+    | "faq"
     | null;
-  token?: string;
-  user?: {
-    username: string;
-    email: string;
-  };
+
+  // Task data
+  tasks: Task[];
+  taskPage: number;
+  totalTaskPages: number;
+  activeTaskIndex: number;
   tempTask?: {
     title?: string;
     description?: string;
   };
-  tempPassword?: {
-    oldPassword?: string;
-  };
   sortOption?: "deadline" | "status" | null;
-  activeTaskIndex: number;
+
+  // Category data
   categories?: Category[];
   categoryPage?: number;
   totalCategoryPages?: number;
+  activeCategoryIndex: number;
+
+  // Temp password storage
+  tempPassword?: {
+    oldPassword?: string;
+  };
 }
 
 export interface BotContext extends TelegrafContext {
