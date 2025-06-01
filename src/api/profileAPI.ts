@@ -1,13 +1,10 @@
 import { BotContext } from "../types/BotContext";
 import { telegramRequest } from "./telegramRequest";
-import { Profile, ProfileResponse } from "../types/shared";
-import { Status } from "../types/shared";
+import { Profile, ProfileResponse, Status } from "../types/shared";
 
-export type ProfileResult = {
-  profile: Profile | null;
-  status: Status;
-  message?: string;
-};
+export interface ChangeNameParams {
+  username: string;
+}
 
 export interface ChangePasswordParams {
   oldPassword: string;
@@ -18,26 +15,17 @@ export type ChangePasswordResponse = {
   message: string;
 };
 
-export type UpdateProfileResponse = {
-  data: Profile;
-  status: number;
-  statusText: string;
-};
-
-export interface ChangeName {
-  username: string;
-  userId: string;
-}
-
-export interface ChangeNameParams {
-  username: string;
-}
-
 export type DeleteAccountResponse = {
   message: string;
 };
 
-class UserTelegramAPI {
+export type ProfileResult = {
+  profile: Profile | null;
+  status: Status;
+  message?: string;
+};
+
+class ProfileAPI {
   public async getMyProfile(ctx: BotContext): Promise<ProfileResult> {
     try {
       const response = await telegramRequest<ProfileResponse>(ctx, {
@@ -66,9 +54,7 @@ class UserTelegramAPI {
       const response = await telegramRequest<ProfileResponse>(ctx, {
         method: "PATCH",
         url: "/user",
-        data: {
-          username: params.username,
-        },
+        data: { username: params.username },
       });
 
       return {
@@ -132,5 +118,5 @@ class UserTelegramAPI {
   }
 }
 
-const userTelegramAPI = new UserTelegramAPI();
-export default userTelegramAPI;
+const profileAPI = new ProfileAPI();
+export default profileAPI;

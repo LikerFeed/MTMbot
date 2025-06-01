@@ -34,7 +34,30 @@ export interface CategoriesResponse {
   totalPages: number;
 }
 
-class CategoryTelegramAPI {
+class CategoryAPI {
+  // Add a new category
+  public async addCategory(
+    ctx: BotContext,
+    params: AddCategory
+  ): Promise<CategoryResult> {
+    try {
+      const response = await telegramRequest<CategoryResponse>(ctx, {
+        method: "POST",
+        url: "/category",
+        data: params,
+      });
+
+      return { category: response, status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        category: null,
+        status: Status.ERROR,
+        message: err?.response?.data?.message || "Error",
+      };
+    }
+  }
+
+  // Get categories with pagination
   public async getCategories(
     ctx: BotContext,
     params: CategoriesParams
@@ -50,10 +73,7 @@ class CategoryTelegramAPI {
         params,
       });
 
-      return {
-        data: response,
-        status: Status.SUCCESS,
-      };
+      return { data: response, status: Status.SUCCESS };
     } catch (err: any) {
       return {
         data: null,
@@ -63,47 +83,7 @@ class CategoryTelegramAPI {
     }
   }
 
-  public async deleteCategory(
-    ctx: BotContext,
-    id: string
-  ): Promise<CategoryResult> {
-    try {
-      const response = await telegramRequest<CategoryResponse>(ctx, {
-        method: "DELETE",
-        url: `/category/${id}`,
-      });
-
-      return { category: response, status: Status.SUCCESS };
-    } catch (err: any) {
-      return {
-        message: err?.response?.data?.message || "Error",
-        status: Status.ERROR,
-        category: null,
-      };
-    }
-  }
-
-  public async addCategory(
-    ctx: BotContext,
-    params: AddCategory
-  ): Promise<CategoryResult> {
-    try {
-      const response = await telegramRequest<CategoryResponse>(ctx, {
-        method: "POST",
-        url: "/category",
-        data: params,
-      });
-
-      return { category: response, status: Status.SUCCESS };
-    } catch (err: any) {
-      return {
-        message: err?.response?.data?.message || "Error",
-        status: Status.ERROR,
-        category: null,
-      };
-    }
-  }
-
+  // Edit an existing category
   public async editCategory(
     ctx: BotContext,
     params: EditCategory
@@ -120,13 +100,34 @@ class CategoryTelegramAPI {
       return { category: response, status: Status.SUCCESS };
     } catch (err: any) {
       return {
-        message: err?.response?.data?.message || "Error",
-        status: Status.ERROR,
         category: null,
+        status: Status.ERROR,
+        message: err?.response?.data?.message || "Error",
+      };
+    }
+  }
+
+  // Delete a category
+  public async deleteCategory(
+    ctx: BotContext,
+    id: string
+  ): Promise<CategoryResult> {
+    try {
+      const response = await telegramRequest<CategoryResponse>(ctx, {
+        method: "DELETE",
+        url: `/category/${id}`,
+      });
+
+      return { category: response, status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        category: null,
+        status: Status.ERROR,
+        message: err?.response?.data?.message || "Error",
       };
     }
   }
 }
 
-const categoryTelegramAPI = new CategoryTelegramAPI();
-export default categoryTelegramAPI;
+const categoryAPI = new CategoryAPI();
+export default categoryAPI;

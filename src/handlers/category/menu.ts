@@ -1,5 +1,5 @@
 import { BotContext } from "../../types/BotContext";
-import categoryTelegramAPI from "../../api/categoryTelegramApi";
+import categoryAPI from "../../api/categoryAPI";
 import { Status } from "../../types/shared";
 import { keyboard } from "../../utils";
 import { t, LANG_BTN, setReturnContext } from "../../lang";
@@ -12,7 +12,7 @@ export const showCategoriesMenu = async (ctx: BotContext, page = 0) => {
 
   ctx.session.step = "category";
 
-  const check = await categoryTelegramAPI.getCategories(ctx, {
+  const check = await categoryAPI.getCategories(ctx, {
     page: 1,
     limit: CATEGORIES_PER_PAGE,
   });
@@ -28,7 +28,7 @@ export const showCategoriesMenu = async (ctx: BotContext, page = 0) => {
   if (page >= totalPages) normalizedPage = 0;
   if (page < 0) normalizedPage = totalPages - 1;
 
-  const result = await categoryTelegramAPI.getCategories(ctx, {
+  const result = await categoryAPI.getCategories(ctx, {
     page: normalizedPage + 1,
     limit: CATEGORIES_PER_PAGE,
   });

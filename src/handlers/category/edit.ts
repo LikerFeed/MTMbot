@@ -1,6 +1,6 @@
 import { BotContext } from "../..//types/BotContext";
 import { t } from "../../lang";
-import categoryTelegramAPI from "../../api/categoryTelegramApi";
+import categoryAPI from "../../api/categoryAPI";
 import { Status } from "../../types/shared";
 import { showCategory } from "./category";
 
@@ -36,7 +36,7 @@ export const handleEditCategoryTitleText = async (ctx: BotContext) => {
     return;
   }
 
-  const result = await categoryTelegramAPI.editCategory(ctx, {
+  const result = await categoryAPI.editCategory(ctx, {
     _id: category._id,
     title: text,
     color: category.color,

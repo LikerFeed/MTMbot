@@ -6,7 +6,7 @@ import { LANG_OPTIONS, t } from "../lang";
 import { menus } from "../handlers/menus";
 
 // API imports
-import userTelegramAPI from "../api/profileTelegramApi";
+import profileAPI from "../api/profileApi";
 import taskTelegramAPI from "../api/taskTelegramApi";
 
 // Task imports
@@ -76,7 +76,7 @@ export const menuRoutes: [
       const userId = ctx.from?.id;
       if (!userId) return;
 
-      const result = await userTelegramAPI.deleteAccount(ctx);
+      const result = await profileAPI.deleteAccount(ctx);
       if (result.status === "error") {
         await ctx.reply(t(userId, "deleteProfileFail"));
         return;

@@ -1,7 +1,7 @@
 import { BotContext } from "../../../types/BotContext";
 import { t } from "../../../lang";
 import { keyboard } from "../../../utils";
-import categoryTelegramAPI from "../../../api/categoryTelegramApi";
+import categoryAPI from "../../../api/categoryAPI";
 import taskTelegramAPI from "../../../api/taskTelegramApi";
 import { showTask } from "../task";
 import { CATEGORIES_PER_PAGE } from "../../category/menu";
@@ -15,7 +15,7 @@ export const startEditTaskCategories = async (ctx: BotContext, page = 0) => {
   ctx.session.step = "edit_task_categories";
   ctx.session.categoryPage = page;
 
-  const { data, status } = await categoryTelegramAPI.getCategories(ctx, {
+  const { data, status } = await categoryAPI.getCategories(ctx, {
     page: page + 1,
     limit: CATEGORIES_PER_PAGE,
   });

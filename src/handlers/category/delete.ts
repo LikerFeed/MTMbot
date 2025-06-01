@@ -1,7 +1,7 @@
 import { BotContext } from "../../types/BotContext";
 import { keyboard } from "../../utils";
 
-import categoryTelegramAPI from "../../api/categoryTelegramApi";
+import categoryAPI from "../../api/categoryAPI";
 import { Status } from "../../types/shared";
 import { showCategoriesMenu } from "./menu";
 
@@ -38,7 +38,7 @@ export const handleDeleteCategoryConfirm = async (ctx: BotContext) => {
   }
 
   if (text === t(userId, "yesDeleteCategory")) {
-    const result = await categoryTelegramAPI.deleteCategory(ctx, category._id);
+    const result = await categoryAPI.deleteCategory(ctx, category._id);
 
     if (result.status === Status.ERROR) {
       await ctx.reply(t(userId, "categoryDeleteFail"));

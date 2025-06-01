@@ -1,7 +1,7 @@
 import { BotContext } from "../../types/BotContext";
 import { keyboard } from "../../utils";
 import { t, LANG_BTN, setReturnContext } from "../../lang";
-import userTelegramAPI from "../../api/profileTelegramApi";
+import profileAPI from "../../api/profileAPI";
 
 export const showProfileMenu = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
@@ -9,7 +9,7 @@ export const showProfileMenu = async (ctx: BotContext) => {
 
   setReturnContext(userId, showProfileMenu);
 
-  const result = await userTelegramAPI.getMyProfile(ctx);
+  const result = await profileAPI.getMyProfile(ctx);
 
   if (result.status === "error" || !result.profile) {
     await ctx.reply(t(userId, "profileLoadFailed"));

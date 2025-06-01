@@ -1,6 +1,6 @@
 import { BotContext } from "../../../types/BotContext";
 import { t } from "../../../lang";
-import userTelegramAPI from "../../../api/profileTelegramApi";
+import profileAPI from "../../../api/profileAPI";
 import { Status } from "../../../types/shared";
 import { showProfileMenu } from "../menu";
 
@@ -41,7 +41,7 @@ export const handleEditPasswordText = async (ctx: BotContext) => {
       return;
     }
 
-    const result = await userTelegramAPI.changePassword(ctx, {
+    const result = await profileAPI.changePassword(ctx, {
       oldPassword,
       newPassword,
     });

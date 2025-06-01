@@ -1,5 +1,5 @@
 import { BotContext } from "../../types/BotContext";
-import categoryTelegramAPI from "../../api/categoryTelegramApi";
+import categoryAPI from "../../api/categoryAPI";
 import { Status } from "../../types/shared";
 import { showCategoriesMenu } from "./menu";
 import { t } from "../../lang";
@@ -17,7 +17,7 @@ export const handleCreateCategoryTitle = async (ctx: BotContext) => {
   const text = ctx.message && 'text' in ctx.message ? ctx.message.text.trim() : undefined;
   if (!userId || !text) return;
 
-  const result = await categoryTelegramAPI.addCategory(ctx, {
+  const result = await categoryAPI.addCategory(ctx, {
     user: userId.toString(),
     title: text,
     color: "#FFFFFF"
