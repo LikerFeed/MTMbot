@@ -6,7 +6,7 @@ import { LANG_OPTIONS, t } from "../lang";
 import { menus } from "../handlers/menus";
 
 // API imports
-import profileAPI from "../api/profileApi";
+import profileAPI from "../api/profileAPI";
 import taskTelegramAPI from "../api/taskTelegramApi";
 
 // Task imports
