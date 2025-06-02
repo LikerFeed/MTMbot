@@ -1,5 +1,5 @@
 import { BotContext } from "../../types/BotContext";
-import taskTelegramAPI from "../../api/taskTelegramApi";
+import taskAPI from "../../api/taskAPI";
 import { TASKS_PER_PAGE } from "../task/menu";
 import { Status } from "../../types/shared";
 import { keyboard } from "../../utils";
@@ -13,7 +13,7 @@ export const showLinkedTasksMenu = async (ctx: BotContext, page = 0) => {
   ctx.session.step = "task";
   const categoryId = activeCategory._id;
 
-  const checkResult = await taskTelegramAPI.getTasks(ctx, {
+  const checkResult = await taskAPI.getTasks(ctx, {
     page: 1,
     limit: TASKS_PER_PAGE,
     categories: [categoryId],
@@ -29,7 +29,7 @@ export const showLinkedTasksMenu = async (ctx: BotContext, page = 0) => {
   if (page >= totalPages) normalizedPage = 0;
   if (page < 0) normalizedPage = totalPages - 1;
 
-  const result = await taskTelegramAPI.getTasks(ctx, {
+  const result = await taskAPI.getTasks(ctx, {
     page: normalizedPage + 1,
     limit: TASKS_PER_PAGE,
     categories: [categoryId],

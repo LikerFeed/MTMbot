@@ -1,6 +1,6 @@
 import { BotContext } from "../../types/BotContext";
 import { t } from "../../lang";
-import taskTelegramAPI from "../../api/taskTelegramApi";
+import taskAPI from "../../api/taskAPI";
 import { Status } from "../../types/shared";
 import { showTasksMenu } from "./menu";
 
@@ -42,7 +42,7 @@ export const handleCreateTaskDescription = async (ctx: BotContext) => {
     return;
   }
 
-  const result = await taskTelegramAPI.addTask(ctx, {
+  const result = await taskAPI.addTask(ctx, {
     title: temp.title,
     description,
     user: userId.toString(),

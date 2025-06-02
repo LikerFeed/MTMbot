@@ -7,7 +7,7 @@ import { menus } from "../handlers/menus";
 
 // API imports
 import profileAPI from "../api/profileAPI";
-import taskTelegramAPI from "../api/taskTelegramApi";
+import taskAPI from "../api/taskAPI";
 
 // Task imports
 import { showTasksMenu } from "../handlers/task/menu";
@@ -133,7 +133,7 @@ export const menuRoutes: [
         return;
       }
 
-      const result = await taskTelegramAPI.deleteTask(ctx, task._id);
+      const result = await taskAPI.deleteTask(ctx, task._id);
       if (result.status === "error") {
         await ctx.reply(t(userId, "deleteTaskFail"));
       } else {

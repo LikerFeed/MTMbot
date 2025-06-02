@@ -1,6 +1,6 @@
 import { BotContext } from "../../../types/BotContext";
 import { t } from "../../../lang";
-import taskTelegramAPI from "../../../api/taskTelegramApi";
+import taskAPI from "../../../api/taskAPI";
 import { Status } from "../../../types/shared";
 import { showTask } from "../task";
 
@@ -50,7 +50,7 @@ export const handleEditTaskLinksText = async (ctx: BotContext) => {
     }
   
     if (noValues.includes(lowered)) {
-      const result = await taskTelegramAPI.editTask(ctx, {
+      const result = await taskAPI.editTask(ctx, {
         _id: task._id,
         links: [],
       });
@@ -75,7 +75,7 @@ export const handleEditTaskLinksText = async (ctx: BotContext) => {
     const rawLinks = input.split(/[\s\n]+/).map((s) => s.trim()).filter(Boolean);
     const links = rawLinks.filter(isValidUrl);
   
-    const result = await taskTelegramAPI.editTask(ctx, {
+    const result = await taskAPI.editTask(ctx, {
       _id: task._id,
       links,
     });

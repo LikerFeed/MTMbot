@@ -1,6 +1,6 @@
 import { BotContext } from "../../../types/BotContext";
 import { t } from "../../../lang";
-import taskTelegramAPI from "../../../api/taskTelegramApi";
+import taskAPI from "../../../api/taskAPI";
 import { Status } from "../../../types/shared";
 import { showTask } from "../task";
 
@@ -37,7 +37,7 @@ export const handleEditTaskDescriptionText = async (ctx: BotContext) => {
     return;
   }
 
-  const result = await taskTelegramAPI.editTask(ctx, {
+  const result = await taskAPI.editTask(ctx, {
     _id: task._id,
     description: text,
   });

@@ -4,7 +4,37 @@ import { Task } from "../types/entities/Task";
 import { Category } from "../types/entities/Category";
 import { Status } from "../types/shared";
 
-type TaskResponse = Task;
+export interface AddTask {
+  title: string;
+  user: string;
+  description: string;
+  categories: Category["_id"][];
+  deadline: string | null;
+  isCompleted: boolean;
+}
+
+export interface GetTasksParams {
+  page?: number;
+  limit?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  title?: string;
+  description?: string;
+  categories?: string[];
+  deadline?: string | null;
+  isCompleted?: boolean;
+  searchPattern?: string;
+}
+
+export interface EditTask {
+  _id?: string;
+  title?: string;
+  description?: string;
+  categories?: Category["_id"][];
+  links?: string[];
+  deadline?: string | null;
+  isCompleted?: boolean;
+}
 
 export type TaskResult = {
   task: Task | null;
@@ -18,59 +48,11 @@ export type TasksResponse = {
   currentPage: number;
 };
 
-interface EditTask {
-  _id?: string;
-  title?: string;
-  description?: string;
-  categories?: Category["_id"][];
-  links?: string[];
-  deadline?: string | null;
-  isCompleted?: boolean;
-}
-
-interface AddTask {
-  title: string;
-  user: string;
-  description: string;
-  categories: Category["_id"][];
-  deadline: string | null;
-  isCompleted: boolean;
-}
-
-export interface getTask {
-  page?: number;
-  limit?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  title?: string;
-  description?: string;
-  categories?: string[];
-  deadline?: string | null;
-  isCompleted?: boolean;
-  searchPattern?: string;
-}
-
-class TaskTelegramAPI {
-  public async deleteTask(ctx: BotContext, id: string): Promise<TaskResult> {
-    try {
-      const response = await telegramRequest<TaskResponse>(ctx, {
-        method: "DELETE",
-        url: `/task/${id}`,
-      });
-
-      return { task: response, status: Status.SUCCESS };
-    } catch (err: any) {
-      return {
-        task: null,
-        status: Status.ERROR,
-        message: err?.response?.data?.message || "Error",
-      };
-    }
-  }
-
+class TaskAPI {
+  // Add a new task
   public async addTask(ctx: BotContext, params: AddTask): Promise<TaskResult> {
     try {
-      const response = await telegramRequest<TaskResponse>(ctx, {
+      const response = await telegramRequest<Task>(ctx, {
         method: "POST",
         url: "/task",
         data: params,
@@ -86,40 +68,21 @@ class TaskTelegramAPI {
     }
   }
 
-  public async editTask(ctx: BotContext, params: EditTask): Promise<TaskResult> {
-    try {
-      const { _id, ...body } = params;
-      const response = await telegramRequest<TaskResponse>(ctx, {
-        method: "PATCH",
-        url: `/task/${_id}`,
-        data: body,
-      });
-
-      return { task: response, status: Status.SUCCESS };
-    } catch (err: any) {
-      return {
-        task: null,
-        status: Status.ERROR,
-        message: err?.response?.data?.message || "Error",
-      };
-    }
-  }
-
+  // Get tasks with pagination and filters
   public async getTasks(
     ctx: BotContext,
-    params: getTask
+    params: GetTasksParams
   ): Promise<{
     data: TasksResponse | null;
     status: Status;
     message?: string;
   }> {
     try {
-      let newParams: any = params;
       const categories = params?.categories?.map((el) => `"${el}"`).join(",");
-      if (categories) {
-        newParams = { ...params, categories: `[${categories}]` };
-      }
-  
+      const queryParams = categories
+        ? { ...params, categories: `[${categories}]` }
+        : params;
+
       const response = await telegramRequest<{
         results: Task[];
         page: number;
@@ -127,9 +90,9 @@ class TaskTelegramAPI {
       }>(ctx, {
         method: "GET",
         url: "/task",
-        params: newParams,
+        params: queryParams,
       });
-  
+
       return {
         data: {
           tasks: response.results,
@@ -146,7 +109,48 @@ class TaskTelegramAPI {
       };
     }
   }
+
+  // Edit an existing task
+  public async editTask(
+    ctx: BotContext,
+    params: EditTask
+  ): Promise<TaskResult> {
+    try {
+      const { _id, ...data } = params;
+      const response = await telegramRequest<Task>(ctx, {
+        method: "PATCH",
+        url: `/task/${_id}`,
+        data,
+      });
+
+      return { task: response, status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        task: null,
+        status: Status.ERROR,
+        message: err?.response?.data?.message || "Error",
+      };
+    }
+  }
+
+  // Delete a task by ID
+  public async deleteTask(ctx: BotContext, id: string): Promise<TaskResult> {
+    try {
+      const response = await telegramRequest<Task>(ctx, {
+        method: "DELETE",
+        url: `/task/${id}`,
+      });
+
+      return { task: response, status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        task: null,
+        status: Status.ERROR,
+        message: err?.response?.data?.message || "Error",
+      };
+    }
+  }
 }
 
-const taskTelegramAPI = new TaskTelegramAPI();
-export default taskTelegramAPI;
+const taskAPI = new TaskAPI();
+export default taskAPI;

@@ -2,7 +2,7 @@ import { BotContext } from "../../../types/BotContext";
 import { t } from "../../../lang";
 import { keyboard } from "../../../utils";
 import categoryAPI from "../../../api/categoryAPI";
-import taskTelegramAPI from "../../../api/taskTelegramApi";
+import taskAPI from "../../../api/taskAPI";
 import { showTask } from "../task";
 import { CATEGORIES_PER_PAGE } from "../../category/menu";
 
@@ -66,7 +66,7 @@ export const handleEditTaskCategoriesText = async (ctx: BotContext) => {
     updatedCategories.push(category._id);
   }
 
-  const result = await taskTelegramAPI.editTask(ctx, {
+  const result = await taskAPI.editTask(ctx, {
     _id: task._id,
     categories: updatedCategories,
   });

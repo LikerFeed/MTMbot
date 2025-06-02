@@ -11,14 +11,14 @@ export type CategoryResult = {
   message?: string;
 };
 
-interface EditCategory {
-  _id: string;
+interface AddCategory {
+  user: string;
   title: string;
   color: string;
 }
 
-interface AddCategory {
-  user: string;
+interface EditCategory {
+  _id: string;
   title: string;
   color: string;
 }
