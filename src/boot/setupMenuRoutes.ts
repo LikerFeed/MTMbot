@@ -44,7 +44,10 @@ import {
 // Profile import
 import { showProfileMenu } from "../handlers/profile/menu";
 import { showEditProfileMenu } from "../handlers/profile/edit";
-import { showDeleteProfileMenu } from "../handlers/profile/delete";
+import {
+  showDeleteProfileMenu,
+  handleDeleteProfileConfirm,
+} from "../handlers/profile/delete";
 
 // FAQ import
 import { showFAQMenu } from "../handlers/faq/question";
@@ -95,35 +98,7 @@ export const menuRoutes: [
 
   ["editProfile", showEditProfileMenu],
   ["deleteProfile", showDeleteProfileMenu],
-  [
-    "yesDeleteProfile",
-    async (ctx) => {
-      const userId = ctx.from?.id;
-      if (!userId) return;
-
-      const result = await profileAPI.deleteAccount(ctx);
-      if (result.status === "error") {
-        await ctx.reply(t(userId, "deleteProfileFail"));
-        return;
-      }
-
-      await ctx.reply(t(userId, "deleteProfileSuccess"));
-      ctx.session = {
-        categories: [],
-        totalCategoryPages: 0,
-        categoryPage: 0,
-        activeCategoryIndex: 0,
-        tasks: [],
-        totalTaskPages: 0,
-        taskPage: 0,
-        step: null,
-        token: undefined,
-        user: undefined,
-        activeTaskIndex: 0,
-      };
-      await menus.showAuthOptions(ctx);
-    },
-  ],
+  ["yesDeleteProfile", handleDeleteProfileConfirm],
   ["noDeleteProfile", showProfileMenu],
 
   // Navigation

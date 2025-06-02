@@ -4,6 +4,7 @@ import profileAPI from "../../../api/profileAPI";
 import { Status } from "../../../types/shared";
 import { showProfileMenu } from "../menu";
 
+// Function to handle the edit password command
 export const handleEditPassword = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId) return;
@@ -14,6 +15,7 @@ export const handleEditPassword = async (ctx: BotContext) => {
   await ctx.reply(t(userId, "enterOldPassword"));
 };
 
+// Function to handle the text input for editing the password
 export const handleEditPasswordText = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!ctx.message || !("text" in ctx.message)) return;

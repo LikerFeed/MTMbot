@@ -3,6 +3,7 @@ import { keyboard } from "../../utils";
 import { t, LANG_BTN, setReturnContext } from "../../lang";
 import profileAPI from "../../api/profileAPI";
 
+// Function to show the profile menu
 export const showProfileMenu = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId || !ctx.session.token) return;
@@ -18,11 +19,13 @@ export const showProfileMenu = async (ctx: BotContext) => {
 
   const { username, email, createdAt } = result.profile;
 
-  await ctx.reply(
-    `${t(userId, "profileInfo")}:\n\n` +
-      `👤 ${t(userId, "username")}: ${username}\n` +
-      `📧 ${t(userId, "email")}: ${email}\n` +
-      `🕓 ${t(userId, "createdAt")}: ${new Date(createdAt).toLocaleDateString()}`,
+  await ctx.replyWithHTML(
+    `<b>${t(userId, "profileInfo")}:</b>\n\n` +
+      `<b>${t(userId, "username")}:</b> ${username}\n` +
+      `<b>${t(userId, "email")}:</b> ${email}\n` +
+      `<b>${t(userId, "createdAt")}:</b> ${new Date(
+        createdAt
+      ).toLocaleDateString()}`
   );
 
   await ctx.reply(

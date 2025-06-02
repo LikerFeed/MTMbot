@@ -4,6 +4,7 @@ import profileAPI from "../../../api/profileAPI";
 import { Status } from "../../../types/shared";
 import { showProfileMenu } from "../menu";
 
+// Function to handle the edit username command
 export const handleEditUsername = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId) return;
@@ -29,6 +30,7 @@ export const handleEditUsername = async (ctx: BotContext) => {
   );
 };
 
+// Function to handle the text input for editing the username
 export const handleEditUsernameText = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId || !("text" in ctx.message!)) return;

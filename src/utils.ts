@@ -1,10 +1,11 @@
-import { Context, Markup } from "telegraf";
+import { Markup } from "telegraf";
+import { BotContext } from "./types/BotContext";
 
-export const getUserId = (ctx: Context): number => ctx.from?.id ?? -1;
+export const getUserId = (ctx: BotContext): number => ctx.from?.id ?? -1;
 export const isValidUser = (id: number) => id > 0;
 
 export const withUser = async (
-  ctx: Context,
+  ctx: BotContext,
   fn: (userId: number) => Promise<void>
 ) => {
   const userId = getUserId(ctx);
