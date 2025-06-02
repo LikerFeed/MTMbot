@@ -1,9 +1,11 @@
 import { BotContext } from "../../../types/BotContext";
-import { t } from "../../../lang";
-import taskAPI from "../../../api/taskAPI";
 import { Status } from "../../../types/shared";
 import { showTask } from "../task";
 
+import taskAPI from "../../../api/taskAPI";
+import { t } from "../../../lang";
+
+// Function to handle toggling the task status
 export const handleToggleTaskStatus = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId) return;
@@ -14,11 +16,11 @@ export const handleToggleTaskStatus = async (ctx: BotContext) => {
     return;
   }
 
-  const newStatus = !task.isCompleted;
+  const updatedStatus = !task.isCompleted;
 
   const result = await taskAPI.editTask(ctx, {
     _id: task._id,
-    isCompleted: newStatus,
+    isCompleted: updatedStatus,
   });
 
   if (result.status === Status.ERROR) {
@@ -28,14 +30,13 @@ export const handleToggleTaskStatus = async (ctx: BotContext) => {
 
   ctx.session.tasks[ctx.session.activeTaskIndex] = {
     ...task,
-    isCompleted: newStatus,
+    isCompleted: updatedStatus,
   };
 
-  await ctx.reply(
-    newStatus
-      ? t(userId, "taskMarkedCompleted")
-      : t(userId, "taskMarkedUncompleted")
-  );
+  const statusMessage = updatedStatus
+    ? t(userId, "taskMarkedCompleted")
+    : t(userId, "taskMarkedUncompleted");
 
+  await ctx.reply(statusMessage);
   await showTask(ctx, ctx.session.activeTaskIndex);
 };

@@ -1,44 +1,47 @@
 import { BotContext } from "../../types/BotContext";
-import taskAPI from "../../api/taskAPI";
-import { Status } from "../../types/shared";
 import { keyboard } from "../../utils";
+
+import taskAPI from "../../api/taskAPI";
+
+import { Status } from "../../types/shared";
 import { t, LANG_BTN, setReturnContext } from "../../lang";
 
 export const TASKS_PER_PAGE = 10;
 
+// Function to show the tasks menu
 export const showTasksMenu = async (ctx: BotContext, page = 0) => {
   const userId = ctx.from?.id;
   if (!userId || !ctx.session.token) return;
 
   ctx.session.step = "task";
 
-  const pageCheckResult = await taskAPI.getTasks(ctx, {
+  const firstPageResult = await taskAPI.getTasks(ctx, {
     page: 1,
     limit: TASKS_PER_PAGE,
   });
 
-  if (pageCheckResult.status === Status.ERROR || !pageCheckResult.data) {
+  if (firstPageResult.status === Status.ERROR || !firstPageResult.data) {
     await ctx.reply(t(userId, "taskFetchFailed"));
     return;
   }
 
-  const totalPages = pageCheckResult.data.totalPages;
+  const totalPages = firstPageResult.data.totalPages;
 
   let normalizedPage = page;
   if (page >= totalPages) normalizedPage = 0;
   if (page < 0) normalizedPage = totalPages - 1;
 
-  const result = await taskAPI.getTasks(ctx, {
+  const currentPageResult = await taskAPI.getTasks(ctx, {
     page: normalizedPage + 1,
     limit: TASKS_PER_PAGE,
   });
 
-  if (result.status === Status.ERROR || !result.data) {
+  if (currentPageResult.status === Status.ERROR || !currentPageResult.data) {
     await ctx.reply(t(userId, "taskFetchFailed"));
     return;
   }
 
-  const { tasks, currentPage } = result.data;
+  const { tasks, currentPage } = currentPageResult.data;
 
   ctx.session.taskPage = currentPage - 1;
   ctx.session.totalTaskPages = totalPages;
@@ -53,8 +56,7 @@ export const showTasksMenu = async (ctx: BotContext, page = 0) => {
       t(userId, "noTasks"),
       keyboard([
         [t(userId, "createTask")],
-        [t(userId, "backToMainMenu")],
-        [LANG_BTN],
+        [t(userId, "backToMainMenu"), LANG_BTN],
       ])
     );
     return;
@@ -64,17 +66,14 @@ export const showTasksMenu = async (ctx: BotContext, page = 0) => {
 
   if (ctx.session.sortOption === "deadline") {
     tasksToShow.sort((a, b) => {
-      if (!a.deadline && !b.deadline) return 0;
-      if (!a.deadline) return 1;
-      if (!b.deadline) return -1;
-      return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+      const aTime = a.deadline ? new Date(a.deadline).getTime() : Infinity;
+      const bTime = b.deadline ? new Date(b.deadline).getTime() : Infinity;
+      return aTime - bTime;
     });
   }
 
   if (ctx.session.sortOption === "status") {
-    tasksToShow.sort((a, b) => {
-      return Number(a.isCompleted) - Number(b.isCompleted);
-    });
+    tasksToShow.sort((a, b) => Number(a.isCompleted) - Number(b.isCompleted));
   }
 
   const taskLines = tasksToShow
@@ -97,7 +96,7 @@ export const showTasksMenu = async (ctx: BotContext, page = 0) => {
     rows.push([t(userId, "prev"), t(userId, "sortTasks"), t(userId, "next")]);
   }
 
-  rows.push([t(userId, "backToMainMenu")], [LANG_BTN]);
+  rows.push([t(userId, "backToMainMenu"), LANG_BTN]);
 
   await ctx.reply(
     `${t(userId, "tasksMenu")}\n\n${taskLines}\n\n${t(

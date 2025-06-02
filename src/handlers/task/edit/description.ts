@@ -1,9 +1,11 @@
 import { BotContext } from "../../../types/BotContext";
-import { t } from "../../../lang";
-import taskAPI from "../../../api/taskAPI";
 import { Status } from "../../../types/shared";
 import { showTask } from "../task";
 
+import { t } from "../../../lang";
+import taskAPI from "../../../api/taskAPI";
+
+// Function to handle editing the task description
 export const handleEditTaskDescription = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId) return;
@@ -24,12 +26,13 @@ export const handleEditTaskDescription = async (ctx: BotContext) => {
   );
 };
 
+// Function to handle the user's input for editing the task description
 export const handleEditTaskDescriptionText = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
-  if (!("text" in ctx.message!)) return;
-  const text = ctx.message.text.trim();
+  if (!userId || !("text" in ctx.message!)) return;
 
-  if (!userId || !text) return;
+  const text = ctx.message.text.trim();
+  if (!text) return;
 
   const task = ctx.session.tasks?.[ctx.session.activeTaskIndex];
   if (!task || !task._id) {
@@ -52,8 +55,8 @@ export const handleEditTaskDescriptionText = async (ctx: BotContext) => {
     description: text,
   };
 
-  await ctx.reply(t(userId, "taskDescriptionUpdateSuccess"));
   ctx.session.step = null;
 
+  await ctx.reply(t(userId, "taskDescriptionUpdateSuccess"));
   await showTask(ctx, ctx.session.activeTaskIndex);
 };

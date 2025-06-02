@@ -1,11 +1,12 @@
 import { BotContext } from "../../../types/BotContext";
-import { t } from "../../../lang";
+import { t, LANG_BTN } from "../../../lang";
 import { keyboard } from "../../../utils";
 import categoryAPI from "../../../api/categoryAPI";
 import taskAPI from "../../../api/taskAPI";
-import { showTask } from "../task";
-import { CATEGORIES_PER_PAGE } from "../../category/menu";
 
+export const CATEGORIES_PER_PAGE = 5;
+
+// Function to start editing task categories
 export const startEditTaskCategories = async (ctx: BotContext, page = 0) => {
   const userId = ctx.from?.id;
   const taskIndex = ctx.session.activeTaskIndex ?? 0;
@@ -29,19 +30,28 @@ export const startEditTaskCategories = async (ctx: BotContext, page = 0) => {
   ctx.session.totalCategoryPages = data.totalPages;
 
   const lines = data.results.map((cat, idx) => {
-    const selected = task.categories?.some((c) => c._id === cat._id) ? "✅" : "";
-    return `${idx + 1}. ${cat.title} ${selected}`;
+    const isSelected = task.categories?.some((c) => c._id === cat._id);
+    const check = isSelected ? "✅" : "";
+    return `${idx + 1}. ${cat.title} ${check}`.trim();
   });
 
-  const footer = `\n${t(userId, "chooseCategoryToggle")}`;
-  const pagination = keyboard([
-    [t(userId, "prev"), t(userId, "next")],
-    [t(userId, "backToTask")],
-  ]);
+  const buttons = data.results.map((_, idx) => `${idx + 1}`);
+  const rows: string[][] = [];
+  while (buttons.length) rows.push(buttons.splice(0, 5));
 
-  await ctx.reply(lines.join("\n") + footer, pagination);
+  if (data.totalPages > 1) rows.push([t(userId, "prev"), t(userId, "next")]);
+  rows.push([t(userId, "backToTask"), LANG_BTN]);
+
+  await ctx.reply(
+    `${t(userId, "editTaskCategories")}\n\n${lines.join("\n")}\n\n${t(
+      userId,
+      "chooseCategoryToggle"
+    )}`,
+    keyboard(rows)
+  );
 };
 
+// Handle user's input for editing task categories
 export const handleEditTaskCategoriesText = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   const text = ctx.message && "text" in ctx.message ? ctx.message.text.trim() : null;
@@ -53,7 +63,6 @@ export const handleEditTaskCategoriesText = async (ctx: BotContext) => {
   if (!isNumber) return;
 
   const index = Number(text) - 1;
-  const page = ctx.session.categoryPage ?? 0;
   const category = ctx.session.categories?.[index];
   if (!category) return;
 
@@ -77,6 +86,5 @@ export const handleEditTaskCategoriesText = async (ctx: BotContext) => {
   }
 
   ctx.session.tasks![taskIndex] = result.task!;
-
-  await startEditTaskCategories(ctx, page);
+  await startEditTaskCategories(ctx, ctx.session.categoryPage ?? 0);
 };

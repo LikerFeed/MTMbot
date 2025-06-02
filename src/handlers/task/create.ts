@@ -1,65 +1,67 @@
 import { BotContext } from "../../types/BotContext";
-import { t } from "../../lang";
-import taskAPI from "../../api/taskAPI";
 import { Status } from "../../types/shared";
 import { showTasksMenu } from "./menu";
 
+import taskAPI from "../../api/taskAPI";
+import { t } from "../../lang";
+
+type CreateTaskStep = "title" | "description";
+type TaskCreateSession = {
+  step: CreateTaskStep;
+  title?: string;
+};
+
+const taskCreateSessions = new Map<number, TaskCreateSession>();
+
+// Start the task creation process
 export const startCreateTask = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId) return;
 
-  ctx.session.step = "create_task_title";
-  ctx.session.tempTask = {};
-
+  taskCreateSessions.set(userId, { step: "title" });
+  ctx.session.step = "create_task";
   await ctx.reply(t(userId, "enterTaskTitle"));
 };
 
-export const handleCreateTaskTitle = async (ctx: BotContext) => {
+// Handle the user's input during task creation
+export const handleCreateTask = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
-  if (!userId || !ctx.message || !('text' in ctx.message)) return;
-  const title = ctx.message.text.trim();
-  if (!title) return;
+  if (!userId || !("text" in ctx.message!)) return;
 
-  ctx.session.tempTask = {
-    ...ctx.session.tempTask,
-    title,
-  };
-  ctx.session.step = "create_task_description";
+  const session = taskCreateSessions.get(userId);
+  if (!session) return;
 
-  await ctx.reply(t(userId, "enterTaskDescription"));
-};
+  const text = ctx.message.text.trim();
+  if (!text) return;
 
-export const handleCreateTaskDescription = async (ctx: BotContext) => {
-  const userId = ctx.from?.id;
-  if (!userId || !ctx.message || !('text' in ctx.message)) return;
-  const description = ctx.message.text.trim();
-  if (!description) return;
-
-  const temp = ctx.session.tempTask;
-  if (!temp?.title) {
-    await ctx.reply(t(userId, "taskCreatedFail"));
-    ctx.session.step = null;
+  if (session.step === "title") {
+    taskCreateSessions.set(userId, { step: "description", title: text });
+    await ctx.reply(t(userId, "enterTaskDescription"));
     return;
   }
 
-  const result = await taskAPI.addTask(ctx, {
-    title: temp.title,
-    description,
-    user: userId.toString(),
-    categories: [],
-    deadline: null,
-    isCompleted: false,
-  });
+  if (session.step === "description") {
+    const title = session.title!;
+    const description = text;
 
-  if (result.status === Status.ERROR) {
-    await ctx.reply(t(userId, "taskCreatedFail"));
+    const result = await taskAPI.addTask(ctx, {
+      title,
+      description,
+      user: userId.toString(),
+      categories: [],
+      deadline: null,
+      isCompleted: false,
+    });
+
+    taskCreateSessions.delete(userId);
     ctx.session.step = null;
-    return;
+
+    if (result.status === Status.ERROR) {
+      await ctx.reply(t(userId, "taskCreatedFail"));
+      return;
+    }
+
+    await ctx.reply(t(userId, "taskCreatedSuccess"));
+    await showTasksMenu(ctx);
   }
-
-  await ctx.reply(t(userId, "taskCreatedSuccess"));
-  ctx.session.step = null;
-  ctx.session.tempTask = undefined;
-
-  await showTasksMenu(ctx);
 };

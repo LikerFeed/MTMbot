@@ -12,7 +12,7 @@ import { CATEGORIES_PER_PAGE } from "../handlers/category/menu";
 import { showCategory } from "../handlers/category/category";
 
 // Tasks
-import { handleCreateTaskTitle, handleCreateTaskDescription } from "../handlers/task/create";
+import { handleCreateTask } from "../handlers/task/create";
 
 import { handleEditTaskTitleText } from "../handlers/task/edit/title";
 import { handleEditTaskDescriptionText } from "../handlers/task/edit/description";
@@ -43,8 +43,7 @@ export const setupTextSteps = async (ctx: BotContext) => {
   const step = ctx.session.step;
 
   const stepHandlers: Partial<Record<string, (ctx: BotContext) => Promise<void>>> = {
-    create_task_title: handleCreateTaskTitle,
-    create_task_description: handleCreateTaskDescription,
+    create_task: handleCreateTask,
 
     edit_task_title: handleEditTaskTitleText,
     edit_task_description: handleEditTaskDescriptionText,

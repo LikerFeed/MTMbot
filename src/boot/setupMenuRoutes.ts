@@ -13,8 +13,21 @@ import taskAPI from "../api/taskAPI";
 import { showTasksMenu } from "../handlers/task/menu";
 import { showTask } from "../handlers/task/task";
 import { showEditTaskMenu } from "../handlers/task/edit";
-import { showDeleteTaskMenu } from "../handlers/task/delete";
+import {
+  handleNoDeleteTask,
+  handleYesDeleteTask,
+  showDeleteTaskMenu,
+} from "../handlers/task/delete";
 import { showSortTasksMenu } from "../handlers/task/sort";
+import { startCreateTask } from "../handlers/task/create";
+
+// Task edit imports
+import { handleEditTaskTitle } from "../handlers/task/edit/title";
+import { handleEditTaskDescription } from "../handlers/task/edit/description";
+import { handleEditTaskDeadline } from "../handlers/task/edit/deadline";
+import { handleToggleTaskStatus } from "../handlers/task/edit/status";
+import { startEditTaskCategories } from "../handlers/task/edit/categories";
+import { handleEditTaskLinks } from "../handlers/task/edit/links";
 
 // Category imports
 import { showCategoriesMenu } from "../handlers/category/menu";
@@ -29,15 +42,20 @@ import { showDeleteProfileMenu } from "../handlers/profile/delete";
 // FAQ import
 import { showFAQMenu } from "../handlers/faq/question";
 
-const textAllowedSteps = ["LANG_BTN", "logout", "signIn", "signUp"];
-
 export function setupMenuRoutes(bot: Telegraf<BotContext>) {
-  const hears = (keys: string[], handler: (ctx: BotContext) => Promise<void>) => {
+  const hears = (
+    keys: string[],
+    handler: (ctx: BotContext) => Promise<void>
+  ) => {
     bot.hears(keys, async (ctx) => {
       const currentText = ctx.message?.text;
 
-      const isAllowed = textAllowedSteps.some((key) => messagesMap[key]?.includes(currentText || ""));
-      if (!isAllowed) return;
+      const alwaysAllowed = ["LANG_BTN", "logout", "signIn", "signUp"];
+      const isSafe = alwaysAllowed.some((key) =>
+        messagesMap[key]?.includes(currentText || "")
+      );
+
+      if (!isSafe && !ctx.session.token) return;
 
       await withUser(ctx, async () => handler(ctx));
     });
@@ -118,39 +136,19 @@ export const menuRoutes: [
   ],
 
   // Tasks
+  ["createTask", startCreateTask],
+
   ["editTask", showEditTaskMenu],
+  ["editTaskTitle", handleEditTaskTitle],
+  ["editTaskDescription", handleEditTaskDescription],
+  ["editTaskDeadline", handleEditTaskDeadline],
+  ["toggleTaskStatus", handleToggleTaskStatus],
+  ["editTaskCategories", startEditTaskCategories],
+  ["editTaskLinks", handleEditTaskLinks],
+
   ["deleteTask", showDeleteTaskMenu],
-  [
-    "yesDeleteTask",
-    async (ctx) => {
-      const userId = ctx.from?.id;
-      if (!userId) return;
-
-      const taskIndex = ctx.session.activeTaskIndex ?? 0;
-      const task = ctx.session.tasks?.[taskIndex];
-      if (!task) {
-        await ctx.reply(t(userId, "taskNotFound"));
-        return;
-      }
-
-      const result = await taskAPI.deleteTask(ctx, task._id);
-      if (result.status === "error") {
-        await ctx.reply(t(userId, "deleteTaskFail"));
-      } else {
-        await ctx.reply(t(userId, "deleteTaskSuccess"));
-      }
-
-      await showTasksMenu(ctx, ctx.session.taskPage || 0);
-    },
-  ],
-  [
-    "noDeleteTask",
-    async (ctx) => {
-      const index = ctx.session.activeTaskIndex ?? 0;
-      await ctx.reply(t(ctx.from!.id, "deleteTaskCancel"));
-      await showTask(ctx, index);
-    },
-  ],
+  ["yesDeleteTask", handleYesDeleteTask],
+  ["noDeleteTask", handleNoDeleteTask],
   ["sortTasks", showSortTasksMenu],
 
   // Categories

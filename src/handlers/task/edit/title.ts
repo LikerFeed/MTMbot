@@ -1,9 +1,11 @@
 import { BotContext } from "../../../types/BotContext";
-import { t } from "../../../lang";
-import taskAPI from "../../../api/taskAPI";
 import { Status } from "../../../types/shared";
 import { showTask } from "../task";
 
+import taskAPI from "../../../api/taskAPI";
+import { t } from "../../../lang";
+
+// Handle the edit task title step
 export const handleEditTaskTitle = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId) return;
@@ -21,6 +23,7 @@ export const handleEditTaskTitle = async (ctx: BotContext) => {
   );
 };
 
+// Handle the text input for editing the task title
 export const handleEditTaskTitleText = async (ctx: BotContext) => {
     const userId = ctx.from?.id;
     if (!("text" in ctx.message!)) return;
