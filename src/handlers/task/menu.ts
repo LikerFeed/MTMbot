@@ -94,6 +94,8 @@ export const showTasksMenu = async (ctx: BotContext, page = 0) => {
 
   if (totalPages > 1) {
     rows.push([t(userId, "prev"), t(userId, "sortTasks"), t(userId, "next")]);
+  } else if (tasksToShow.length > 0) {
+    rows.push([t(userId, "sortTasks")]);
   }
 
   rows.push([t(userId, "backToMainMenu"), LANG_BTN]);
