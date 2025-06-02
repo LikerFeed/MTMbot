@@ -62,7 +62,7 @@ export const showTasksMenu = async (ctx: BotContext, page = 0) => {
     return;
   }
 
-  let tasksToShow = [...tasks];
+  const tasksToShow = [...tasks];
 
   if (ctx.session.sortOption === "deadline") {
     tasksToShow.sort((a, b) => {
