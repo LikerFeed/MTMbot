@@ -1,35 +1,34 @@
 import { BotContext } from "../../types/BotContext";
-import categoryAPI from "../../api/categoryAPI";
 import { Status } from "../../types/shared";
 import { keyboard } from "../../utils";
+
+import categoryAPI from "../../api/categoryAPI";
 import { t, LANG_BTN, setReturnContext } from "../../lang";
 
 export const CATEGORIES_PER_PAGE = 5;
 
+// Function to show the categories menu
 export const showCategoriesMenu = async (ctx: BotContext, page = 0) => {
   const userId = ctx.from?.id;
   if (!userId || !ctx.session.token) return;
 
   ctx.session.step = "category";
 
-  const check = await categoryAPI.getCategories(ctx, {
+  const initial = await categoryAPI.getCategories(ctx, {
     page: 1,
     limit: CATEGORIES_PER_PAGE,
   });
 
-  if (check.status === Status.ERROR || !check.data) {
+  if (initial.status === Status.ERROR || !initial.data) {
     await ctx.reply(t(userId, "categoryFetchFail"));
     return;
   }
 
-  const totalPages = check.data.totalPages;
-
-  let normalizedPage = page;
-  if (page >= totalPages) normalizedPage = 0;
-  if (page < 0) normalizedPage = totalPages - 1;
+  const totalPages = initial.data.totalPages;
+  const currentPage = (page + totalPages) % totalPages;
 
   const result = await categoryAPI.getCategories(ctx, {
-    page: normalizedPage + 1,
+    page: currentPage + 1,
     limit: CATEGORIES_PER_PAGE,
   });
 
@@ -38,17 +37,15 @@ export const showCategoriesMenu = async (ctx: BotContext, page = 0) => {
     return;
   }
 
-  const { results: categories, page: currentPage } = result.data;
+  const { results: categories } = result.data;
 
-  ctx.session.categoryPage = currentPage - 1;
+  ctx.session.categoryPage = currentPage;
   ctx.session.totalCategoryPages = totalPages;
   ctx.session.categories = categories;
 
-  setReturnContext(userId, async (ctx) =>
-    showCategoriesMenu(ctx, ctx.session.categoryPage || 0)
-  );
+  setReturnContext(userId, () => showCategoriesMenu(ctx, currentPage));
 
-  if (!Array.isArray(categories) || categories.length === 0) {
+  if (!categories.length) {
     await ctx.reply(
       t(userId, "noCategories"),
       keyboard([
@@ -59,15 +56,21 @@ export const showCategoriesMenu = async (ctx: BotContext, page = 0) => {
     return;
   }
 
-  const lines = categories
-    .map((cat, idx) => `${normalizedPage * CATEGORIES_PER_PAGE + idx + 1}. ${cat.title}`)
+  const categoryList = categories
+    .map(
+      (cat, idx) =>
+        `${currentPage * CATEGORIES_PER_PAGE + idx + 1}. ${cat.title}`
+    )
     .join("\n");
 
-  const buttons = categories.map((_, idx) => `${normalizedPage * CATEGORIES_PER_PAGE + idx + 1}`);
-  const rows: string[][] = [];
-  while (buttons.length) rows.push(buttons.splice(0, 5));
+  const numberButtons = categories.map((_, idx) =>
+    (currentPage * CATEGORIES_PER_PAGE + idx + 1).toString()
+  );
 
-  const menuRows: string[][] = [[t(userId, "createCategory")], ...rows];
+  const numberRows: string[][] = [];
+  while (numberButtons.length) numberRows.push(numberButtons.splice(0, 5));
+
+  const menuRows: string[][] = [[t(userId, "createCategory")], ...numberRows];
 
   if (totalPages > 1) {
     menuRows.push([t(userId, "prev"), t(userId, "next")]);
@@ -76,7 +79,7 @@ export const showCategoriesMenu = async (ctx: BotContext, page = 0) => {
   menuRows.push([t(userId, "backToMainMenu"), LANG_BTN]);
 
   await ctx.reply(
-    `${t(userId, "categoriesMenu")}\n\n${lines}`,
+    `${t(userId, "categoriesMenu")}\n\n${categoryList}`,
     keyboard(menuRows)
   );
 };

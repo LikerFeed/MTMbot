@@ -3,6 +3,7 @@ import { Category } from "../../types/entities/Category";
 import { keyboard } from "../../utils";
 import { t, LANG_BTN, setReturnContext } from "../../lang";
 
+// Function to show a specific category
 export const showCategory = async (ctx: BotContext, categoryIndex: number) => {
   const userId = ctx.from?.id;
   if (!userId) return;
@@ -14,12 +15,9 @@ export const showCategory = async (ctx: BotContext, categoryIndex: number) => {
   }
 
   ctx.session.activeCategoryIndex = categoryIndex;
+  setReturnContext(userId, () => showCategory(ctx, categoryIndex));
 
-  setReturnContext(userId, async (ctx) => showCategory(ctx, categoryIndex));
-
-  const message = `
-<b>${t(userId, "categoryTitle")}:</b> ${category.title}
-  `.trim();
+  const message = `<b>${t(userId, "categoryTitle")}:</b> ${category.title}`;
 
   await ctx.replyWithHTML(
     message,

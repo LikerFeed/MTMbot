@@ -14,9 +14,9 @@ import { showTasksMenu } from "../handlers/task/menu";
 import { showTask } from "../handlers/task/task";
 import { showEditTaskMenu } from "../handlers/task/edit";
 import {
-  handleNoDeleteTask,
-  handleYesDeleteTask,
   showDeleteTaskMenu,
+  handleYesDeleteTask,
+  handleNoDeleteTask,
 } from "../handlers/task/delete";
 import { showSortTasksMenu } from "../handlers/task/sort";
 import { startCreateTask } from "../handlers/task/create";
@@ -32,7 +32,14 @@ import { handleEditTaskLinks } from "../handlers/task/edit/links";
 // Category imports
 import { showCategoriesMenu } from "../handlers/category/menu";
 import { showCategory } from "../handlers/category/category";
+import { startCreateCategory } from "../handlers/category/create";
+import { handleEditCategoryTitle } from "../handlers/category/edit";
 import { showLinkedTasksMenu } from "../handlers/category/tasks";
+import {
+  showDeleteCategoryMenu,
+  handleYesDeleteCategory,
+  handleNoDeleteCategory,
+} from "../handlers/category/delete";
 
 // Profile import
 import { showProfileMenu } from "../handlers/profile/menu";
@@ -152,7 +159,12 @@ export const menuRoutes: [
   ["sortTasks", showSortTasksMenu],
 
   // Categories
+  ["createCategory", (ctx) => startCreateCategory(ctx)],
+  ["editCategory", handleEditCategoryTitle],
   ["showLinkedTask", (ctx) => showLinkedTasksMenu(ctx, 0)],
+  ["deleteCategory", showDeleteCategoryMenu],
+  ["yesDeleteCategory", handleYesDeleteCategory],
+  ["noDeleteCategory", handleNoDeleteCategory],
 
   // Pagination
   [

@@ -1,14 +1,17 @@
 import { BotContext } from "../..//types/BotContext";
-import { t } from "../../lang";
-import categoryAPI from "../../api/categoryAPI";
 import { Status } from "../../types/shared";
 import { showCategory } from "./category";
 
+import categoryAPI from "../../api/categoryAPI";
+import { t } from "../../lang";
+
+// Handlers for editing category title
 export const handleEditCategoryTitle = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId) return;
 
-  const category = ctx.session.categories?.[ctx.session.activeCategoryIndex ?? 0];
+  const category =
+    ctx.session.categories?.[ctx.session.activeCategoryIndex ?? 0];
   if (!category) {
     await ctx.reply(t(userId, "categoryNotFound"));
     return;
@@ -24,9 +27,11 @@ export const handleEditCategoryTitle = async (ctx: BotContext) => {
   );
 };
 
+// Function to handle the text input for editing category title
 export const handleEditCategoryTitleText = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
-  const text = ctx.message && 'text' in ctx.message ? ctx.message.text.trim() : undefined;
+  const text =
+    ctx.message && "text" in ctx.message ? ctx.message.text.trim() : undefined;
   if (!userId || !text) return;
 
   const categoryIndex = ctx.session.activeCategoryIndex ?? 0;

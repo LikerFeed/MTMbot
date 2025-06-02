@@ -23,7 +23,6 @@ import { handleEditTaskLinksText } from "../handlers/task/edit/links";
 // Categories
 import { handleCreateCategoryTitle } from "../handlers/category/create";
 import { handleEditCategoryTitleText } from "../handlers/category/edit";
-import { handleDeleteCategoryConfirm } from "../handlers/category/delete";
 
 // Profile
 import { handleEditUsernameText } from "../handlers/profile/edit/username";
@@ -42,7 +41,9 @@ export const setupTextSteps = async (ctx: BotContext) => {
 
   const step = ctx.session.step;
 
-  const stepHandlers: Partial<Record<string, (ctx: BotContext) => Promise<void>>> = {
+  const stepHandlers: Partial<
+    Record<string, (ctx: BotContext) => Promise<void>>
+  > = {
     create_task: handleCreateTask,
 
     edit_task_title: handleEditTaskTitleText,
@@ -53,7 +54,6 @@ export const setupTextSteps = async (ctx: BotContext) => {
 
     create_category_title: handleCreateCategoryTitle,
     edit_category_title: handleEditCategoryTitleText,
-    delete_category_confirm: handleDeleteCategoryConfirm,
 
     edit_username: handleEditUsernameText,
     edit_password_old: handleEditPasswordText,
@@ -85,5 +85,6 @@ export const setupTextSteps = async (ctx: BotContext) => {
 
   if (step === "faq") return handleFAQAnswer(ctx);
   if (step === "task") return showTask(ctx, index % TASKS_PER_PAGE);
-  if (step === "category") return showCategory(ctx, index % CATEGORIES_PER_PAGE);
+  if (step === "category")
+    return showCategory(ctx, index % CATEGORIES_PER_PAGE);
 };

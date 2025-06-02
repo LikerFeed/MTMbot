@@ -1,7 +1,8 @@
 import { BotContext } from "../../types/BotContext";
-import categoryAPI from "../../api/categoryAPI";
 import { Status } from "../../types/shared";
 import { showCategoriesMenu } from "./menu";
+
+import categoryAPI from "../../api/categoryAPI";
 import { t } from "../../lang";
 
 export const startCreateCategory = async (ctx: BotContext) => {
@@ -14,23 +15,22 @@ export const startCreateCategory = async (ctx: BotContext) => {
 
 export const handleCreateCategoryTitle = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
-  const text = ctx.message && 'text' in ctx.message ? ctx.message.text.trim() : undefined;
+  const text = "text" in ctx.message! ? ctx.message.text.trim() : undefined;
   if (!userId || !text) return;
 
   const result = await categoryAPI.addCategory(ctx, {
     user: userId.toString(),
     title: text,
-    color: "#FFFFFF"
+    color: "#FFFFFF",
   });
+
+  ctx.session.step = null;
 
   if (result.status === Status.ERROR) {
     await ctx.reply(t(userId, "categoryCreatedFail"));
-    ctx.session.step = null;
     return;
   }
 
   await ctx.reply(t(userId, "categoryCreatedSuccess"));
-  ctx.session.step = null;
-
   await showCategoriesMenu(ctx);
 };
