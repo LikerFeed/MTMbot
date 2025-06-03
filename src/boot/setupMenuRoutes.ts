@@ -5,10 +5,6 @@ import { withUser } from "../utils";
 import { LANG_OPTIONS, t } from "../lang";
 import { menus } from "../handlers/menus";
 
-// API imports
-import profileAPI from "../api/profileAPI";
-import taskAPI from "../api/taskAPI";
-
 // Task imports
 import { showTasksMenu } from "../handlers/task/menu";
 import { showTask } from "../handlers/task/task";
@@ -44,6 +40,8 @@ import {
 // Profile import
 import { showProfileMenu } from "../handlers/profile/menu";
 import { showEditProfileMenu } from "../handlers/profile/edit";
+import { handleEditUsername } from "../handlers/profile/edit/username";
+import { handleEditPassword } from "../handlers/profile/edit/password";
 import {
   showDeleteProfileMenu,
   handleDeleteProfileConfirm,
@@ -96,7 +94,10 @@ export const menuRoutes: [
   ["faq", showFAQMenu],
   ["showQuestions", showFAQMenu],
 
+  ["backToProfile", showProfileMenu],
   ["editProfile", showEditProfileMenu],
+  ["editUsername", handleEditUsername],
+  ["editPassword", handleEditPassword],
   ["deleteProfile", showDeleteProfileMenu],
   ["yesDeleteProfile", handleDeleteProfileConfirm],
   ["noDeleteProfile", showProfileMenu],
