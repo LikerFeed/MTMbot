@@ -18,10 +18,12 @@ const createMenu =
 
 // Menus definition
 export const menus = {
+  // Choose authentication method
   showAuthOptions: createMenu("chooseAuth", (ctx, userId) => [
     [t(userId, "signIn"), t(userId, "signUp")],
     [LANG_BTN],
   ]),
+  // Main menu
   showMainMenu: createMenu("mainMenuMessage", (ctx, userId) => [
     [t(userId, "tasks"), t(userId, "categories")],
     [t(userId, "profile"), t(userId, "faq")],
