@@ -16,8 +16,8 @@ import { messagesMap } from "./setupMenuRoutes";
 
 
 import { menus } from "../handlers/menus";
-import { startSignIn } from "../handlers/auth/signIn/signIn";
-import { startSignUp } from "../handlers/auth/signUp/signUp";
+import { startSignIn } from "../handlers/auth/signIn";
+import { startSignUp } from "../handlers/auth/signUp";
 
 export function setupHears(bot: Telegraf<BotContext>) {
   // /start

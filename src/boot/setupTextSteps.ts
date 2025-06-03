@@ -2,8 +2,8 @@ import { BotContext } from "../types/BotContext";
 import { t } from "../lang";
 
 // Auth
-import { handleSignIn } from "../handlers/auth/signIn/signIn";
-import { handleSignUp } from "../handlers/auth/signUp/signUp";
+import { handleSignIn } from "../handlers/auth/signIn";
+import { handleSignUp } from "../handlers/auth/signUp";
 
 // Show
 import { showTasksMenu, TASKS_PER_PAGE } from "../handlers/task/menu";

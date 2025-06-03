@@ -1,9 +1,9 @@
-import { BotContext } from "../../../types/BotContext";
-import authAPI from "../../../api/authAPI";
+import { BotContext } from "../../types/BotContext";
+import authAPI from "../../api/authAPI";
 
-import { menus } from "../../menus";
-import { isValidEmail, isValidUsername, isValidPassword } from "../validators";
-import { t, setReturnContext } from "../../../lang";
+import { menus } from "../menus";
+import { isValidEmail, isValidUsername, isValidPassword } from "./validators";
+import { t, setReturnContext } from "../../lang";
 
 type Session = {
   step: "email" | "username" | "password" | "confirm";
