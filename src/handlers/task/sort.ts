@@ -1,6 +1,6 @@
 import { BotContext } from "../../types/BotContext";
 import { keyboard } from "../../utils";
-import { t } from "../../lang";
+import { LANG_BTN, t } from "../../lang";
 
 // Function to show the sort options for tasks
 export const showSortTasksMenu = async (ctx: BotContext) => {
@@ -13,7 +13,7 @@ export const showSortTasksMenu = async (ctx: BotContext) => {
     t(userId, "chooseSortOption"),
     keyboard([
       [t(userId, "sortByDeadline"), t(userId, "sortByStatus")],
-      [t(userId, "backToTasks")],
+      [t(userId, "backToTasks"), LANG_BTN],
     ])
   );
 };
