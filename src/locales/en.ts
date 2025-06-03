@@ -119,7 +119,7 @@ const en = {
   completed: "✅ Completed",
   notCompleted: "❌ Not completed",
   noDeadline: "❌ No deadline",
-  noCategories: "❌ No categories",
+  noCategories: "🗂️ You have no categories yet",
   noLinks: "❌ No links",
   taskTitle: "📝 Task title",
   taskDescription: "💬 Task description",

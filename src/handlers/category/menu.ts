@@ -24,7 +24,23 @@ export const showCategoriesMenu = async (ctx: BotContext, page = 0) => {
     return;
   }
 
-  const totalPages = initial.data.totalPages;
+  const { totalPages, results: initialCategories } = initial.data;
+
+  if (totalPages === 0 || initialCategories.length === 0) {
+    ctx.session.categories = [];
+    ctx.session.totalCategoryPages = 0;
+    ctx.session.categoryPage = 0;
+
+    await ctx.reply(
+      t(userId, "noCategories"),
+      keyboard([
+        [t(userId, "createCategory")],
+        [t(userId, "backToMainMenu"), LANG_BTN],
+      ])
+    );
+    return;
+  }
+
   const currentPage = (page + totalPages) % totalPages;
 
   const result = await categoryAPI.getCategories(ctx, {
@@ -44,17 +60,6 @@ export const showCategoriesMenu = async (ctx: BotContext, page = 0) => {
   ctx.session.categories = categories;
 
   setReturnContext(userId, () => showCategoriesMenu(ctx, currentPage));
-
-  if (!categories.length) {
-    await ctx.reply(
-      t(userId, "noCategories"),
-      keyboard([
-        [t(userId, "createCategory")],
-        [t(userId, "backToMainMenu"), LANG_BTN],
-      ])
-    );
-    return;
-  }
 
   const categoryList = categories
     .map(

@@ -124,7 +124,7 @@ const uk = {
   completed: "✅ Виконано",
   notCompleted: "❌ Не виконано",
   noDeadline: "❌ Немає дедлайну",
-  noCategories: "❌ Немає категорій",
+  noCategories: "🗂️ У вас ще немає категорій",
   noLinks: "❌ Немає посилань",
   taskStatus: "Статус задачі",
   taskDeadline: "Дедлайн задачі",
