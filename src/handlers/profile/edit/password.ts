@@ -26,6 +26,8 @@ export const handleEditPasswordText = async (ctx: BotContext) => {
   const step = ctx.session.step;
 
   if (step === "edit_password_old") {
+    await ctx.deleteMessage();
+
     ctx.session.tempPassword = { oldPassword: text };
     ctx.session.step = "edit_password_new";
 
@@ -34,6 +36,8 @@ export const handleEditPasswordText = async (ctx: BotContext) => {
   }
 
   if (step === "edit_password_new") {
+    await ctx.deleteMessage();
+    
     const oldPassword = ctx.session.tempPassword?.oldPassword;
     const newPassword = text;
 
