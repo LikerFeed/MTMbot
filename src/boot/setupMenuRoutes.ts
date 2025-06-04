@@ -125,7 +125,7 @@ export const menuRoutes: [
   ["editTaskTitle", handleEditTaskTitle],
   ["editTaskDescription", handleEditTaskDescription],
   ["editTaskDeadline", handleEditTaskDeadline],
-  ["toggleTaskStatus", handleToggleTaskStatus],
+  ["editTaskStatus", handleToggleTaskStatus],
   ["editTaskCategories", startEditTaskCategories],
   ["editTaskLinks", handleEditTaskLinks],
 
