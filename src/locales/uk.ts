@@ -1,5 +1,3 @@
-import en from "./en";
-
 const uk = {
   firstTimeStartMessage: "🇺🇦 Привіт! Будь ласка, оберіть мову",
   languageChoicePrompt: "🇺🇦 Будь ласка, оберіть мову",
