@@ -4,10 +4,11 @@ import { keyboard } from "../../utils";
 import { t, LANG_BTN, LANG_OPTIONS } from "../../lang";
 
 export const FAQ_NUMBERS = Array.from({ length: 10 }, (_, i) => `${i + 1}`);
-const FAQ_BUTTON_ROWS = Array.from({ length: 2 }, (_, i) =>
+export const FAQ_BUTTON_ROWS = Array.from({ length: 2 }, (_, i) =>
   FAQ_NUMBERS.slice(i * 5, i * 5 + 5)
 );
 
+// This function shows the FAQ menu with a list of questions
 export const showFAQMenu = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
   if (!userId) return;
@@ -31,8 +32,7 @@ ${questions.join("\n")}`;
     keyboard([
       [t(userId, "showQuestions")],
       ...FAQ_BUTTON_ROWS,
-      [t(userId, "backToMainMenu")],
-      [LANG_BTN],
+      [t(userId, "backToMainMenu"), LANG_BTN],
     ])
   );
 };
