@@ -18,8 +18,7 @@ export const showDeleteCategoryMenu = async (ctx: BotContext) => {
     t(userId, "areYouSureDeleteCategory"),
     keyboard([
       [t(userId, "yesDeleteCategory"), t(userId, "noDeleteCategory")],
-      [t(userId, "backToCategories")],
-      [LANG_BTN],
+      [t(userId, "backToCategories"), LANG_BTN],
     ])
   );
 };
