@@ -25,11 +25,7 @@ export const showProfileMenu = async (ctx: BotContext) => {
       `<b>${t(userId, "email")}:</b> ${email}\n` +
       `<b>${t(userId, "createdAt")}:</b> ${new Date(
         createdAt
-      ).toLocaleDateString()}`
-  );
-
-  await ctx.reply(
-    t(userId, "profileMenu"),
+      ).toLocaleDateString()}`,
     keyboard([
       [t(userId, "editProfile"), t(userId, "deleteProfile")],
       [t(userId, "backToMainMenu"), LANG_BTN],
