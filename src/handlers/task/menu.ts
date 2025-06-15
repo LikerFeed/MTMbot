@@ -8,50 +8,25 @@ import { t, LANG_BTN, setReturnContext } from "../../lang";
 
 export const TASKS_PER_PAGE = 10;
 
-// Function to show the tasks menu
 export const showTasksMenu = async (ctx: BotContext, page = 0) => {
   const userId = ctx.from?.id;
   if (!userId || !ctx.session.token) return;
 
   ctx.session.step = "task";
 
-  const firstPageResult = await taskAPI.getTasks(ctx, {
+  const allTasksResult = await taskAPI.getTasks(ctx, {
     page: 1,
-    limit: TASKS_PER_PAGE,
+    limit: 9999,
   });
 
-  if (firstPageResult.status === Status.ERROR || !firstPageResult.data) {
+  if (allTasksResult.status === Status.ERROR || !allTasksResult.data) {
     await ctx.reply(t(userId, "taskFetchFailed"));
     return;
   }
 
-  const totalPages = firstPageResult.data.totalPages;
+  const allTasks = allTasksResult.data.tasks;
 
-  let normalizedPage = page;
-  if (page >= totalPages) normalizedPage = 0;
-  if (page < 0) normalizedPage = totalPages - 1;
-
-  const currentPageResult = await taskAPI.getTasks(ctx, {
-    page: normalizedPage + 1,
-    limit: TASKS_PER_PAGE,
-  });
-
-  if (currentPageResult.status === Status.ERROR || !currentPageResult.data) {
-    await ctx.reply(t(userId, "taskFetchFailed"));
-    return;
-  }
-
-  const { tasks, currentPage } = currentPageResult.data;
-
-  ctx.session.taskPage = currentPage - 1;
-  ctx.session.totalTaskPages = totalPages;
-  ctx.session.tasks = tasks;
-
-  setReturnContext(userId, async (ctx) =>
-    showTasksMenu(ctx, ctx.session.taskPage || 0)
-  );
-
-  if (!Array.isArray(tasks) || tasks.length === 0) {
+  if (!Array.isArray(allTasks) || allTasks.length === 0) {
     await ctx.reply(
       t(userId, "noTasks"),
       keyboard([
@@ -62,10 +37,8 @@ export const showTasksMenu = async (ctx: BotContext, page = 0) => {
     return;
   }
 
-  const tasksToShow = [...tasks];
-
   if (ctx.session.sortOption === "deadline") {
-    tasksToShow.sort((a, b) => {
+    allTasks.sort((a, b) => {
       const aTime = a.deadline ? new Date(a.deadline).getTime() : Infinity;
       const bTime = b.deadline ? new Date(b.deadline).getTime() : Infinity;
       return aTime - bTime;
@@ -73,17 +46,55 @@ export const showTasksMenu = async (ctx: BotContext, page = 0) => {
   }
 
   if (ctx.session.sortOption === "status") {
-    tasksToShow.sort((a, b) => Number(a.isCompleted) - Number(b.isCompleted));
+    allTasks.sort((a, b) => Number(a.isCompleted) - Number(b.isCompleted));
   }
 
-  const taskLines = tasksToShow
-    .map(
-      (task, idx) =>
-        `${normalizedPage * TASKS_PER_PAGE + idx + 1}. ${task.title}`
-    )
+  const totalPages = Math.ceil(allTasks.length / TASKS_PER_PAGE);
+  let normalizedPage = page;
+  if (normalizedPage >= totalPages) normalizedPage = 0;
+  if (normalizedPage < 0) normalizedPage = totalPages - 1;
+
+  const pagedTasks = allTasks.slice(
+    normalizedPage * TASKS_PER_PAGE,
+    normalizedPage * TASKS_PER_PAGE + TASKS_PER_PAGE
+  );
+
+  ctx.session.taskPage = normalizedPage;
+  ctx.session.totalTaskPages = totalPages;
+  ctx.session.tasks = pagedTasks;
+
+  setReturnContext(userId, async (ctx) =>
+    showTasksMenu(ctx, ctx.session.taskPage || 0)
+  );
+
+  const taskLines = pagedTasks
+    .map((task, idx) => {
+      const index = normalizedPage * TASKS_PER_PAGE + idx + 1;
+      let line = `${index}. ${task.title}`;
+
+      if (ctx.session.sortOption === "deadline") {
+        if (task.deadline) {
+          const date = new Date(task.deadline);
+          const formatted = date.toLocaleDateString("uk-UA", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          });
+          line += ` ${formatted}`;
+        } else {
+          line += " ❌";
+        }
+      }
+
+      if (ctx.session.sortOption === "status") {
+        line += task.isCompleted ? " ✅" : " ❌";
+      }
+
+      return line;
+    })
     .join("\n");
 
-  const numberButtons = tasksToShow.map(
+  const numberButtons = pagedTasks.map(
     (_, idx) => `${normalizedPage * TASKS_PER_PAGE + idx + 1}`
   );
 
@@ -94,7 +105,7 @@ export const showTasksMenu = async (ctx: BotContext, page = 0) => {
 
   if (totalPages > 1) {
     rows.push([t(userId, "prev"), t(userId, "sortTasks"), t(userId, "next")]);
-  } else if (tasksToShow.length > 0) {
+  } else if (pagedTasks.length > 0) {
     rows.push([t(userId, "sortTasks")]);
   }
 
