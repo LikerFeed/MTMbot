@@ -18,6 +18,7 @@ export interface SessionData {
 
     // Task
     | "task"
+    | "linked_tasks"
     | "create_task"
     | "edit_task_title"
     | "edit_task_description"

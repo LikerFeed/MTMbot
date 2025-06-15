@@ -165,6 +165,11 @@ export const menuRoutes: [
           ((ctx.session.categoryPage ?? 0) + 1) % total;
         return startEditTaskCategories(ctx, ctx.session.categoryPage);
       }
+      if (ctx.session.step === "linked_tasks") {
+        const total = ctx.session.totalTaskPages || 1;
+        ctx.session.taskPage = (ctx.session.taskPage + 1) % total;
+        return showLinkedTasksMenu(ctx, ctx.session.taskPage);
+      }
     },
   ],
   [
@@ -188,6 +193,11 @@ export const menuRoutes: [
         ctx.session.categoryPage =
           ((ctx.session.categoryPage ?? 0) - 1 + total) % total;
         return startEditTaskCategories(ctx, ctx.session.categoryPage);
+      }
+      if (ctx.session.step === "linked_tasks") {
+        const total = ctx.session.totalTaskPages || 1;
+        ctx.session.taskPage = (ctx.session.taskPage - 1 + total) % total;
+        return showLinkedTasksMenu(ctx, ctx.session.taskPage);
       }
     },
   ],

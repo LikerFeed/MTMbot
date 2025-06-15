@@ -13,27 +13,11 @@ export const showLinkedTasksMenu = async (ctx: BotContext, page = 0) => {
     ctx.session.categories?.[ctx.session.activeCategoryIndex ?? 0];
   if (!userId || !ctx.session.token || !activeCategory) return;
 
-  ctx.session.step = "task";
+  ctx.session.step = "linked_tasks";
   const categoryId = activeCategory._id;
 
-  const checkResult = await taskAPI.getTasks(ctx, {
-    page: 1,
-    limit: TASKS_PER_PAGE,
-    categories: [categoryId],
-  });
-
-  if (checkResult.status === Status.ERROR || !checkResult.data) {
-    await ctx.reply(t(userId, "taskFetchFailed"));
-    return;
-  }
-
-  const totalPages = checkResult.data.totalPages;
-  let normalizedPage = page;
-  if (page >= totalPages) normalizedPage = 0;
-  if (page < 0) normalizedPage = totalPages - 1;
-
   const result = await taskAPI.getTasks(ctx, {
-    page: normalizedPage + 1,
+    page: page + 1,
     limit: TASKS_PER_PAGE,
     categories: [categoryId],
   });
@@ -43,15 +27,7 @@ export const showLinkedTasksMenu = async (ctx: BotContext, page = 0) => {
     return;
   }
 
-  const { tasks, currentPage } = result.data;
-
-  ctx.session.taskPage = currentPage - 1;
-  ctx.session.totalTaskPages = totalPages;
-  ctx.session.tasks = tasks;
-
-  setReturnContext(userId, async (ctx) =>
-    showLinkedTasksMenu(ctx, ctx.session.taskPage || 0)
-  );
+  const { tasks, totalPages, currentPage } = result.data;
 
   if (!Array.isArray(tasks) || tasks.length === 0) {
     await ctx.reply(
@@ -63,6 +39,16 @@ export const showLinkedTasksMenu = async (ctx: BotContext, page = 0) => {
     );
     return;
   }
+
+  const normalizedPage = currentPage - 1;
+
+  ctx.session.taskPage = normalizedPage;
+  ctx.session.totalTaskPages = totalPages;
+  ctx.session.tasks = tasks;
+
+  setReturnContext(userId, async (ctx) =>
+    showLinkedTasksMenu(ctx, ctx.session.taskPage || 0)
+  );
 
   const taskLines = tasks
     .map(
