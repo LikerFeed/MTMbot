@@ -158,6 +158,13 @@ export const menuRoutes: [
           ((ctx.session.categoryPage ?? 0) + 1) % total;
         return showCategoriesMenu(ctx, ctx.session.categoryPage);
       }
+
+      if (ctx.session.step === "edit_task_categories") {
+        const total = ctx.session.totalCategoryPages || 1;
+        ctx.session.categoryPage =
+          ((ctx.session.categoryPage ?? 0) + 1) % total;
+        return startEditTaskCategories(ctx, ctx.session.categoryPage);
+      }
     },
   ],
   [
@@ -174,6 +181,13 @@ export const menuRoutes: [
         ctx.session.categoryPage =
           ((ctx.session.categoryPage ?? 0) - 1 + total) % total;
         return showCategoriesMenu(ctx, ctx.session.categoryPage);
+      }
+
+      if (ctx.session.step === "edit_task_categories") {
+        const total = ctx.session.totalCategoryPages || 1;
+        ctx.session.categoryPage =
+          ((ctx.session.categoryPage ?? 0) - 1 + total) % total;
+        return startEditTaskCategories(ctx, ctx.session.categoryPage);
       }
     },
   ],

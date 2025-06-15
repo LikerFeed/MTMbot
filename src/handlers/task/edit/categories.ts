@@ -30,12 +30,15 @@ export const startEditTaskCategories = async (ctx: BotContext, page = 0) => {
   ctx.session.totalCategoryPages = data.totalPages;
 
   const lines = data.results.map((cat, idx) => {
+    const globalIndex = page * CATEGORIES_PER_PAGE + idx;
     const isSelected = task.categories?.some((c) => c._id === cat._id);
     const check = isSelected ? "✅" : "";
-    return `${idx + 1}. ${cat.title} ${check}`.trim();
+    return `${globalIndex + 1}. ${cat.title} ${check}`.trim();
   });
 
-  const buttons = data.results.map((_, idx) => `${idx + 1}`);
+  const buttons = data.results.map((_, idx) =>
+    (page * CATEGORIES_PER_PAGE + idx + 1).toString()
+  );
   const rows: string[][] = [];
   while (buttons.length) rows.push(buttons.splice(0, 5));
 
@@ -54,7 +57,8 @@ export const startEditTaskCategories = async (ctx: BotContext, page = 0) => {
 // Handle user's input for editing task categories
 export const handleEditTaskCategoriesText = async (ctx: BotContext) => {
   const userId = ctx.from?.id;
-  const text = ctx.message && "text" in ctx.message ? ctx.message.text.trim() : null;
+  const text =
+    ctx.message && "text" in ctx.message ? ctx.message.text.trim() : null;
   const taskIndex = ctx.session.activeTaskIndex ?? 0;
   const task = ctx.session.tasks?.[taskIndex];
   if (!userId || !text || !task) return;
@@ -62,11 +66,14 @@ export const handleEditTaskCategoriesText = async (ctx: BotContext) => {
   const isNumber = /^\d+$/.test(text);
   if (!isNumber) return;
 
-  const index = Number(text) - 1;
-  const category = ctx.session.categories?.[index];
+  const globalIndex = Number(text) - 1;
+  const localIndex = globalIndex % CATEGORIES_PER_PAGE;
+  const category = ctx.session.categories?.[localIndex];  
   if (!category) return;
 
-  const isAlreadySelected = task.categories?.some((c) => c._id === category._id);
+  const isAlreadySelected = task.categories?.some(
+    (c) => c._id === category._id
+  );
   let updatedCategories = task.categories?.map((c) => c._id) ?? [];
 
   if (isAlreadySelected) {
