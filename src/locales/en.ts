@@ -185,6 +185,7 @@ const en = {
   sortByDeadline: "📅 By deadline",
   sortByCreatedAt: "📥 By newest",
   sortByUpdatedAt: "🛠️ By updated",
+  noTaskCategories: "❌ No categories",
 };
 
 export default en;

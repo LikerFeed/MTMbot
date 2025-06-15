@@ -28,7 +28,7 @@ export const showTask = async (ctx: BotContext, taskIndex: number) => {
 
   const categories = task.categories?.length
     ? task.categories.map((cat) => cat.title).join(", ")
-    : t(userId, "noCategories");
+    : t(userId, "noTaskCategories");
 
   const links = task.links?.length
     ? task.links.join("\n")

@@ -186,6 +186,7 @@ const uk = {
   sortByDeadline: "📅 За дедлайном",
   sortByCreatedAt: "📥 За новизною",
   sortByUpdatedAt: "🛠️ За оновленням",
+  noTaskCategories: "❌ Немає категорій",
 };
 
 export default uk;
