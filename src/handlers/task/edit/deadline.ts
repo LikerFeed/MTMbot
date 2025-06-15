@@ -77,17 +77,30 @@ export const handleEditTaskDeadlineText = async (ctx: BotContext) => {
     return showTask(ctx, ctx.session.activeTaskIndex);
   }
 
-  const [month, day, year] = text.split("/").map(Number);
+  const dateParts = text.split(".");
+  if (dateParts.length !== 3) {
+    await ctx.reply(t(userId, "invalidTaskDeadlineFormat"));
+    return;
+  }
+
+  const [dayStr, monthStr, yearStr] = dateParts;
+  const day = parseInt(dayStr, 10);
+  const month = parseInt(monthStr, 10);
+  let year = parseInt(yearStr, 10);
+
+  if (yearStr.length === 2) {
+    year += 2000;
+  }
 
   const isValidDate =
-    month >= 1 &&
-    month <= 12 &&
     day >= 1 &&
     day <= 31 &&
-    year >= 2020 &&
+    month >= 1 &&
+    month <= 12 &&
+    year >= 2000 &&
     year <= 2100;
 
-  if (!month || !day || !year || !isValidDate) {
+  if (!isValidDate) {
     await ctx.reply(t(userId, "invalidTaskDeadlineFormat"));
     return;
   }
