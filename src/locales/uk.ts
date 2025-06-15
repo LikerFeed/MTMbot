@@ -180,10 +180,12 @@ const uk = {
   noTasksInCategory: "❌ У цій категорії немає задач",
   backToCategory: "🔙 До категорії",
   linkedTasksMenu: "🏷️ Меню прив'язаних задач",
-  sortTasks: "📊 Сортувати задачі",
+  sortTasks: "📊 Сортувати",
   chooseSortOption: "📊 Оберіть опцію сортування",
-  sortByStatus: "📌 Сортувати за статусом",
-  sortByDeadline: "📅 Сортувати за дедлайном",
+  sortByStatus: "📌 За статусом",
+  sortByDeadline: "📅 За дедлайном",
+  sortByCreatedAt: "📥 За новизною",
+  sortByUpdatedAt: "🛠️ За оновленням",
 };
 
 export default uk;

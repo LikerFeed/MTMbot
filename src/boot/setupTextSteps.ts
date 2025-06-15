@@ -68,16 +68,20 @@ export const setupTextSteps = async (ctx: BotContext) => {
   if (step === "sort_tasks") {
     if (text === t(userId, "sortByDeadline")) {
       ctx.session.sortOption = "deadline";
-      ctx.session.taskPage = 0;
     } else if (text === t(userId, "sortByStatus")) {
       ctx.session.sortOption = "status";
-      ctx.session.taskPage = 0;
+    } else if (text === t(userId, "sortByCreatedAt")) {
+      ctx.session.sortOption = "createdAt";
+    } else if (text === t(userId, "sortByUpdatedAt")) {
+      ctx.session.sortOption = "updatedAt";
     } else {
       ctx.session.step = "task";
       return showTasksMenu(ctx, ctx.session.taskPage || 0);
     }
+  
+    ctx.session.taskPage = 0;
     ctx.session.step = "task";
-    return showTasksMenu(ctx, ctx.session.taskPage || 0);
+    return showTasksMenu(ctx, 0);
   }
 
   // Handle number input for navigation

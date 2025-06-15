@@ -13,6 +13,7 @@ export const showSortTasksMenu = async (ctx: BotContext) => {
     t(userId, "chooseSortOption"),
     keyboard([
       [t(userId, "sortByDeadline"), t(userId, "sortByStatus")],
+      [t(userId, "sortByCreatedAt"), t(userId, "sortByUpdatedAt")],
       [t(userId, "backToTasks"), LANG_BTN],
     ])
   );

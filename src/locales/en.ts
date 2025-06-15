@@ -181,8 +181,10 @@ const en = {
   linkedTasksMenu: "🏷️ Linked tasks menu",
   sortTasks: "📊 Sort tasks",
   chooseSortOption: "📊 Choose a sort option",
-  sortByStatus: "📌 Sort by status",
-  sortByDeadline: "📅 Sort by deadline",
+  sortByStatus: "📌 By status",
+  sortByDeadline: "📅 By deadline",
+  sortByCreatedAt: "📥 By newest",
+  sortByUpdatedAt: "🛠️ By updated",
 };
 
 export default en;

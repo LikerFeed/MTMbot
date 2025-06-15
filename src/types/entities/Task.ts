@@ -1,6 +1,8 @@
 import { Category } from "../entities/Category";
 
 export type Task = {
+  createdAt: string | number | Date;
+  updatedAt: string | number | Date;
   _id: string;
   title: string;
   description: string;

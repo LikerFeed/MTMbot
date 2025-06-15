@@ -15,7 +15,7 @@ export interface SessionData {
     | "edit_username"
     | "edit_password_old"
     | "edit_password_new"
-    
+
     // Task
     | "task"
     | "create_task"
@@ -45,7 +45,7 @@ export interface SessionData {
     title?: string;
     description?: string;
   };
-  sortOption?: "deadline" | "status" | null;
+  sortOption?: "deadline" | "status" | "createdAt" | "updatedAt" | null;
 
   // Category data
   categories?: Category[];

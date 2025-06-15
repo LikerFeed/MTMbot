@@ -49,6 +49,19 @@ export const showTasksMenu = async (ctx: BotContext, page = 0) => {
     allTasks.sort((a, b) => Number(a.isCompleted) - Number(b.isCompleted));
   }
 
+
+  if (ctx.session.sortOption === "updatedAt") {
+    allTasks.sort((a, b) => {
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    });
+  }
+  
+  if (!ctx.session.sortOption || ctx.session.sortOption === "createdAt") {
+    allTasks.sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+  }
+
   const totalPages = Math.ceil(allTasks.length / TASKS_PER_PAGE);
   let normalizedPage = page;
   if (normalizedPage >= totalPages) normalizedPage = 0;
