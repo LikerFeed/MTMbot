@@ -45,6 +45,7 @@ export interface SessionData {
   tempTask?: {
     title?: string;
     description?: string;
+    categoryId?: string;
   };
   sortOption?: "deadline" | "status" | "createdAt" | "updatedAt" | null;
 

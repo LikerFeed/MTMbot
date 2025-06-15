@@ -33,6 +33,7 @@ export const showLinkedTasksMenu = async (ctx: BotContext, page = 0) => {
     await ctx.reply(
       t(userId, "noTasksInCategory"),
       keyboard([
+        [t(userId, "createTask")],
         [t(userId, "backToCategory"), t(userId, "backToMainMenu")],
         [LANG_BTN],
       ])
@@ -64,6 +65,8 @@ export const showLinkedTasksMenu = async (ctx: BotContext, page = 0) => {
   while (numberButtons.length) numberRows.push(numberButtons.splice(0, 5));
 
   const rows: string[][] = [...numberRows];
+
+  rows.unshift([t(userId, "createTask")]);
 
   if (totalPages > 1) {
     rows.push([t(userId, "prev"), t(userId, "next")]);

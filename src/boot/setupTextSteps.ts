@@ -90,7 +90,9 @@ export const setupTextSteps = async (ctx: BotContext) => {
   const index = Number(text) - 1;
 
   if (step === "faq") return handleFAQAnswer(ctx);
-  if (step === "task") return showTask(ctx, index % TASKS_PER_PAGE);
+  if (step === "task" || step === "linked_tasks") {
+    return showTask(ctx, index % TASKS_PER_PAGE);
+  }
   if (step === "category")
     return showCategory(ctx, index % CATEGORIES_PER_PAGE);
 };

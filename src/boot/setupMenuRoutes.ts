@@ -119,7 +119,17 @@ export const menuRoutes: [
   ],
 
   // Tasks
-  ["createTask", startCreateTask],
+  [
+    "createTask",
+    async (ctx) => {
+      if (ctx.session.step === "linked_tasks") {
+        const categoryId = ctx.session.categories?.[ctx.session.activeCategoryIndex ?? 0]?._id;
+        return startCreateTask(ctx, categoryId);
+      } else {
+        return startCreateTask(ctx);
+      }
+    },
+  ],
 
   ["editTask", showEditTaskMenu],
   ["editTaskTitle", handleEditTaskTitle],
