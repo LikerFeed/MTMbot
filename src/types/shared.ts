@@ -1,7 +1,7 @@
 export enum Status {
-  LOADING = 'loading',
-  SUCCESS = 'success',
-  ERROR = 'error',
+  LOADING = "loading",
+  SUCCESS = "success",
+  ERROR = "error",
 }
 
 export type Avatar = {
@@ -32,7 +32,7 @@ export type AvatarEffect = {
   animated: string;
 };
 
-export type Roles = 'user' | 'admin';
+export type Roles = "user" | "admin";
 
 export type Profile = {
   _id: string;

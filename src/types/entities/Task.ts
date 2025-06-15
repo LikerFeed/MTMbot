@@ -1,4 +1,4 @@
-import { Category } from '../entities/Category';
+import { Category } from "../entities/Category";
 
 export type Task = {
   _id: string;
@@ -9,5 +9,5 @@ export type Task = {
   links: string[];
   deadline: string | null;
   dateOfCompletion: string | null;
-  type: 'task';
+  type: "task";
 };

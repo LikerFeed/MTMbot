@@ -35,7 +35,7 @@ export function setupHears(bot: Telegraf<BotContext>) {
       setUserLang(userId, lang);
       await ctx.reply(t(userId, "confirmLanguage"), Markup.removeKeyboard());
       const returnTo = getReturnContext(userId);
-      returnTo ? await returnTo(ctx) : await menus.showAuthOptions(ctx);
+      return returnTo ? await returnTo(ctx) : await menus.showAuthOptions(ctx);
     })
   );
 

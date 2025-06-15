@@ -1,6 +1,6 @@
 import { BotContext } from "../../types/BotContext";
 import { keyboard } from "../../utils";
-import { t, LANG_BTN, setReturnContext } from "../../lang";
+import { t, LANG_BTN } from "../../lang";
 
 // Function to show the edit profile menu
 export const showEditProfileMenu = async (ctx: BotContext) => {

@@ -2,7 +2,7 @@ import { Telegraf } from "telegraf";
 
 import { BotContext } from "../types/BotContext";
 import { withUser } from "../utils";
-import { LANG_OPTIONS, t } from "../lang";
+import { LANG_OPTIONS } from "../lang";
 import { menus } from "../handlers/menus";
 
 // Task imports
