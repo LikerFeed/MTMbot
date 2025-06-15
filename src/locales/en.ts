@@ -141,7 +141,7 @@ const en = {
   editTaskCategories: "🏷️ Task categories",
   editTaskLinks: "🔗 Task links",
   editTaskStatus: "📌 Task status",
-  backToTask: "📋🔙 To task",
+  backToTask: "🔙 To task",
   currentTaskTitle: "📝 Current task title",
   enterNewTaskTitle: "🔤 Enter new task title:",
   taskTitleUpdateFail: "❌ Failed to update task title!",
