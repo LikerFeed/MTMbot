@@ -23,7 +23,11 @@ export const showTask = async (ctx: BotContext, taskIndex: number) => {
     : t(userId, "notCompleted");
 
   const deadline = task.deadline
-    ? new Date(task.deadline).toLocaleDateString()
+    ? new Date(task.deadline).toLocaleDateString("uk-UA", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })
     : t(userId, "noDeadline");
 
   const categories = task.categories?.length
