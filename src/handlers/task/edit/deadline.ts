@@ -18,8 +18,12 @@ export const handleEditTaskDeadline = async (ctx: BotContext) => {
   ctx.session.step = "edit_task_deadline";
 
   const deadlineText = task.deadline
-    ? new Date(task.deadline).toLocaleDateString()
-    : t(userId, "noDeadline");
+  ? new Date(task.deadline).toLocaleDateString("uk-UA", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })
+  : t(userId, "noDeadline");
 
   await ctx.reply(
     `${t(userId, "currentTaskDeadline")}: ${deadlineText}\n${t(
