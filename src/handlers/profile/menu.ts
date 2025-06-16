@@ -23,9 +23,11 @@ export const showProfileMenu = async (ctx: BotContext) => {
     `<b>${t(userId, "profileInfo")}:</b>\n\n` +
       `<b>${t(userId, "username")}:</b> ${username}\n` +
       `<b>${t(userId, "email")}:</b> ${email}\n` +
-      `<b>${t(userId, "createdAt")}:</b> ${new Date(
-        createdAt
-      ).toLocaleDateString()}`,
+      `<b>${t(userId, "createdAt")}:</b> ${new Date(createdAt).toLocaleDateString("uk-UA", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      })}\n\n`,
     keyboard([
       [t(userId, "editProfile"), t(userId, "deleteProfile")],
       [t(userId, "backToMainMenu"), LANG_BTN],
